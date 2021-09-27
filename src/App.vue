@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import AppNavigation from "./components/AppNavigation.vue";
-import HelloWorld from "./components/HelloWorld.vue";
+import ArticlesList from "./components/ArticleList/index.vue";
 </script>
 
 <template>
   <AppNavigation />
-  <HelloWorld msg="Hello World!"/>
+  <ArticlesList />
 </template>
 
 <style>
@@ -15,7 +15,6 @@ import HelloWorld from "./components/HelloWorld.vue";
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: rgba(167, 243, 208, 0.4);
 }
 .max-w-screen-lg {
   max-width: 1012px;
