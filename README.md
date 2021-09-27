@@ -1,4 +1,4 @@
-# Check and Go USA
+# Ecg Viewer Prototype
 
 Vue 3 + Typescript + Vite
 
