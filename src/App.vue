@@ -1,11 +1,11 @@
-<script setup lang="ts">
-import AppNavigation from "./components/AppNavigation.vue";
-</script>
-
 <template>
-  <AppNavigation />
+  <IndexFrame />
   <Router-View />
 </template>
+
+<script setup lang="ts">
+import IndexFrame from '@/frames/IndexFrame.vue';
+</script>
 
 <style>
 #app {
