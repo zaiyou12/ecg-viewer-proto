@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import AppNavigation from "./components/AppNavigation.vue";
-import ArticlesList from "./components/ArticleList/index.vue";
 </script>
 
 <template>
   <AppNavigation />
-  <ArticlesList />
+  <Router-View />
 </template>
 
 <style>
