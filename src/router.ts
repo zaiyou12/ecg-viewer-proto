@@ -18,6 +18,12 @@ export const router = createRouter({
       name: 'testList',
       path: '/test-list',
       component: TestList,
+    },
+    {
+      name: 'testViewer',
+      path: '/test-list/:index',
+      component: () => import('./pages/TestViewer.vue'),
+      props: true
     }
   ]
 })
