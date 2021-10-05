@@ -1,10 +1,13 @@
 <template>
   <div class="flex flex-col">
-    <div class="flex-none h-11 bg-gray-400 border-2 border-gray-300">
+    <div class="flex-none my-10">
       In-page nav bar section idk
     </div>
-    <div class="flex-auto">
+    <div class="flex-grow mx-5">
       <TestList />
+    </div>
+    <div class="flex-none my-10">
+      Pagination
     </div>
   </div>
 </template>

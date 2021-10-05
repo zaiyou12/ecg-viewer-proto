@@ -1,10 +1,8 @@
 <template>
-  <IndexFrame />
-  <Router-View />
+  <router-view />
 </template>
 
 <script setup lang="ts">
-import IndexFrame from '@/frames/IndexFrame.vue';
 </script>
 
 <style>

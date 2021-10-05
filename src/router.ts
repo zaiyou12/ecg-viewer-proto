@@ -1,29 +1,56 @@
 import { createRouter, createWebHistory, RouteParams } from 'vue-router'
 
-import Home from './pages/Home.vue'
-import TestList from './pages/TestList.vue'
+import LoginPage from '@/pages/LoginPage.vue'
+import MainPage from '@/pages/MainPage.vue'
+import DashboardPage from '@/pages/DashboardPage.vue'
+import TestListPage from '@/pages/TestListPage.vue'
+import EmptyPage from '@/pages/EmptyPage.vue'
 
-export type AppRouteNames = 'home'
-| 'testList'
+export type AppRouteNames = 'index' |'login' | 'main'
 
 export const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      name: 'home',
+      name: 'index',
       path: '/',
-      component: Home,
+      redirect: { name: 'login' }  // TODO: Remove later
     },
     {
-      name: 'testList',
-      path: '/test-list',
-      component: TestList,
+      name: 'login',
+      path: '/login',
+      component: LoginPage
     },
     {
-      name: 'testViewer',
-      path: '/test-list/:index',
-      component: () => import('./pages/TestViewer.vue'),
-      props: true
+      name: 'main',
+      path: '/auth',
+      component: MainPage,
+      redirect: '/auth/dashboard',
+      children: [
+        {
+          path: 'dashboard',
+          components: {
+            dashboard: DashboardPage
+          }
+        },
+        {
+          path: 'tests',
+          components: {
+            tests: TestListPage
+          }
+        }
+      ]
+    },
+    {
+      name: 'notFound',
+      path: '/:catchAll(.*)',
+      component: EmptyPage
     }
+    // {
+    //   name: 'testViewer',
+    //   path: '/test-list/:index',
+    //   component: () => import('./pages/TestViewer.vue'),
+    //   props: true
+    // }
   ]
 })
