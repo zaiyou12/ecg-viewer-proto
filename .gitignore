@@ -1,5 +1,7 @@
-node_modules
+### macOS ###
 .DS_Store
-dist
-dist-ssr
-*.local
+Icon
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/extensions.json
