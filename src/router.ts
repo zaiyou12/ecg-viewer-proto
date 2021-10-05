@@ -4,6 +4,7 @@ import LoginPage from '@/pages/LoginPage.vue'
 import MainPage from '@/pages/MainPage.vue'
 import DashboardPage from '@/pages/DashboardPage.vue'
 import TestListPage from '@/pages/TestListPage.vue'
+import TestViewPage from '@/pages/TestViewPage.vue'
 import EmptyPage from '@/pages/EmptyPage.vue'
 
 export type AppRouteNames = 'index' |'login' | 'main'
@@ -28,16 +29,20 @@ export const router = createRouter({
       redirect: '/auth/dashboard',
       children: [
         {
+          name: 'dashboard',
           path: 'dashboard',
-          components: {
-            dashboard: DashboardPage
-          }
+          component: DashboardPage
         },
         {
+          name: 'tests',
           path: 'tests',
-          components: {
-            tests: TestListPage
-          }
+          component: TestListPage,
+        },
+        {
+          name: 'testView',
+          path: 'view/:index',
+          component: TestViewPage,
+          props: true
         }
       ]
     },
@@ -46,11 +51,5 @@ export const router = createRouter({
       path: '/:catchAll(.*)',
       component: EmptyPage
     }
-    // {
-    //   name: 'testViewer',
-    //   path: '/test-list/:index',
-    //   component: () => import('./pages/TestViewer.vue'),
-    //   props: true
-    // }
   ]
 })

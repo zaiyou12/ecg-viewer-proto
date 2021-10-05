@@ -4,8 +4,10 @@
       <SidebarMenu />
     </div>
     <div class="flex-auto overflow-y-auto">
-      <router-view name="dashboard"/>
-      <router-view name="tests"/>
+      <router-view />
+      <!-- <router-view name="dashboard" />
+      <router-view name="tests" /> -->
+      <!-- <router-view name="testView" /> -->
     </div>
   </div>
 </template>

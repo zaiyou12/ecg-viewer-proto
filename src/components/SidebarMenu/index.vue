@@ -1,7 +1,7 @@
 <template>
   <div ref="listRef" class="sidebar-menu">
-    <div class="mx-5">
-      <div class="flex items-center ml-3 mb-10">
+    <div>
+      <div class="flex items-center ml-8 mb-10">
         <AppLink name="main" class="flex-none">
           <img :src="logo" class="w-12 h-12"/>
         </AppLink>
@@ -9,10 +9,13 @@
           ECG-Proto
         </AppLink>
       </div>
-      <div class="bg-blue-300 py-3 mb-5">
+      <div
+        class="cursor-pointer bg-blue-300 py-3 mb-5 text-white font-bold hover:bg-blue-200"
+        @click="goBack()"
+      >
         &lt; Go Back
       </div>
-      <ul>
+      <ul class="px-5">
         <SidebarItem
           v-for="(label, index) in sidebarLabels"
           :key="index"
@@ -25,11 +28,18 @@
 </template>
 
 <script setup lang="ts">
+import { getCurrentInstance } from 'vue'
 import SidebarItem from './SidebarItem.vue'
 import logo from '@/assets/logo.png'
 
-const sidebarLabels = ['Dashboard', 'Tests', 'Cats', 'Dogs'];
-const sidebarRouters = ['dashboard', 'tests', 'tests', 'tests'];
+const sidebarLabels = ['Dashboard', 'Tests', 'Cats', 'Dogs']
+const sidebarRouters = ['dashboard', 'tests', 'tests', 'tests']
+
+const instance = getCurrentInstance()
+
+function goBack() {
+  instance!.appContext.config.globalProperties.$router.back()
+}
 </script>
 
 <style>

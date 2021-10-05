@@ -1,8 +1,8 @@
 <template>
   <li
-    class="text-white text-l font-bold py-1 my-1 hover:bg-gray-500 rounded-lg"
+    class="text-white text-l font-bold py-2 my-2 hover:bg-gray-500 rounded-lg"
   >
-    <router-link :to="sidebarRouter" >
+    <AppLink :name="sidebarRouter">
       <div class="flex items-center">
         <ChartPieIcon class="h-6 w-6 mx-1" />
         <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -10,13 +10,12 @@
         </svg> -->
         <p>{{ sidebarLabel }}</p>
       </div>
-    </router-link>
+    </AppLink>
   </li>
 </template>
 
 <script setup lang="ts">
 import { ChartPieIcon } from '@heroicons/vue/outline'
-import SidebarLink from './SidebarLink.vue'
 
 const props = defineProps<{
   sidebarLabel: string,
