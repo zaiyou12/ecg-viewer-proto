@@ -8,6 +8,12 @@ app = Flask(__name__)
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
 
+@app.teardown_appcontext
+def close_db(error):
+    if db is not None:
+        db.close()
+
+
 @app.shell_context_processor
 def make_shell_context():
     db_init('./sqlite.db')

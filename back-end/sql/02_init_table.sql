@@ -16,3 +16,8 @@ CREATE TABLE `ecg_test` (
 );
 
 INSERT INTO user (email) VALUES ('test@test.com');
+
+INSERT INTO ecg_test (region, start_time, end_time)
+    VALUES ('kr', '2021-09-21 15:28:14.000', '2021-09-21 16:04:03.500');
+    INSERT INTO ecg_test (region, start_time, end_time)
+    VALUES ('kr', '2021-09-08 12:10:56.000', '2021-09-08 15:48:50.000');
