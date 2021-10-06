@@ -14,6 +14,7 @@ class DevConfig(Config):
         'sqlite://' + os.path.join(basedir, 'sqlite.db')
 
 class TestConfig(Config):
+    TESTING = True
     DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite://' + os.path.join(basedir, 'sqlite.db')
 
