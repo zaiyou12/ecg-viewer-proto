@@ -40,7 +40,7 @@ export const router = createRouter({
         },
         {
           name: 'testView',
-          path: 'view/:index',
+          path: 'view/:testSeq',
           component: TestViewPage,
           props: true
         }

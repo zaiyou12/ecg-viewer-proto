@@ -45,7 +45,7 @@ function goBack() {
 <style>
 @layer components {
   .sidebar-menu {
-    @apply bg-blue-400 w-full h-full overflow-x-hidden pt-3 rounded-tr-lg
+    @apply bg-blue-400 w-full h-full overflow-x-hidden pt-3 rounded-tr-3xl
   }
 }
 </style>
