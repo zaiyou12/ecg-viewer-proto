@@ -4,7 +4,7 @@
     <a
       class="mx-2"
       href="/auth/tests"
-      v-for="label in pageLabels"
+      v-for="label in numPageDisplay"
       :key="label"
     >
       {{ label }}
@@ -14,8 +14,8 @@
 </template>
 
 <script setup lang="ts">
+import PageButton from './PageButton.vue'
 const numPageDisplay = 10
-const range = (n: number) => [...Array(n).keys()]
-const pageLabels = range(numPageDisplay).map(n => `${n+1}`)
-console.log(pageLabels)
+// const range = (n: number) => [...Array(n).keys()]
+// const pageLabels = range(numPageDisplay).map(n => `${n+1}`)
 </script>

@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance } from 'vue'
+import { useRouter } from 'vue-router'
 
 interface TestListItemProps {
   testSeq: string
@@ -25,9 +25,9 @@ const props = withDefaults(defineProps<TestListItemProps>(), {
   normal: false
 })
 
-const instance = getCurrentInstance()
+const router = useRouter()
 
 function viewTest(idx: string): void {
-  instance!.appContext.config.globalProperties.$router.push({ name: 'testView', params: { testSeq: idx } })
+  router.push({ name: 'testView', params: { testSeq: idx } })
 }
 </script>

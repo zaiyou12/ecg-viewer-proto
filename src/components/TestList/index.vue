@@ -24,7 +24,11 @@
 </template>
 
 <script lang="ts" setup>
-import TestListItem from "./TestListItem.vue";
+import TestListItem from './TestListItem.vue'
+import useTests from '@/composables/use-tests'
+
+const { ecgTests, makeEcgTests } = useTests()
+
 const duration = 24
 const region = 'AU'
 const numTestSeqs = 15

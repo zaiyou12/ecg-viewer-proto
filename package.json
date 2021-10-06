@@ -1,5 +1,5 @@
 {
-  "name": "check_and_go_usa",
+  "name": "ecg-viewer-proto",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
@@ -7,7 +7,6 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@heroicons/vue": "^1.0.4",
     "vue": "^3.2.13",
     "vue-router": "4"
   },

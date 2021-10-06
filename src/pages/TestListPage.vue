@@ -15,5 +15,5 @@
 <script setup lang="ts">
 import TestList from '@/components/TestList/index.vue'
 import TestFilterBar from '@/components/TestFilterBar.vue'
-import Pagination from '@/components/Pagination.vue'
+import Pagination from '@/components/Pagination/index.vue'
 </script>

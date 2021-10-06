@@ -28,17 +28,17 @@
 </template>
 
 <script setup lang="ts">
-import { getCurrentInstance } from 'vue'
+import { useRouter } from 'vue-router'
 import SidebarItem from './SidebarItem.vue'
 import logo from '@/assets/logo.png'
 
 const sidebarLabels = ['Dashboard', 'Tests', 'Cats', 'Dogs']
 const sidebarRouters = ['dashboard', 'tests', 'tests', 'tests']
 
-const instance = getCurrentInstance()
+const router = useRouter()
 
 function goBack() {
-  instance!.appContext.config.globalProperties.$router.back()
+  router.back()
 }
 </script>
 
