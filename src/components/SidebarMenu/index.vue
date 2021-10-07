@@ -10,10 +10,12 @@
         </AppLink>
       </div>
       <div
-        class="cursor-pointer bg-blue-300 py-3 mb-5 text-white font-bold hover:bg-blue-200"
+        class="flex items-center cursor-pointer
+              bg-blue-300 h-14 py-3 mb-5 text-white font-bold hover:bg-blue-200"
         @click="goBack()"
       >
-        &lt; Go Back
+        <SvgIcon name="ArrowCircleLeft" class="h-6 w-6 ml-20 mr-2" />
+        <p>Back</p>
       </div>
       <ul class="px-5">
         <SidebarItem
@@ -21,6 +23,7 @@
           :key="index"
           :sidebarLabel="label"
           :sidebarRouter="sidebarRouters[index]"
+          :sidebarIcon="sidebarIcons[index]"
         />
       </ul>
     </div>
@@ -31,9 +34,11 @@
 import { useRouter } from 'vue-router'
 import SidebarItem from './SidebarItem.vue'
 import logo from '@/assets/logo.png'
+import SvgIcon from '@/components/SvgIcon.vue'
 
 const sidebarLabels = ['Dashboard', 'Tests', 'Cats', 'Sandbox']
 const sidebarRouters = ['dashboard', 'tests', 'tests', 'sandbox']
+const sidebarIcons = ['ChartPie', 'Collection', 'ChevronRight', 'ChevronRight']
 
 const router = useRouter()
 

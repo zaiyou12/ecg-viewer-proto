@@ -62,7 +62,11 @@ function paramToInt(param: string | string[]): number {
 }
 
 watch(() => route.params.page, () => {
-  currentPage.value = paramToInt(route.params.page)
+  console.log(route.matched[2])
+  if (route.matched[2] && route.matched[2].name === 'testPagination') {
+    currentPage.value = paramToInt(route.params.page)
+    console.log(`Pagination route change`)
+  }
 })
 
 function goDownPage(): number {

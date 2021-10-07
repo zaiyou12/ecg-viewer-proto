@@ -4,7 +4,7 @@
   >
     <AppLink :name="sidebarRouter">
       <div class="flex items-center">
-        <SvgIcon name="ChartPie" class="h-6- w-6 mx-1" />
+        <SvgIcon :name="sidebarIcon" class="h-5 w-5 mx-2" />
         <!-- <ChartPieIcon class="h-6 w-6 mx-1" /> -->
         <p>{{ sidebarLabel }}</p>
       </div>
@@ -17,7 +17,8 @@
 import SvgIcon from '@/components/SvgIcon.vue'
 
 const props = defineProps<{
-  sidebarLabel: string,
+  sidebarLabel: string
   sidebarRouter: string
+  sidebarIcon: string
 }>()
 </script>

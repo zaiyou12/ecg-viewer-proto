@@ -14,11 +14,13 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, watchEffect } from 'vue'
+import { useRouter } from 'vue-router'
 import TestFilterBar from '@/components/TestFilterBar.vue'
 // @ts-ignore
 import useTests from '@/composables/use-tests'
 
 
+const router = useRouter()
 const { ecgTests, makeEcgTests, makeDummyEcgTests, searchEcgTest } = useTests()
 
 const numTestSeqs = ref(35)
@@ -42,6 +44,7 @@ watch(query, () => {
       console.log('No matching search')
       currentTests.value = []
     }
+    router.push( { name: 'testPagination', params: { page: 1 } } )
   } else {
     currentTests.value = ecgTests.value
   }
