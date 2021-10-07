@@ -9,15 +9,6 @@
           </div>
         </button>
       </div>
-      <!-- <div class="flex justify-center">
-        <button
-          class="bg-white ring ring-blue-200 px-3 py-1 mx-5 rounded-full text-sm"
-          v-for="(label, index) in buttonLabels"
-          :key="index"
-        >
-          {{ label }}
-        </button> -->
-      <!-- </div> -->
     </div>
     <div class="flex-none w-1/2">
       <div class="flex items-center justify-center w-full">
@@ -25,7 +16,9 @@
         <input
           type="search"
           :placeholder="placeholder"
-          class="w-1/2 bg-blue-50 text-lg rounded-lg h-9 p-2 mx-2 focus:outline-none focus:ring focus:ring-blue-300"
+          :value="searchInput"
+          @keyup.enter="emitSearchInput"
+          class="w-1/2 bg-blue-50 rounded-lg h-9 px-3 pt-2 pb-1 mx-2 focus:outline-none focus:ring focus:ring-blue-300"
         >
       </div>
     </div>
@@ -35,6 +28,19 @@
 <script setup lang="ts">
 import SvgIcon from '@/components/SvgIcon.vue'
 
-const buttonLabels = ['Region', 'Duration', 'Normal', 'Sample Group']
-const placeholder = 'aaa'
+
+const props = defineProps<{
+  searchInput: string
+}>()
+
+const emits = defineEmits<{
+  (e: 'update:searchInput', searchInput: string): void
+}>()
+
+const placeholder = 'Search by test sequence'
+
+function emitSearchInput(e: Event) {
+  const newSearchInput = (e.target as HTMLTextAreaElement).value
+  emits('update:searchInput', newSearchInput)
+}
 </script>

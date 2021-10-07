@@ -1,6 +1,6 @@
 declare namespace EcgTest {
   interface Meta {
-    testSeq: number | string
+    testSeq: string
     duration: number | string
     region: DataLake.Region
     sampled?: boolean

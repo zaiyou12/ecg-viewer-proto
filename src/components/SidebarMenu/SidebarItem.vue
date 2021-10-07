@@ -19,5 +19,5 @@ import SvgIcon from '@/components/SvgIcon.vue'
 const props = defineProps<{
   sidebarLabel: string,
   sidebarRouter: string
-}>();
+}>()
 </script>

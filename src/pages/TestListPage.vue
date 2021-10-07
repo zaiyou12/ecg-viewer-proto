@@ -1,19 +1,50 @@
 <template>
   <div class="flex flex-col">
     <div class="flex-none">
-      <TestFilterBar />
+      <TestFilterBar v-model:searchInput="query" />
     </div>
     <div class="flex-grow mx-5">
-      <TestList />
+      <router-view name="testList" v-bind="{ currentTests, maxTestsPerPage }" />
     </div>
     <div class="flex-none my-10">
-      <Pagination />
+      <router-view name="pagination" v-bind="{ numEcgTests, maxTestsPerPage, maxPageDisplay}" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import TestList from '@/components/TestList/index.vue'
+import { ref, computed, watch, watchEffect } from 'vue'
 import TestFilterBar from '@/components/TestFilterBar.vue'
-import Pagination from '@/components/Pagination/index.vue'
+// @ts-ignore
+import useTests from '@/composables/use-tests'
+
+
+const { ecgTests, makeEcgTests, makeDummyEcgTests, searchEcgTest } = useTests()
+
+const numTestSeqs = ref(35)
+watchEffect(() => {
+  makeEcgTests(makeDummyEcgTests(numTestSeqs.value))
+})
+
+const currentTests = ref(ecgTests.value)
+const numEcgTests = computed(()=> currentTests.value.length)
+const maxTestsPerPage = 15
+const maxPageDisplay = 10
+
+const query = ref('')
+watch(query, () => {
+  if (query.value) {
+    const test: EcgTest.Meta = searchEcgTest(query.value)
+    if (test) {
+      console.log(`Search output was ${test.testSeq}`)
+      currentTests.value = [test]
+    } else {
+      console.log('No matching search')
+      currentTests.value = []
+    }
+  } else {
+    currentTests.value = ecgTests.value
+  }
+})
+
 </script>

@@ -2,7 +2,7 @@
   <table class="table-fixed w-full">
     <thead class="cursor-default">
       <th
-        v-for="(label, index) in testHeaders"
+        v-for="(label, index) in listHeaders"
         :key="index"
         class="border-b h-12"
       >
@@ -11,12 +11,9 @@
     </thead>
     <tbody>
       <TestListItem
-        v-for="(testSeq, index) in testSeqs"
+        v-for="(test, index) in currentTests"
         :key="index"
-        :testSeq="testSeq"
-        :duration="duration"
-        :region="region"
-        :index="index"
+        :ecgTest="test"
         class="h-10 border-b"
       />
     </tbody>
@@ -25,15 +22,14 @@
 
 <script lang="ts" setup>
 import TestListItem from './TestListItem.vue'
-import useTests from '@/composables/use-tests'
 
-const { ecgTests, makeEcgTests } = useTests()
 
-const duration = 24
-const region = 'AU'
-const numTestSeqs = 15
-const testHeaders = ['Test Seq', 'Duration', 'Region', 'Sampled', 'Normal']
+const props = defineProps<{
+  currentTests: EcgTest.Meta[]
+  maxTestsPerPage: number
+}>()
 
-const range = (n: number) => [...Array(n).keys()]
-const testSeqs = range(numTestSeqs).map((n: number) => `000${n}`)
+const listHeaders = ['Test Seq', 'Duration', 'Region', 'Sampled', 'Normal']
+
+// const range = (n: number) => [...Array(n).keys()]
 </script>

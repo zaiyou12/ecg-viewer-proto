@@ -32,8 +32,8 @@ import { useRouter } from 'vue-router'
 import SidebarItem from './SidebarItem.vue'
 import logo from '@/assets/logo.png'
 
-const sidebarLabels = ['Dashboard', 'Tests', 'Cats', 'Dogs']
-const sidebarRouters = ['dashboard', 'tests', 'tests', 'tests']
+const sidebarLabels = ['Dashboard', 'Tests', 'Cats', 'Sandbox']
+const sidebarRouters = ['dashboard', 'tests', 'tests', 'sandbox']
 
 const router = useRouter()
 
