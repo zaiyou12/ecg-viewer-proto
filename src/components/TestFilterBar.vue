@@ -2,8 +2,8 @@
   <div class="flex h-28 items-center w-full">
     <div class="flex-none w-1/2 align-middle">
       <div class="flex justify-left ml-10">
-        <button class="border-2 rounded-md border-gray-200 py-1 px-2">
-          <div class="flex items-center">
+        <button class="border-2 rounded-md border-gray-200 py-1 px-2 focus:border-blue-300">
+          <div class="flex items-center font-bold">
             <SvgIcon name="Adjustments" class="h-5 w-5 mr-1"/>
             Filter
           </div>

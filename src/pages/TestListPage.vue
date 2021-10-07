@@ -23,7 +23,7 @@ import useTests from '@/composables/use-tests'
 const router = useRouter()
 const { ecgTests, makeEcgTests, makeDummyEcgTests, searchEcgTest } = useTests()
 
-const numTestSeqs = ref(35)
+const numTestSeqs = ref(500)
 watchEffect(() => {
   makeEcgTests(makeDummyEcgTests(numTestSeqs.value))
 })
@@ -38,10 +38,8 @@ watch(query, () => {
   if (query.value) {
     const test: EcgTest.Meta = searchEcgTest(query.value)
     if (test) {
-      console.log(`Search output was ${test.testSeq}`)
       currentTests.value = [test]
     } else {
-      console.log('No matching search')
       currentTests.value = []
     }
     router.push( { name: 'testPagination', params: { page: 1 } } )
