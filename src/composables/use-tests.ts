@@ -4,24 +4,6 @@ import { ref } from 'vue'
 const ecgTests = ref<EcgTest.Meta[]>([])
 
 export default function useEcgTests() {
-  // Testing purpose only
-  function makeDummyEcgTests(n: number): EcgTest.Meta[] {
-    console.log('makeDummyEcgTests...')
-    let tests: EcgTest.Meta[] = []
-    for (let i = 1; i < n + 1; i++) {
-      const t: EcgTest.Meta = {
-        testSeq: `000${i}`,
-        duration: 24,
-        region: 'N/A',
-        sampled: false,
-        normal: false,
-        path: './'
-      }
-      tests.push(t)
-    }
-    return tests
-  }
-
   async function fetchEcgTests(): Promise<void> {
     ecgTests.value = []
     let responsePromise: null | Promise<ServerResponse.EcgTests>
@@ -50,7 +32,6 @@ export default function useEcgTests() {
   return {
     ecgTests,
     makeEcgTests,
-    makeDummyEcgTests,
     searchEcgTest
   }
 }

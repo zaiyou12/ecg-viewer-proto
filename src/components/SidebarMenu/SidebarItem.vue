@@ -1,24 +1,34 @@
 <template>
-  <li
-    class="text-white text-l font-bold py-2 my-2 hover:bg-gray-500 rounded-lg"
-  >
-    <AppLink :name="sidebarRouter">
-      <div class="flex items-center">
-        <SvgIcon :name="sidebarIcon" class="h-6 w-6 mx-2" />
-        <!-- <ChartPieIcon class="h-6 w-6 mx-1" /> -->
-        <p>{{ sidebarLabel }}</p>
-      </div>
-    </AppLink>
+  <li @click="routeTo" class="sidebar-item">
+    <div class="flex items-center text-white">
+      <SvgIcon :name="sidebarIcon" class="h-6 w-6 mx-2" />
+      <p class="text-l font-bold">{{ sidebarLabel }}</p>
+    </div>
   </li>
 </template>
 
 <script setup lang="ts">
-// import { ChartPieIcon } from '@heroicons/vue/outline'
-import SvgIcon from '@/components/SvgIcon.vue'
+import { useRouter } from 'vue-router'
+
 
 const props = defineProps<{
   sidebarLabel: string
   sidebarRouter: string
   sidebarIcon: string
 }>()
+
+const router = useRouter()
+
+function routeTo(e: Event) {
+  router.push({ name: props.sidebarRouter })
+}
 </script>
+
+<style>
+@layer components {
+  .sidebar-item {
+    @apply h-10 cursor-pointer py-2 my-2
+      hover:bg-blue-600 rounded-lg
+  }
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    :class="attrs.class"
+    :class="$attrs.class"
     fill="none"
     viewBox="0 0 24 24"
     :stroke="strokeColor"
@@ -10,10 +10,6 @@
   ></svg>
 </template>
 <script setup lang="ts">
-import { useAttrs } from 'vue'
-
-const attrs = useAttrs()
-
 interface SvgIconProp {
   name: SvgIconIndex
   strokeColor?: string
@@ -34,7 +30,9 @@ export type SvgIconIndex = 'ChartPie' |
   'ChevronDoubleLeft' |
   'ChevronDoubleRight' |
   'ChevronLeft' |
-  'ChevronRight'
+  'ChevronRight' |
+  'InformationCircle' |
+  'XCircle'
 
 type SvgIconType = {
   [k in SvgIconIndex]: string
@@ -52,7 +50,9 @@ const SvgIcon: SvgIconType = {
   ChevronDoubleLeft: '<path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />',
   ChevronDoubleRight: '<path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />' ,
   ChevronLeft: '<path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />',
-  ChevronRight: '<path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />'
+  ChevronRight: '<path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />',
+  InformationCircle: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />',
+  XCircle: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />'
 } as const
 
 </script>

@@ -15,13 +15,14 @@
 <script setup lang="ts">
 import { ref, computed, watch, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
-import TestFilterBar from '@/components/TestFilterBar.vue'
+import TestFilterBar from '@/components/TestFilterBar/index.vue'
 // @ts-ignore
 import useTests from '@/composables/use-tests'
+import { makeDummyEcgTests } from '../utils/make-dummy'
 
 
 const router = useRouter()
-const { ecgTests, makeEcgTests, makeDummyEcgTests, searchEcgTest } = useTests()
+const { ecgTests, makeEcgTests, searchEcgTest } = useTests()
 
 const numTestSeqs = ref(500)
 watchEffect(() => {

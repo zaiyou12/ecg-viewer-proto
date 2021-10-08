@@ -1,14 +1,7 @@
 <template>
   <div class="flex h-28 items-center w-full">
     <div class="flex-none w-1/2 align-middle">
-      <div class="flex justify-left ml-10">
-        <button class="border-2 rounded-md border-gray-200 py-1 px-2 focus:border-blue-300">
-          <div class="flex items-center font-bold">
-            <SvgIcon name="Adjustments" class="h-5 w-5 mr-1"/>
-            Filter
-          </div>
-        </button>
-      </div>
+      <FilterButton />
     </div>
     <div class="flex-none w-1/2">
       <div class="flex items-center justify-center w-full">
@@ -18,7 +11,7 @@
           :placeholder="placeholder"
           :value="searchInput"
           @keyup.enter="emitSearchInput"
-          class="w-1/2 bg-blue-50 rounded-lg h-9 px-3 pt-2 pb-1 mx-2 focus:outline-none focus:ring focus:ring-blue-300"
+          class="test-search-bar"
         >
       </div>
     </div>
@@ -26,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import SvgIcon from '@/components/SvgIcon.vue'
+import FilterButton from './FilterButton.vue'
 
 
 const props = defineProps<{
@@ -44,3 +37,15 @@ function emitSearchInput(e: Event) {
   emits('update:searchInput', newSearchInput)
 }
 </script>
+
+<style>
+@layer components {
+  .test-search-bar {
+    @apply w-1/2 bg-blue-100 rounded-lg h-9
+    px-3 pt-2 pb-1 mx-2 focus:outline-none
+    focus:ring focus:ring-blue-300
+    hover:bg-blue-50
+    focus:bg-blue-100
+  }
+}
+</style>
