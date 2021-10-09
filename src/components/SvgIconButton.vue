@@ -18,7 +18,7 @@ interface SvgIconButtonProps {
   iconSize?: string
   iconTextMargin?: string
   iconColor?: string
-  iconStrokeWidth?: string
+  iconStrokeWidth?: number
   textStyle?: string
 }
 const props = withDefaults(defineProps<SvgIconButtonProps>(), {

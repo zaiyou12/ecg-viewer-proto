@@ -24,9 +24,9 @@ export default function useEcgTests() {
     // fetchEcgTests()
   }
 
-  function searchEcgTest(testSeq: string): EcgTest.Meta | undefined {
+  function searchEcgTest(testSeq: string): EcgTest.Meta[] {
     const test = ecgTests.value.find((t) => t.testSeq === testSeq)
-    return test
+    return test ? [test] : []
   }
 
   return {

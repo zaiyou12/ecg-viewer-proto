@@ -1,8 +1,7 @@
 <template>
+  <TestFilterModal />
   <div class="flex flex-col">
-    <div class="flex-none">
-      <TestFilterBar v-model:searchInput="query" />
-    </div>
+    <TestFilterBar v-model:searchInput="query" class="flex-none" />
     <div class="flex-grow mx-5">
       <router-view name="testList" v-bind="{ currentTests, maxTestsPerPage }" />
     </div>
@@ -13,20 +12,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, watchEffect } from 'vue'
+import { ref, computed, watch, watchEffect, provide } from 'vue'
 import { useRouter } from 'vue-router'
 import TestFilterBar from '@/components/TestFilterBar/index.vue'
-// @ts-ignore
-import useTests from '@/composables/use-tests'
+import TestFilterModal from '@/components/TestFilterModal/index.vue'
+import useTests from '../composables/use-tests'
 import { makeDummyEcgTests } from '../utils/make-dummy'
+import { QueryKey, UpdateQueryKey } from '../symbols/symbols'
 
 
 const router = useRouter()
 const { ecgTests, makeEcgTests, searchEcgTest } = useTests()
 
-const numTestSeqs = ref(500)
+const numTestSeqs = 500
 watchEffect(() => {
-  makeEcgTests(makeDummyEcgTests(numTestSeqs.value))
+  makeEcgTests(makeDummyEcgTests(numTestSeqs))
 })
 
 const currentTests = ref(ecgTests.value)
@@ -35,18 +35,20 @@ const maxTestsPerPage = 15
 const maxPageDisplay = 10
 
 const query = ref('')
+const updateQuery = (q: string) => {
+  query.value = q
+}
+
+provide(QueryKey, query)
+provide(UpdateQueryKey, updateQuery)
+
 watch(query, () => {
   if (query.value) {
-    const test: EcgTest.Meta = searchEcgTest(query.value)
-    if (test) {
-      currentTests.value = [test]
-    } else {
-      currentTests.value = []
-    }
-    router.push( { name: 'testPagination', params: { page: 1 } } )
+    const test: EcgTest.Meta[] = searchEcgTest(query.value)
+    currentTests.value = test
   } else {
     currentTests.value = ecgTests.value
   }
+  router.push( { name: 'testPagination', params: { page: 1 } } )
 })
-
 </script>

@@ -19,7 +19,7 @@ const props = defineProps<{
 
 const router = useRouter()
 
-function routeTo(e: Event) {
+function routeTo() {
   router.push({ name: props.sidebarRouter })
 }
 </script>
