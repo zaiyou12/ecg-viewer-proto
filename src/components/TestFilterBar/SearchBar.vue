@@ -12,11 +12,11 @@
 <script setup lang="ts">
 import { inject, ref } from 'vue'
 // @ts-ignore
-import { QueryKey, UpdateQueryFunc, UpdateQueryKey } from '@/symbols/symbols'
+import { QueryKey, StringSetterFunc, UpdateQueryKey } from '@/symbols/symbols'
 
 
 const query = inject(QueryKey, ref(''))
-const updateQuery: UpdateQueryFunc = inject(UpdateQueryKey)
+const updateQuery: StringSetterFunc = inject(UpdateQueryKey)
 const placeholder = 'Search by test sequence'
 
 function pressedEnter(e: Event) {
@@ -34,7 +34,7 @@ function clearSearchBar(e: Event) {
   .test-search-bar {
     @apply bg-blue-100 rounded-lg h-9 w-full
     px-3 pt-2 pb-1 ml-2 focus:outline-none
-    focus:ring focus:ring-blue-300
+    /* focus:ring focus:ring-blue-300 */
     hover:bg-blue-50
     focus:bg-blue-100
   }

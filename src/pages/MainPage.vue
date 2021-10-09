@@ -1,5 +1,5 @@
 <template>
-  <div class="w-screen h-screen overflow-hidden overscroll-none box-border flex">
+  <div class="w-screen h-screen box-border flex">
     <SidebarMenu class="flex-none"/>
     <div class="flex-auto overflow-y-auto overscroll-none">
       <router-view/>

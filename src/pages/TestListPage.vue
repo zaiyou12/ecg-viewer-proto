@@ -1,7 +1,7 @@
 <template>
-  <TestFilterModal />
   <div class="flex flex-col">
-    <TestFilterBar v-model:searchInput="query" class="flex-none" />
+    <TestFilterPanel v-model:showPanel="showPanel" />
+    <TestFilterBar class="flex-none" />
     <div class="flex-grow mx-5">
       <router-view name="testList" v-bind="{ currentTests, maxTestsPerPage }" />
     </div>
@@ -15,10 +15,11 @@
 import { ref, computed, watch, watchEffect, provide } from 'vue'
 import { useRouter } from 'vue-router'
 import TestFilterBar from '@/components/TestFilterBar/index.vue'
-import TestFilterModal from '@/components/TestFilterModal/index.vue'
+import TestFilterPanel from '@/components/TestFilterPanel/TestFilterPanel.vue'
 import useTests from '../composables/use-tests'
 import { makeDummyEcgTests } from '../utils/make-dummy'
-import { QueryKey, UpdateQueryKey } from '../symbols/symbols'
+import { QueryKey, UpdateQueryKey,
+          TogglePanelKey, DisablePanelKey } from '../symbols/symbols'
 
 
 const router = useRouter()
@@ -34,11 +35,16 @@ const numEcgTests = computed(()=> currentTests.value.length)
 const maxTestsPerPage = 15
 const maxPageDisplay = 10
 
+const showPanel = ref(true)
+const togglePanel = () => showPanel.value = !showPanel.value
+const disablePanel = () => showPanel.value = false
+provide(TogglePanelKey, togglePanel)
+provide(DisablePanelKey, disablePanel)
+
 const query = ref('')
 const updateQuery = (q: string) => {
   query.value = q
 }
-
 provide(QueryKey, query)
 provide(UpdateQueryKey, updateQuery)
 
