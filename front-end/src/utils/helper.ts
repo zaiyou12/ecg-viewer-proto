@@ -13,6 +13,20 @@ export function paramToInt(param: string | string[]): number {
 }
 
 /**
+ * Converts vue-router route param to a string
+ *
+ * @param param Should be a string
+ * @returns A param value as string
+ */
+export function paramToString(param: string | string[]): string {
+  if (typeof param === 'string') {
+    return param
+  } else {
+    return param[0]
+  }
+}
+
+/**
  * Attempt to mimic Python's range function
  *
  * @param start Inclusive start number

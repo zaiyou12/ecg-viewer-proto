@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watchEffect } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 
 const props = defineProps<{
@@ -22,7 +22,7 @@ const props = defineProps<{
 }>()
 
 const selected = ref('')
-watchEffect(() => {
+watch(selected, () => {
   console.log(selected.value)
 })
 </script>

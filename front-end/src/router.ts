@@ -57,7 +57,6 @@ export const router = createRouter({
           name: 'testView',
           path: 'view/:testSeq',
           component: TestViewPage,
-          props: true
         },
         {  // TODO: Remove later
           name: 'sandbox',

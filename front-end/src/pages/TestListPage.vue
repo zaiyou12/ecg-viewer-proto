@@ -35,7 +35,7 @@ const numEcgTests = computed(()=> currentTests.value.length)
 const maxTestsPerPage = 15
 const maxPageDisplay = 10
 
-const showPanel = ref(true)
+const showPanel = ref(false)
 const togglePanel = () => showPanel.value = !showPanel.value
 const disablePanel = () => showPanel.value = false
 provide(TogglePanelKey, togglePanel)
