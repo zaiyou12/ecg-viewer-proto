@@ -28,7 +28,7 @@ const sidebarIcons = ['ChartPie', 'Collection', 'ChevronRight', 'ChevronRight']
 <style>
 @layer components {
   .sidebar-menu {
-    @apply w-60 h-full overflow-x-hidden overflow-y-auto overscroll-none py-5
+    @apply w-52 h-full overflow-x-hidden overflow-y-auto overscroll-none py-5
       bg-gradient-to-br from-blue-500 to-blue-300
       rounded-tr-3xl
   }

@@ -32,7 +32,8 @@ export type SvgIconIndex = 'ChartPie' |
   'ChevronLeft' |
   'ChevronRight' |
   'InformationCircle' |
-  'XCircle'
+  'XCircle' |
+  'ChevronDown'
 
 type SvgIconType = {
   [k in SvgIconIndex]: string
@@ -52,7 +53,8 @@ const SvgIcon: SvgIconType = {
   ChevronLeft: '<path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />',
   ChevronRight: '<path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />',
   InformationCircle: '<path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />',
-  XCircle: '<path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />'
+  XCircle: '<path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />',
+  ChevronDown: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />'
 } as const
 
 </script>
