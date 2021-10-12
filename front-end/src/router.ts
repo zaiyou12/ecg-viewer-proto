@@ -1,29 +1,74 @@
 import { createRouter, createWebHistory, RouteParams } from 'vue-router'
 
-import Home from './pages/Home.vue'
-import TestList from './pages/TestList.vue'
+import LoginPage from '@/pages/LoginPage.vue'
+import MainPage from '@/pages/MainPage.vue'
+import DashboardPage from '@/pages/DashboardPage.vue'
+import TestListPage from '@/pages/TestListPage.vue'
+import TestList from '@/components/TestList/index.vue'
+import Pagination from '@/components/Pagination/index.vue'
+import TestViewPage from '@/pages/TestViewPage.vue'
+import EmptyPage from '@/pages/EmptyPage.vue'
+import SandboxPage from '@/pages/SandboxPage.vue'
 
-export type AppRouteNames = 'home'
-| 'testList'
+export type AppRouteNames = 'index' |'login' | 'main'
 
 export const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      name: 'home',
+      name: 'index',
       path: '/',
-      component: Home,
+      redirect: { name: 'login' }  // TODO: Remove later
     },
     {
-      name: 'testList',
-      path: '/test-list',
-      component: TestList,
+      name: 'login',
+      path: '/login',
+      component: LoginPage
     },
     {
-      name: 'testViewer',
-      path: '/test-list/:index',
-      component: () => import('./pages/TestViewer.vue'),
-      props: true
+      name: 'main',
+      path: '/main',
+      component: MainPage,
+      redirect: '/main/dashboard',
+      children: [
+        {
+          name: 'dashboard',
+          path: 'dashboard',
+          component: DashboardPage
+        },
+        {
+          name: 'tests',
+          path: 'tests',
+          redirect: '/main/tests/1',
+          component: TestListPage,
+          children: [
+            {
+              name: 'testPagination',
+              path: ':page',
+              components: {
+                testList: TestList,
+                pagination: Pagination
+              },
+              props: true
+            }
+          ]
+        },
+        {
+          name: 'testView',
+          path: 'view/:testSeq',
+          component: TestViewPage,
+        },
+        {  // TODO: Remove later
+          name: 'sandbox',
+          path: 'sandbox',
+          component: SandboxPage,
+        }
+      ]
+    },
+    {
+      name: 'notFound',
+      path: '/:catchAll(.*)',
+      component: EmptyPage
     }
   ]
 })

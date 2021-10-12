@@ -1,7 +1,6 @@
 {
-  "name": "check_and_go_usa",
+  "name": "ecg-viewer-proto",
   "version": "0.0.0",
-  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -12,6 +11,7 @@
     "vue-router": "4"
   },
   "devDependencies": {
+    "@types/node": "^16.10.1",
     "@vitejs/plugin-vue": "^1.9.0",
     "autoprefixer": "^10.3.5",
     "postcss": "^8.3.7",
