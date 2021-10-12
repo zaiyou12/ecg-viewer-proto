@@ -1,15 +1,15 @@
 import { ref } from 'vue'
+import EcgTestApi from '../utils/ecg-test-api'
 
-
-const ecgTests = ref<EcgTest.Meta[]>([])
+const ecgTests = ref<EcgTests>([])
+const api = new EcgTestApi()
 
 export default function useEcgTests() {
   async function fetchEcgTests(): Promise<void> {
-    ecgTests.value = []
-    let responsePromise: null | Promise<ServerResponse.EcgTests>
+    ecgTests.value = await api.getEcgTests()
   }
 
-  function makeEcgTests(tests?: EcgTest.Meta[]): void {
+  function makeEcgTests(tests?: EcgTests): void {
     console.log('makeEcgTests called.')
     // To manually add tests during testing etc.
     if (tests != null) {
@@ -24,7 +24,7 @@ export default function useEcgTests() {
     // fetchEcgTests()
   }
 
-  function searchEcgTest(testSeq: string): EcgTest.Meta[] {
+  function searchEcgTest(testSeq: string): EcgTests {
     const test = ecgTests.value.find((t) => t.testSeq === testSeq)
     return test ? [test] : []
   }
