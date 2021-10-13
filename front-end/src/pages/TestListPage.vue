@@ -12,23 +12,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, watchEffect, provide } from 'vue'
+import { ref, computed, watch, toRef, provide, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import TestFilterBar from '@/components/TestFilterBar/index.vue'
 import TestFilterPanel from '@/components/TestFilterPanel/TestFilterPanel.vue'
-import useTests from '../composables/use-tests'
+import useTestsStore from '../stores/ecg-tests'
 import { makeDummyEcgTests } from '../utils/make-dummy'
 import { QueryKey, UpdateQueryKey,
           TogglePanelKey, DisablePanelKey } from '../symbols/symbols'
 
 
 const router = useRouter()
-const { ecgTests, makeEcgTests, searchEcgTest } = useTests()
+const store = useTestsStore()
 
 const numTestSeqs = 500
-watchEffect(() => {
-  makeEcgTests(makeDummyEcgTests(numTestSeqs))
-})
+onMounted(() => store.makeEcgTests(makeDummyEcgTests(numTestSeqs)))
+const ecgTests = toRef(store, 'ecgTests')
 
 const currentTests = ref(ecgTests.value)
 const numEcgTests = computed(()=> currentTests.value.length)
@@ -50,7 +49,7 @@ provide(UpdateQueryKey, updateQuery)
 
 watch(query, () => {
   if (query.value) {
-    const test: EcgTest.Meta[] = searchEcgTest(query.value)
+    const test: EcgTest.Meta[] = store.searchEcgTest(query.value)
     currentTests.value = test
   } else {
     currentTests.value = ecgTests.value
