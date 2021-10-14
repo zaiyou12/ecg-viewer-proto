@@ -37,7 +37,7 @@ const props = defineProps<{
 
 const route = useRoute()
 
-const listHeaders = ['Test Seq', 'Duration', 'Region', 'Sampled', 'Normal']
+const listHeaders = ['Test Seq', 'Duration', 'Region', 'Group', 'Status']
 
 const startIndex = ref(0)
 const endIndex = computed(() => startIndex.value + props.maxTestsPerPage)

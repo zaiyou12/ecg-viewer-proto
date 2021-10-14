@@ -7,6 +7,9 @@ import TestListPage from '@/pages/TestListPage.vue'
 import TestList from '@/components/TestList/index.vue'
 import Pagination from '@/components/Pagination/index.vue'
 import TestViewPage from '@/pages/TestViewPage.vue'
+import PreprocessPage from '@/pages/PreprocessPage.vue'
+import TestGroupPage from '@/pages/TestGroupPage.vue'
+import SampleGroupPage from '@/pages/SampleGroupPage.vue'
 import EmptyPage from '@/pages/EmptyPage.vue'
 import SandboxPage from '@/pages/SandboxPage.vue'
 
@@ -57,6 +60,21 @@ export const router = createRouter({
           name: 'testView',
           path: 'view/:testSeq',
           component: TestViewPage,
+        },
+        {
+          name: 'preprocess',
+          path: 'preprocess',
+          component: PreprocessPage,
+        },
+        {
+          name: 'testGroup',
+          path: 'test-group',
+          component: TestGroupPage,
+        },
+        {
+          name: 'sampleGroup',
+          path: 'sample-group',
+          component: SampleGroupPage,
         },
         {  // TODO: Remove later
           name: 'sandbox',

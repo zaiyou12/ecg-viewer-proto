@@ -4,8 +4,8 @@
     <div class="w-full h-full px-5 pt-2 pb-3 flex flex-col justify-evenly">
       <ButtonFilter heading="Duration" :options="durations" />
       <ButtonFilter heading="Region" :options="regions" />
-      <DropdownFilter heading="Sample Group" :options="sampleGroups" />
-      <ButtonFilter heading="Condition" :options="normals" />
+      <DropdownFilter heading="Test Group" :options="sampleGroups" />
+      <ButtonFilter heading="Final Status" :options="normals" />
     </div>
   </div>
 </transition>
@@ -27,7 +27,7 @@ const emits = defineEmits<{
 const durations = [24, 48, 72]
 const regions = ['KR', 'AU', 'UK', 'N/A']
 const sampleGroups = ['Group 1', 'Group 2', 'Group 3']
-const normals = ['Normal', 'Abnormal']
+const normals = ['Normal', 'Abnormal', 'Unknown']
 </script>
 
 <style>

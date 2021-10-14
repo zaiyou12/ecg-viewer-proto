@@ -4,19 +4,19 @@
       v-for="(value, prop, index) in ecgTest"
       :key="index"
     >
-      <template v-if="prop !== 'path'">
-        <td v-if="prop === 'sampled'">
+      <template v-if="prop !== 'path' && prop !== 'sGroup' && prop !== 'startTime'">
+        <td v-if="prop === 'tGroup'">
           <div class="flex justify-center">
             <SvgIcon
-              :name="isNotEmpty(ecgTest.sampled) ? 'InformationCircle' : 'XCircle'" class="h-5 w-5"
-              :strokeColor="isNotEmpty(ecgTest.sampled) ? undefined : '#D3D3D3'"
+              :name="isNotEmpty(ecgTest.tGroup) ? 'InformationCircle' : 'XCircle'" class="h-5 w-5"
+              :strokeColor="isNotEmpty(ecgTest.tGroup) ? undefined : '#D3D3D3'"
             />
           </div>
         </td>
-        <td v-else-if="prop === 'anomaly'">
+        <td v-else-if="prop === 'status'">
           <div class="flex justify-center">
             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"
-              class="h-3 w-3" :fill="isNotEmpty(ecgTest.anomaly) ? '#3CB371' : '#FF6347'"
+              class="h-3 w-3" :fill="whichColor(ecgTest.status.final)"
             >
               <circle cx="50" cy="50" r="50"/>
             </svg>
@@ -44,5 +44,11 @@ function viewTest(idx: number | string): void {
 
 function isNotEmpty(arr: any[]): boolean {
   return !!(arr.length)
+}
+
+function whichColor(finalStatus: EcgTest.StatusType): string {
+  if (finalStatus === 'normal') return '#3CB371'
+  if (finalStatus === 'abnormal') return '#FF6347'
+  else return '#808080'
 }
 </script>

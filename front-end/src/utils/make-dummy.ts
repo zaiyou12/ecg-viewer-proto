@@ -11,32 +11,16 @@ function getRandomRegion(): EcgTest.Region {
   return getRandomItem<EcgTest.Region>(regions as EcgTest.Region[])
 }
 
-export function makeDummySampleGroups(n: number): EcgTest.SampleGroup[] {
-  let groups: EcgTest.SampleGroup[] = []
+export function makeDummySampleGroup(n: number): SampleGroup {
+  let groups: SampleGroup = {}
   for (let i = 0; i < n; i++) {
-    const g: EcgTest.SampleGroup = {
-      id: i,
-      displayName: `Group${i}`,
+    const g = {
+      displayName: `SampleGroup${i}`,
       description: `This is dummy sample group #${i}.`,
-      numEcgTests: 0,
-      testSeqs: []
+      numStrips: 0,
+      strips: []
     }
-    groups.push(g)
-  }
-  return groups
-}
-
-export function makeDummyAnomalyGroups(n: number): EcgTest.AnomalyGroup[] {
-  let groups: EcgTest.AnomalyGroup[] = []
-  for (let i = 0; i < n; i++) {
-    const g: EcgTest.AnomalyGroup = {
-      id: i,
-      anomalyName: `Anomaly${i}`,
-      description: `This is dummy anomaly group #${i}.`,
-      numEcgTests: 0,
-      testSeqs: []
-    }
-    groups.push(g)
+    groups[i] = g
   }
   return groups
 }
@@ -46,16 +30,23 @@ function getRandomGroupIds(n: number): number[] {
   return range(0, howMany)
 }
 
-export function makeDummyEcgTests(n: number): EcgTest.Meta[] {
+function getRandomStatus() {
+  const status = ['normal', 'abnormal', 'unknown']
+  return getRandomItem<EcgTest.StatusType>(status as EcgTest.StatusType[])
+}
+
+export function makeDummyEcgTests(n: number): EcgTests {
   console.log('Making dummy EcgTests...')
-  let tests: EcgTest.Meta[] = []
+  let tests: EcgTests = []
   for (let i = 1; i < n + 1; i++) {
     const t: EcgTest.Meta = {
       testSeq: `000${i}`,
+      startTime: '2021-10-31T00:00:00',
       duration: getRandomDuration(),
       region: getRandomRegion(),
-      sampled: getRandomGroupIds(3),
-      anomaly: getRandomGroupIds(2),
+      tGroup: getRandomGroupIds(3),
+      sGroup: getRandomGroupIds(4),
+      status: { final: getRandomStatus() },
       path: './'
     }
     tests.push(t)

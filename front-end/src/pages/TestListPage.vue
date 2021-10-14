@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, toRef, provide, onMounted } from 'vue'
+import { ref, computed, watch, toRef, provide } from 'vue'
 import { useRouter } from 'vue-router'
 import TestFilterBar from '@/components/TestFilterBar/index.vue'
 import TestFilterPanel from '@/components/TestFilterPanel/TestFilterPanel.vue'
@@ -26,7 +26,7 @@ const router = useRouter()
 const store = useTestsStore()
 
 const numTestSeqs = 500
-onMounted(() => store.makeEcgTests(makeDummyEcgTests(numTestSeqs)))
+store.makeEcgTests(makeDummyEcgTests(numTestSeqs))
 const ecgTests = toRef(store, 'ecgTests')
 
 const currentTests = ref(ecgTests.value)
