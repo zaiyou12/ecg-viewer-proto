@@ -30,6 +30,7 @@
 
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
+import useTestViewStore from '../../stores/test-view'
 
 
 const props = defineProps<{
@@ -37,8 +38,10 @@ const props = defineProps<{
 }>()
 
 const router = useRouter()
+const store = useTestViewStore()
 
 function viewTest(idx: number | string): void {
+  store.selectedTest = props.ecgTest
   router.push({ name: 'testView', params: { testSeq: idx } })
 }
 

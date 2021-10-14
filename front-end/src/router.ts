@@ -51,14 +51,13 @@ export const router = createRouter({
               components: {
                 testList: TestList,
                 pagination: Pagination
-              },
-              props: true
+              }
             }
           ]
         },
         {
           name: 'testView',
-          path: 'view/:testSeq',
+          path: 'view',
           component: TestViewPage,
         },
         {

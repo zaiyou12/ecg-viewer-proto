@@ -11,20 +11,6 @@ function getRandomRegion(): EcgTest.Region {
   return getRandomItem<EcgTest.Region>(regions as EcgTest.Region[])
 }
 
-export function makeDummySampleGroup(n: number): SampleGroup {
-  let groups: SampleGroup = {}
-  for (let i = 0; i < n; i++) {
-    const g = {
-      displayName: `SampleGroup${i}`,
-      description: `This is dummy sample group #${i}.`,
-      numStrips: 0,
-      strips: []
-    }
-    groups[i] = g
-  }
-  return groups
-}
-
 function getRandomGroupIds(n: number): number[] {
   const howMany = getRandomInt(0, n + 1)
   return range(0, howMany)
@@ -44,8 +30,8 @@ export function makeDummyEcgTests(n: number): EcgTests {
       startTime: '2021-10-31T00:00:00',
       duration: getRandomDuration(),
       region: getRandomRegion(),
-      tGroup: getRandomGroupIds(3),
-      sGroup: getRandomGroupIds(4),
+      tGroup: getRandomGroupIds(4),
+      sGroup: getRandomGroupIds(3),
       status: { final: getRandomStatus() },
       path: './'
     }
@@ -53,3 +39,47 @@ export function makeDummyEcgTests(n: number): EcgTests {
   }
   return tests
 }
+
+export function makeDummyPreprocessGroups(n: number): PreprocessGroups {
+  let groups: PreprocessGroups = {}
+  for (let i = 0; i < n; i++) {
+    const g = {
+      id: i,
+      displayName: `PreprocessGroup${i}`,
+      description: `This is dummy preprocess group #${i}.`
+    }
+    groups[i] = g
+  }
+  return groups
+}
+
+export function makeDummyTestGroups(n: number): TestGroups {
+  let groups: TestGroups = {}
+  for (let i = 0; i < n; i++) {
+    const g = {
+      id: i,
+      displayName: `TestGroup${i}`,
+      description: `This is dummy test group #${i}.`,
+      numEcgTests: 0,
+      testSeqs: []
+    }
+    groups[i] = g
+  }
+  return groups
+}
+
+export function makeDummySampleGroups(n: number): SampleGroups {
+  let groups: SampleGroups = {}
+  for (let i = 0; i < n; i++) {
+    const g = {
+      id: i,
+      displayName: `SampleGroup${i}`,
+      description: `This is dummy sample group #${i}.`,
+      numStrips: 0,
+      strips: []
+    }
+    groups[i] = g
+  }
+  return groups
+}
+

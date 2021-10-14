@@ -2,7 +2,7 @@
   <div>
     <div class="flex items-baseline">
       <div class="mt-5 mb-1 text-left mx-14 font-bold">Details</div>
-      <div class="text-sm mr-10">Recording Start Time: 2021-10-31:00:00:00</div>
+      <div class="text-sm mr-10">Recording Start Time: {{ store.selectedTest!.startTime }}</div>
       <div class="text-sm mr-10">Actual Duration: 12:29:32</div>
       <div class="text-sm">And Something Else: That I can't think of</div>
     </div>
@@ -22,11 +22,9 @@
 
 <script setup lang="ts">
 import Strip from '@/components/Strip60s.vue'
+import useTestViewStore from '../../stores/test-view';
 
-// const props = defineProps<{
-//   testSeq: string
-//   testInfo?: any
-// }>()
 
+const store = useTestViewStore()
 const numStrips = 6
 </script>

@@ -2,11 +2,11 @@
   <div class="test-detail-header-container">
     <div class="h-full flex items-center justify-between mx-5 border-b-2 border-gray-100">
       <div class="w-1/2 flex items-center cursor-default justify-between">
-        <p class="ml-5 mr-5 font-bold text-2xl text-left">Test {{ testSeq }}</p>
+        <p class="ml-5 mr-5 font-bold text-2xl text-left">Test {{ store.selectedTest!.testSeq }}</p>
         <div class="flex flex-wrap text-sm">
           <p class="w-1/2 text-left"><b>HR</b> 100</p>
-          <p class="w-1/2 text-left"><b>DUR</b> 24H</p>
-          <p class="w-full text-left"><b>STAT</b> NORMAL</p>
+          <p class="w-1/2 text-left"><b>DUR</b> {{ store.selectedTest!.duration }}H</p>
+          <p class="w-full text-left"><b>STAT</b> {{ store.selectedTest!.status.final.toUpperCase() }}</p>
         </div>
       </div>
       <div class="w-1/2 border-l">
@@ -18,13 +18,10 @@
 
 <script lang="ts" setup>
 import TestGroupSelectorBar from './TestGroupSelectorBar.vue'
+import useTestViewStore from '../../stores/test-view'
 
 
-const props = defineProps<{
-  testSeq: EcgTest.TestSeq
-}>()
-
-const groupButtons = ['Preprocess', 'Test', 'Sample']
+const store = useTestViewStore()
 </script>
 
 <style>
