@@ -11,19 +11,25 @@
 import { onMounted } from 'vue';
 import SidebarMenu from '@/components/SidebarMenu/index.vue'
 import useDataLakeStore from '../stores/data-lake'
-import { makeDummyPreprocessGroups, makeDummyTestGroups, makeDummySampleGroups } from '../utils/make-dummy'
+import useTestsStore from '../stores/ecg-tests'
+import { makeDummyEcgTests, makeDummyPreprocessGroups, makeDummyTestGroups, makeDummySampleGroups } from '../utils/make-dummy'
 
 
-const store = useDataLakeStore()
+const lakeStore = useDataLakeStore()
+const testStore = useTestsStore()
+
 onMounted(() => {
   const numP = 2
-  store.preprocessGroups = makeDummyPreprocessGroups(numP)
-  store.numPreprocessGroups += 2
+  lakeStore.preprocessGroups = makeDummyPreprocessGroups(numP)
+  lakeStore.numPreprocessGroups += 2
   const numT = 4
-  store.testGroups = makeDummyTestGroups(numT)
-  store.numTestGroups += numT
+  lakeStore.testGroups = makeDummyTestGroups(numT)
+  lakeStore.numTestGroups += numT
   const numS = 3
-  store.sampleGroups = makeDummySampleGroups(numS)
-  store.numSampleGroups += numS
+  lakeStore.sampleGroups = makeDummySampleGroups(numS)
+  lakeStore.numSampleGroups += numS
+
+  const numTestSeqs = 500
+  testStore.makeEcgTests(makeDummyEcgTests(numTestSeqs))
 })
 </script>

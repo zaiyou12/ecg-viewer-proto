@@ -24,6 +24,4 @@ const DummyObj = {
   'g5': g5,
   'g6': g6
 }
-
-console.log(props.type)
 </script>

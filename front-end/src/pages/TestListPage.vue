@@ -17,7 +17,6 @@ import { useRouter } from 'vue-router'
 import TestFilterBar from '@/components/TestFilterBar/index.vue'
 import TestFilterPanel from '@/components/TestFilterPanel/TestFilterPanel.vue'
 import useTestsStore from '../stores/ecg-tests'
-import { makeDummyEcgTests } from '../utils/make-dummy'
 import { QueryKey, UpdateQueryKey,
           TogglePanelKey, DisablePanelKey } from '../symbols/symbols'
 
@@ -25,10 +24,7 @@ import { QueryKey, UpdateQueryKey,
 const router = useRouter()
 const store = useTestsStore()
 
-const numTestSeqs = 500
-store.makeEcgTests(makeDummyEcgTests(numTestSeqs))
 const ecgTests = toRef(store, 'ecgTests')
-
 const currentTests = ref(ecgTests.value)
 const numEcgTests = computed(()=> currentTests.value.length)
 const maxTestsPerPage = 15

@@ -30,8 +30,8 @@ export function makeDummyEcgTests(n: number): EcgTests {
       startTime: '2021-10-31T00:00:00',
       duration: getRandomDuration(),
       region: getRandomRegion(),
-      tGroup: getRandomGroupIds(4),
-      sGroup: getRandomGroupIds(3),
+      tGroup: [],  // getRandomGroupIds(4),
+      sGroup: [],  // getRandomGroupIds(3),
       status: { final: getRandomStatus() },
       path: './'
     }
