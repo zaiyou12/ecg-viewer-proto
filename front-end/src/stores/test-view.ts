@@ -4,13 +4,15 @@ import { defineStore } from 'pinia'
 type TestViewState = {
   selectedTest: undefined | EcgTest.Meta
   start: number
+  pid: undefined | PreprocessGroupId
 }
 
 const useTestViewStore = defineStore('testView', {
   state: () => {
     return {
       selectedTest: undefined,
-      start: 0
+      start: 0,
+      pid: undefined
     } as TestViewState
   },
   actions: {

@@ -24,7 +24,7 @@ import useTestViewStore from '../../stores/test-view'
 
 
 const props = defineProps<{
-  type: 'Preprocess' | 'Test' | 'Sample'
+  type: 'Test' | 'Sample'
   showDrop: boolean
 }>()
 
@@ -32,13 +32,11 @@ const lakeStore = useDataLakeStore()
 const viewStore = useTestViewStore()
 
 function whichGroup() {
-  if (props.type === 'Preprocess') return lakeStore.preprocessGroups
   if (props.type === 'Test') return lakeStore.testGroups
   else return lakeStore.sampleGroups
 }
 
 function belongsInGroup(gid: number, start?: number): boolean {
-  if (props.type === 'Preprocess') return false
   if (props.type === 'Test') return viewStore.selectedTest!.tGroup.includes(gid)
   else return viewStore.selectedTest!.sGroup.includes(gid)
 }
@@ -71,7 +69,7 @@ function groupSelected(group: PreprocessGroup | TestGroup | SampleGroup): void {
 <style>
 @layer components {
   .drop-overlay {
-    width: 14.8%;
+    width: calc(50% / 3 - 1.5rem);
     z-index: 98;
     @apply absolute h-40 ml-2
       overflow-auto overscroll-none
