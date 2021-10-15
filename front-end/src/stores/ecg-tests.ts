@@ -13,12 +13,15 @@ const useTestsStore = defineStore('ecgTests', {
     return { ecgTests: [] } as EcgTestsState
   },
   actions: {
+    /**
+     * Fetches the entire list of files and their metadata
+     */
     async fetchEcgTests(): Promise<void> {
       this.ecgTests = await api.getEcgTests()
     },
 
     /**
-     * Needs to be fixed so that it gets multiple matches
+     * Needs to be fixed so that it gets searches from back
      * @returns A single test meta wrapped in an array
      */
     searchEcgTest(testSeq: EcgTest.TestSeq): EcgTests {

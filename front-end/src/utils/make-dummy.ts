@@ -33,7 +33,7 @@ export function makeDummyEcgTests(n: number): EcgTests {
       tGroup: [],  // getRandomGroupIds(4),
       sGroup: [],  // getRandomGroupIds(3),
       status: { final: getRandomStatus() },
-      path: './'
+      path: '/some/file/path'
     }
     tests.push(t)
   }

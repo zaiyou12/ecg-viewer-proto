@@ -42,6 +42,7 @@ const store = useTestViewStore()
 
 function viewTest(idx: number | string): void {
   store.selectedTest = props.ecgTest
+  store.start = 0
   router.push({ name: 'testView', params: { testSeq: idx } })
 }
 

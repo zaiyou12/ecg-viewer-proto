@@ -7,7 +7,7 @@
           @mouseup="groupSelected(g)"
         >
           <div class="w-4 h-4 flex-none mx-2 border-2 rounded-lg border-gray-400"
-            :class="{'bg-gray-500': testBelongsInGroup(g.id)}" :key="idx"
+            :class="{'bg-gray-500': belongsInGroup(g.id)}" :key="idx"
           ></div>
           <div class="h-full flex flex-col justify-center pr-2 hover:bg-blue-50">
             {{ g.displayName }}
@@ -37,7 +37,7 @@ function whichGroup() {
   else return lakeStore.sampleGroups
 }
 
-function testBelongsInGroup(gid: number): boolean {
+function belongsInGroup(gid: number, start?: number): boolean {
   if (props.type === 'Preprocess') return false
   if (props.type === 'Test') return viewStore.selectedTest!.tGroup.includes(gid)
   else return viewStore.selectedTest!.sGroup.includes(gid)
@@ -46,19 +46,19 @@ function testBelongsInGroup(gid: number): boolean {
 function groupSelected(group: PreprocessGroup | TestGroup | SampleGroup): void {
   if (props.type === 'Test') {
     const g = group as TestGroup
-    if (testBelongsInGroup(g.id)) {
-      viewStore.delTestGroupFromTest(g.id)
+    if (belongsInGroup(g.id)) {
+      viewStore.delFromTestGroup(g.id)
       lakeStore.delTestSeqFromTestGroup(g.id, viewStore.selectedTest!.testSeq)
     }
     else {
-      viewStore.addTestGroupToTest(g.id)
+      viewStore.addToTestGroup(g.id)
       lakeStore.addTestSeqToTestGroup(g.id, viewStore.selectedTest!.testSeq)
     }
   }
   // TODO: Change after modying strip logic
   if (props.type === 'Sample') {
     const g = group as SampleGroup
-    if (testBelongsInGroup(g.id)) {
+    if (belongsInGroup(g.id)) {
       // viewStore.delSampleGroupFromTest(g.id)
     }
     else {
