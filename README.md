@@ -1,6 +1,6 @@
 # Ecg Viewer proto
 
-![Vercel](https://vercelbadge.vercel.app/api/zaiyou12/ecg-viewer-proto)
+![Vercel](https://vercelbadge.vercel.app/api/zaiyou12/ecg-viewer-proto) ![workflow](https://github.com/zaiyou12/ecg-viewer-proto/actions/workflows/node.js.yml/badge.svg)
 
 ## Projects
 
