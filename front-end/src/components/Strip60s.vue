@@ -1,6 +1,6 @@
 <template>
-  <div class="border rounded-md mx-14 my-2">
-    <img :src="DummyObj[type]" class="h-28"/>
+  <div class="border rounded-md mx-14">
+    <img :src="DummyObj[type]" class="w-full h-28"/>
   </div>
 </template>
 
@@ -24,6 +24,4 @@ const DummyObj = {
   'g5': g5,
   'g6': g6
 }
-
-console.log(props.type)
 </script>

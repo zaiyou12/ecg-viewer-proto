@@ -18,10 +18,10 @@
       {{ index }}
     </AppLink>
     <PageNaveButton type="right" :page="goUpPage(maxPageDisplay)"
-      :disabled="currentStartPage === lastStartPage"
+      :disabled="currentStartPage === lastStartPage || numEcgTests === 0"
     />
     <PageNaveButton type="ffwRight" :page="totalPages"
-      :disabled="currentStartPage === lastStartPage"
+      :disabled="currentStartPage === lastStartPage || numEcgTests === 0"
     />
   </div>
 </template>

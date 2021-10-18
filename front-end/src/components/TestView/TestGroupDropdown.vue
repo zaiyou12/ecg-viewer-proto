@@ -2,16 +2,15 @@
   <transition name="drop" appear>
     <div v-if="showDrop" class="drop-overlay">
       <ul class="select-none">
-        <li v-for="idx in numGroups" :key="idx"
-          class="flex items-center h-8 hover:bg-blue-50"
+        <li v-for="(g, idx) in whichGroup()" :key="idx"
+          class="flex items-center h-8 cursor-pointer hover:bg-blue-50"
+          @mouseup="groupSelected(g)"
         >
-          <input type="checkbox" :id="`group${idx}`"
-            class="mx-2 h-full hover:bg-blue-50"
-          >
-          <div class="h-full w-full flex items-center hover:bg-blue-50" >
-            <label :for="`group${idx}`" class="text-left w-full whitespace-nowrap">
-              Group {{ idx }}
-            </label>
+          <div class="w-4 h-4 flex-none mx-2 border-2 rounded-lg border-gray-400"
+            :class="{'bg-gray-500': belongsInGroup(g.id)}" :key="idx"
+          ></div>
+          <div class="h-full flex flex-col justify-center pr-2 hover:bg-blue-50">
+            {{ g.displayName }}
           </div>
         </li>
       </ul>
@@ -20,22 +19,57 @@
 </template>
 
 <script lang="ts" setup>
+import useDataLakeStore from '../../stores/data-lake'
+import useTestViewStore from '../../stores/test-view'
+
+
 const props = defineProps<{
-  type: 'Preprocess' | 'Test' | 'Sample'
+  type: 'Test' | 'Sample'
   showDrop: boolean
 }>()
 
-const numGroups = 10
+const lakeStore = useDataLakeStore()
+const viewStore = useTestViewStore()
 
-// function groupChecked(idx: number) {
-//   (document.getElementById(`group${idx}`) as HTMLInputElement).checked = !(document.getElementById(`group${idx}`) as HTMLInputElement).checked
-// }
+function whichGroup() {
+  if (props.type === 'Test') return lakeStore.testGroups
+  else return lakeStore.sampleGroups
+}
+
+function belongsInGroup(gid: number, start?: number): boolean {
+  if (props.type === 'Test') return viewStore.selectedTest!.tGroup.includes(gid)
+  else return viewStore.selectedTest!.sGroup.includes(gid)
+}
+
+function groupSelected(group: PreprocessGroup | TestGroup | SampleGroup): void {
+  if (props.type === 'Test') {
+    const g = group as TestGroup
+    if (belongsInGroup(g.id)) {
+      viewStore.delFromTestGroup(g.id)
+      lakeStore.delTestSeqFromTestGroup(g.id, viewStore.selectedTest!.testSeq)
+    }
+    else {
+      viewStore.addToTestGroup(g.id)
+      lakeStore.addTestSeqToTestGroup(g.id, viewStore.selectedTest!.testSeq)
+    }
+  }
+  // TODO: Change after modying strip logic
+  if (props.type === 'Sample') {
+    const g = group as SampleGroup
+    if (belongsInGroup(g.id)) {
+      // viewStore.delSampleGroupFromTest(g.id)
+    }
+    else {
+      // viewStore.addSampleGroupToTest(g.id)
+    }
+  }
+}
 </script>
 
 <style>
 @layer components {
   .drop-overlay {
-    width: 14.8%;
+    width: calc(50% / 3 - 1.5rem);
     z-index: 98;
     @apply absolute h-40 ml-2
       overflow-auto overscroll-none

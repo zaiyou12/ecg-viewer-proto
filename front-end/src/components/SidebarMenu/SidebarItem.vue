@@ -1,8 +1,8 @@
 <template>
   <li @click="routeTo" class="sidebar-item">
     <div class="flex items-center text-white">
-      <SvgIcon :name="sidebarIcon" class="h-6 w-6 mx-2" />
-      <p class="text-l font-bold">{{ sidebarLabel }}</p>
+      <SvgIcon :name="icon" class="h-6 w-6 mx-2" />
+      <p class="text-l font-bold">{{ label }}</p>
     </div>
   </li>
 </template>
@@ -12,15 +12,15 @@ import { useRouter } from 'vue-router'
 
 
 const props = defineProps<{
-  sidebarLabel: string
-  sidebarRouter: string
-  sidebarIcon: string
+  label: string
+  router: string
+  icon: string
 }>()
 
 const router = useRouter()
 
 function routeTo() {
-  router.push({ name: props.sidebarRouter })
+  router.push({ name: props.router })
 }
 </script>
 

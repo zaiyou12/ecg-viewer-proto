@@ -2,31 +2,23 @@
   <div>
     <div class="flex items-baseline">
       <div class="mt-5 mb-1 text-left mx-14 font-bold">Details</div>
-      <div class="text-sm mr-10">Recording Start Time: 2021-10-31:00:00:00</div>
+      <div class="text-sm mr-10">Recording Start Time: {{ store.selectedTest!.startTime }}</div>
       <div class="text-sm mr-10">Actual Duration: 12:29:32</div>
-      <div class="text-sm">And Something Else: That I can't think of</div>
+      <div class="text-sm">File Path: {{ store.selectedTest!.path }}</div>
     </div>
-    <div class="mt-5 mb-1 text-left mx-14 font-bold">60s Strips</div>
-    <div>
-      <Strip
-        v-for="index in numStrips"
-        :key="index"
-        :type="`g${index}`"
-      />
-    </div>
-    <div class="my-4 h-16">
-      &lt;&lt; Prev | Next &gt;&gt;
+    <StripsPanel />
+    <div class="flex items-center justify-center h-16">
+      <TestNavButton type="left" class="mx-2"/>
+      <TestNavButton type="right" class="mx-2"/>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Strip from '@/components/Strip60s.vue'
+import TestNavButton from './TestNavButton.vue'
+import useTestViewStore from '../../stores/test-view';
+import StripsPanel from './StripsPanel.vue'
 
-// const props = defineProps<{
-//   testSeq: string
-//   testInfo?: any
-// }>()
 
-const numStrips = 6
+const store = useTestViewStore()
 </script>

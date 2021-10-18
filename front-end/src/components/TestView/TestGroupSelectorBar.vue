@@ -7,6 +7,5 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
 import TestGroupSelector from './TestGroupSelector.vue'
 </script>

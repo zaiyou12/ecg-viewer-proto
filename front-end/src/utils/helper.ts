@@ -6,9 +6,9 @@
  */
 export function paramToInt(param: string | string[]): number {
   if (typeof param === 'string') {
-    return +param
+    return Math.abs(+param)
   } else {
-    return +param[0]
+    return Math.abs(+param[0])
   }
 }
 

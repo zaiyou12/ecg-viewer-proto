@@ -4,11 +4,11 @@
     <GoBack class="mb-5"/>
     <ul class="px-5">
       <SidebarItem
-        v-for="(label, index) in sidebarLabels"
+        v-for="(opt, index) in sidebarOptions"
         :key="index"
-        :sidebarLabel="label"
-        :sidebarRouter="sidebarRouters[index]"
-        :sidebarIcon="sidebarIcons[index]"
+        :label="opt.label"
+        :router="opt.router"
+        :icon="opt.icon"
       />
     </ul>
   </div>
@@ -19,10 +19,38 @@ import SidebarItem from './SidebarItem.vue'
 import MainLink from './MainLink.vue'
 import GoBack from './GoBack.vue'
 
-
-const sidebarLabels = ['Dashboard', 'Tests', 'Cats', 'Sandbox']
-const sidebarRouters = ['dashboard', 'tests', 'tests', 'sandbox']
-const sidebarIcons = ['ChartPie', 'Collection', 'ChevronRight', 'ChevronRight']
+const sidebarOptions = [
+  {
+    label: 'Dashboard',
+    router: 'dashboard',
+    icon: 'ChartPie'
+  },
+  {
+    label: 'Tests',
+    router: 'tests',
+    icon: 'Collection'
+  },
+  {
+    label: 'Preprocess',
+    router: 'preprocess',
+    icon: 'ChevronRight'
+  },
+  {
+    label: 'Test Group',
+    router: 'testGroup',
+    icon: 'ChevronRight'
+  },
+  {
+    label: 'Sample Group',
+    router: 'sampleGroup',
+    icon: 'ChevronRight'
+  },
+  {
+    label: 'Sandbox',
+    router: 'sandbox',
+    icon: 'ChevronRight'
+  },
+]
 </script>
 
 <style>
