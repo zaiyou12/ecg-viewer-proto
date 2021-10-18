@@ -10,14 +10,14 @@
         </div>
       </div>
       <div class="w-1/2 border-l">
-        <TestGroupSelectorBar />
+        <GroupSelectorBar />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import TestGroupSelectorBar from './TestGroupSelectorBar.vue'
+import GroupSelectorBar from './GroupSelectorBar.vue'
 import useTestViewStore from '../../stores/test-view'
 
 

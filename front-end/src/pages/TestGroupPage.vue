@@ -1,6 +1,19 @@
 <template>
-  <p>This is a test group page.</p>
-  <ul>
+  <div class="flex h-16 items-center border-b-2 mx-5 border-gray-100 cursor-default">
+    <div class="text-2xl font-bold pl-5">
+      Test Groups
+    </div>
+    <div class="text-sm ml-5">
+      Add or remove test groups
+    </div>
+  </div>
+  <div class="px-10 my-5 cursor-default">
+    <div class="text-left font-bold">
+      List of Test Groups
+    </div>
+  </div>
+  <TestGroupList />
+  <!-- <ul>
     <li v-for="(g, idx) in store.testGroups" :key="idx">
       {{ g }}
     </li>
@@ -35,11 +48,12 @@
     @click="store.delTestGroup(delTestGroupId)"
   >
     Delete Test Group
-  </button>
+  </button> -->
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import TestGroupList from '@/components/TestGroup/TestGroupList.vue'
 import useDataLakeStore from '../stores/data-lake'
 
 const store = useDataLakeStore()
