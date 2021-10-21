@@ -1,48 +1,55 @@
 <template>
   <div class="flex items-center justify-center">
-    <PageNaveButton type="ffwLeft" :page="1"
+    <PageNaveButton
+      type="ffwLeft"
+      :page="1"
       :disabled="currentStartPage === 1"
     />
-    <PageNaveButton type="left" :page="goDownPage(maxPageDisplay)"
+    <PageNaveButton
+      type="left"
+      :page="goDownPage(maxPageDisplay)"
       :disabled="currentStartPage === 1"
     />
-    <AppLink
+    <button
       v-for="index in currentDisplayPages"
       :key="index"
       :class="{
         'px-2 mx-1 rounded-lg font-bold hover:bg-blue-50': true,
         'bg-blue-100': isCurrentPage(index)
       }"
-      name="testPagination" :params="{ page: index }"
-    >
-      {{ index }}
-    </AppLink>
-    <PageNaveButton type="right" :page="goUpPage(maxPageDisplay)"
-      :disabled="currentStartPage === lastStartPage || numEcgTests === 0"
+      @click="pageClick(index)"
+    >{{ index }}</button>
+    <PageNaveButton
+      type="right"
+      :page="goUpPage(maxPageDisplay)"
+      :disabled="currentStartPage === lastStartPage"
     />
-    <PageNaveButton type="ffwRight" :page="totalPages"
-      :disabled="currentStartPage === lastStartPage || numEcgTests === 0"
+    <PageNaveButton
+      type="ffwRight"
+      :page="store.totalPages"
+      :disabled="currentStartPage === lastStartPage"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, watch, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, watch, ref, toRef } from 'vue'
+// import { useRoute } from 'vue-router'
 import PageNaveButton from './PageNavButton.vue'
-import { paramToInt, range } from '../../utils/helper'
-
+import { range } from '../../utils/helper'
+import useTestsStore from '../../stores/test-list'
 
 const props = defineProps<{
-  numEcgTests: number
-  maxTestsPerPage: number
   maxPageDisplay: number
 }>()
 
-const route = useRoute()
+// const route = useRoute()
+const store = useTestsStore()
 
-const currentPage = ref(1)
-
+/**
+ * Depends on the maxPageDisplay (default 10)
+ * @returns Starting index page given the current page
+ */
 function calcStartPage(page: number): number {
   let div = Math.floor(page / props.maxPageDisplay)
   const mod = page % props.maxPageDisplay
@@ -50,33 +57,31 @@ function calcStartPage(page: number): number {
   return div * props.maxPageDisplay + 1
 }
 
-const currentStartPage = computed(() => calcStartPage(currentPage.value))
+const currentStartPage = computed(() => calcStartPage(store.page))
 const currentDisplayPages = computed(() => {
   let endPage = currentStartPage.value + props.maxPageDisplay - 1
-  return range(currentStartPage.value, Math.min(totalPages.value, endPage)+1)
+  return range(currentStartPage.value, Math.min(store.totalPages, endPage) + 1)
 })
-const totalPages = computed(() => Math.ceil(props.numEcgTests / props.maxTestsPerPage))
-const lastStartPage = computed(() => calcStartPage(totalPages.value))
-
-watch(() => route.params.page, () => {
-  if (route.name === 'testPagination') {
-    currentPage.value = paramToInt(route.params.page)
-  }
-})
+const lastStartPage = computed(() => calcStartPage(store.totalPages))
 
 function goDownPage(n: number): number {
   return currentStartPage.value <= n ? 1 : currentStartPage.value - n
 }
 
 function goUpPage(n: number): number {
-  if (currentStartPage.value + n <= totalPages.value) {
+  if (currentStartPage.value + n <= store.totalPages) {
     return currentStartPage.value + n
   } else {
-    return totalPages.value
+    return store.totalPages
   }
 }
 
 function isCurrentPage(page: number): boolean {
-  return page === paramToInt(route.params.page)
+  return page === store.page
+}
+
+async function pageClick(page: number) {
+  store.page = page
+  await store.fetchEcgTests()
 }
 </script>

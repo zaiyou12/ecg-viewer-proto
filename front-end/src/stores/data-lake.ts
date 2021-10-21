@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
+import GroupApi from '../utils/group-api'
 
+const api = new GroupApi()
 
 type DataLakeState = {
   preprocessGroups: PreprocessGroups
@@ -14,6 +16,7 @@ type DataLakeState = {
   nextSampleGroupId: number
   numAnomalyGroups: number
   nextAnomalyGroupId: number
+  loading: boolean
 }
 
 const useDataLakeStore = defineStore('dataLake', {
@@ -30,102 +33,31 @@ const useDataLakeStore = defineStore('dataLake', {
       numSampleGroups: 0,
       nextSampleGroupId: 0,
       numAnomalyGroups: 0,
-      nextAnomalyGroupId: 0
+      nextAnomalyGroupId: 0,
+      loading: false
     } as DataLakeState
   },
-  getters: {
-  },
+  getters: {},
   actions: {
-    // Preprocess Group
-    addPreprocessGroup(displayName: string, description?: string): void {
-      this.preprocessGroups[this.nextPreprocessGroupId] = {
-        id: this.numPreprocessGroups,
-        displayName,
-        description
+    async fetchGroupList(type: 't' | 's' | 'p'): Promise<void> {
+      this.loading = true
+      const res = await api.getGroupList(type)
+      if (res === undefined) return
+      switch (type) {
+        case 't':
+          this.numTestGroups = res.numGroups
+          this.testGroups = res.groups
+          break
+        case 's':
+          this.numSampleGroups = res.numGroups
+          this.sampleGroups = res.groups
+          break
+        case 'p':
+          this.numPreprocessGroups = res.numGroups
+          this.preprocessGroups = res.groups
+          break
       }
-      this.numPreprocessGroups++
-      this.nextPreprocessGroupId++
-    },
-
-    // Test Group
-    addTestGroup(displayName: string, description?: string): void {
-      this.testGroups[this.nextTestGroupId] = {
-        id: this.numTestGroups,
-        displayName,
-        description,
-        numEcgTests: 0,
-        testSeqs: []
-      }
-      this.numTestGroups++
-      this.nextTestGroupId++
-    },
-
-    delTestGroup(gid: TestGroupId): void {
-      delete this.testGroups[gid]
-      this.numTestGroups--
-    },
-
-    addTestSeqToTestGroup(gid: TestGroupId, testSeq: EcgTest.TestSeq): void {
-      this.testGroups[gid].numEcgTests++
-      this.testGroups[gid].testSeqs.push(testSeq)
-    },
-
-    delTestSeqFromTestGroup(gid: TestGroupId, testSeq:EcgTest.TestSeq): void {
-      const index = this.testGroups[gid].testSeqs.indexOf(testSeq)
-      this.testGroups[gid].testSeqs.splice(index, 1)
-      this.testGroups[gid].numEcgTests--
-    },
-
-    addPreprocessToTestGroup(gid: TestGroupId, pid: PreprocessGroupId): void {
-      this.testGroups[gid].preprocessId = pid
-    },
-
-    // Sample Group
-    addSampleGroup(displayName: string, description?: string): void {
-      this.sampleGroups[this.nextSampleGroupId] = {
-        id: this.numSampleGroups,
-        displayName,
-        description,
-        numStrips: 0,
-        strips: []
-      }
-      this.numSampleGroups++
-      this.nextSampleGroupId++
-    },
-
-    delSampleGroup(sid: SampleGroupId, strip: EcgStrip): void {
-      delete this.sampleGroups[sid]
-      this.numSampleGroups--
-    },
-
-    addStripToSampleGroup(sid: SampleGroupId, strip: EcgStrip): void {
-      this.sampleGroups[sid].numStrips++
-      this.sampleGroups[sid].strips.push(strip)
-    },
-
-    delStripFromSampleGroup(sid: SampleGroupId, strip: EcgStrip): void {
-      const index = this.sampleGroups[sid].strips.findIndex(s => {
-        return s.testSeq === strip.testSeq && s.start === strip.start
-      })
-      this.sampleGroups[sid].strips.splice(index, 1)
-      this.sampleGroups[sid].numStrips--
-    },
-
-    addPreprocessToSampleGroup(sid: SampleGroupId, pid: PreprocessGroupId): void {
-      this.sampleGroups[sid].preprocessId = pid
-    },
-
-    // Anomaly Group
-    addAnomalyGroup(anomalyName: string, description: string): void {
-      this.anomalyGroups[this.nextAnomalyGroupId] = {
-        id: this.numAnomalyGroups,
-        anomalyName,
-        description,
-        numEcgTests: 0,
-        testSeqs: []
-      }
-      this.numAnomalyGroups++
-      this.nextAnomalyGroupId++
+      this.loading = false
     }
   }
 })

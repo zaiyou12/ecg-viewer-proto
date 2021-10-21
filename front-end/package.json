@@ -9,11 +9,13 @@
   "dependencies": {
     "axios": "^0.22.0",
     "pinia": "^2.0.0-rc.12",
+    "qs": "^6.10.1",
     "vue": "^3.2.13",
     "vue-router": "4"
   },
   "devDependencies": {
     "@types/node": "^16.10.1",
+    "@types/qs": "^6.9.7",
     "@vitejs/plugin-vue": "^1.9.0",
     "autoprefixer": "^10.3.5",
     "postcss": "^8.3.7",

@@ -5,3 +5,4 @@ Icon
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/extensions.json
+.prettierrc

@@ -13,8 +13,8 @@ declare interface TestGroup {
   id: TestGroupId
   displayName: string
   description?: string
-  numEcgTests: number
-  testSeqs: EcgTest.TestSeq[]
+  numEcgTests?: number
+  testIds?: EcgTest.TestId[]
   preprocessId?: PreprocessGroupId
 }
 declare interface TestGroups {
@@ -26,8 +26,8 @@ declare interface SampleGroup {
   id: SampleGroupId
   displayName: string
   description?: string
-  numStrips: number
-  strips: EcgStrip[]
+  numStrips?: number
+  strips?: EcgStrip[]
   preprocessId?: PreprocessGroupId
 }
 declare interface SampleGroups {
@@ -40,7 +40,7 @@ declare interface AnomalyGroup {
   anomalyName: string
   description: string
   numEcgTests: number
-  testSeqs: EcgTest.TestSeq[]
+  testIds: EcgTest.TestId[]
 }
 declare interface AnomalyGroups {
   [id: AnomalyGroupId]: AnomalyGroup

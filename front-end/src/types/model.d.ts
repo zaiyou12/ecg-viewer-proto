@@ -4,8 +4,8 @@ declare interface AiModel {
   description?: string
 }
 
-declare interface AiModelStatus {
-  modelId: AiModel["id"]
-  status: 'normal' | 'abnormal'
+declare interface AiModelCondition {
+  modelId: AiModel['id']
+  condition: 'normal' | 'abnormal'
   anomaly?: AnomalyGroupId[]
 }
