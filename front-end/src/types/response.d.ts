@@ -13,9 +13,15 @@ declare namespace Resp {
     test_group?: string
   }
 
+  interface GroupList {
+    id: number
+    group_name: string
+  }
+
   interface GroupListResp {
     status: number
     total_num: number
-    group_list: { id: number; name: string }[]
+    group_list: GroupList[]
+    type: 't' | 's' | 'p'
   }
 }

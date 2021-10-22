@@ -4,7 +4,6 @@ export default class EcgTestApi {
   private baseRoute = import.meta.env.VITE_ECG_TEST_API_ROUTE as string
 
   constructor() {
-    console.log('This is the EcgTestApi constructor.')
     if (this.baseRoute == undefined) {
       throw new Error('No base route provided for EcgTestApi. Check .env.')
     }
@@ -18,7 +17,10 @@ export default class EcgTestApi {
       const obj = {
         tests: this.deserializeAllTest(res.tests),
         page: res.page,
-        totalPages: res.total_page
+        totalPages:
+          res.total_page === undefined || res.total_page < 1
+            ? 1
+            : res.total_page
         // TODO: testGroup: res.test_group
       }
       return obj

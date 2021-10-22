@@ -33,8 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch, ref, toRef } from 'vue'
-// import { useRoute } from 'vue-router'
+import { computed } from 'vue'
 import PageNaveButton from './PageNavButton.vue'
 import { range } from '../../utils/helper'
 import useTestsStore from '../../stores/test-list'
@@ -43,7 +42,6 @@ const props = defineProps<{
   maxPageDisplay: number
 }>()
 
-// const route = useRoute()
 const store = useTestsStore()
 
 /**
@@ -81,6 +79,7 @@ function isCurrentPage(page: number): boolean {
 }
 
 async function pageClick(page: number) {
+  if (isCurrentPage(page)) return
   store.page = page
   await store.fetchEcgTests()
 }

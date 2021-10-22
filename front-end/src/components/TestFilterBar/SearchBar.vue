@@ -12,27 +12,22 @@
 </template>
 
 <script setup lang="ts">
-import { inject, ref } from 'vue'
-// @ts-ignore
-// import { QueryKey, StringSetterFunc, UpdateQueryKey } from '@/symbols/symbols'
+import { toRef } from 'vue'
 import useTestsStore from '../../stores/test-list'
 
-
-// const query = inject(QueryKey, ref(''))
-// const updateQuery: StringSetterFunc = inject(UpdateQueryKey)
 const placeholder = 'Search by test sequence'
 const store = useTestsStore()
 
-const query = ref('')
+const query = toRef(store, 'query')
 
-function pressedEnter() {
-  // const typed = (e.target as HTMLTextAreaElement).value
-  // updateQuery(typed)
+async function pressedEnter() {
+  store.page = 1
   store.query = query.value
+  await store.fetchEcgTests()
 }
 
-function clearSearchBar(e: Event) {
-  (e.target as HTMLTextAreaElement).value = ''
+function clearSearchBar() {
+  query.value = ''
 }
 </script>
 

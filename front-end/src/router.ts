@@ -42,18 +42,7 @@ export const router = createRouter({
         {
           name: 'tests',
           path: 'tests',
-          // redirect: '/main/tests/1',
           component: TestListPage
-          // children: [
-          //   {
-          //     name: 'testPagination',
-          //     path: ':page',
-          //     components: {
-          //       testList: TestList,
-          //       pagination: Pagination
-          //     }
-          //   }
-          // ]
         },
         {
           name: 'testView',

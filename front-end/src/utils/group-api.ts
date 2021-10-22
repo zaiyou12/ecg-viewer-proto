@@ -4,7 +4,6 @@ export default class GroupApi {
   private baseRoute = import.meta.env.VITE_GROUP_API_ROUTE as string
 
   constructor() {
-    console.log('This is the GroupApi constructor.')
     if (this.baseRoute == undefined) {
       throw new Error('No base route provided for GroupApi. Check .env.')
     }
@@ -25,14 +24,20 @@ export default class GroupApi {
     }
   }
 
-  private deserializeGroup(group: { id: number; name: string }): TestGroup {
+  private deserializeGroup(group: Resp.GroupList): TestGroup {
     return {
       id: group.id,
-      displayName: group.name
+      displayName: group.group_name
     }
   }
 
-  private deserializeAllGroup(groups: { id: number; name: string }[]) {
-    return groups.map((g) => this.deserializeGroup(g))
+  private deserializeAllGroup(groups: Resp.GroupList[]) {
+    const gi: { [id: number]: TestGroup | SampleGroup | PreprocessGroup } = {}
+    groups.forEach((g) => {
+      const d = this.deserializeGroup(g)
+      gi[d.id] = d
+    })
+    return gi
+    // return groups.map((g) => this.deserializeGroup(g))
   }
 }

@@ -1,15 +1,16 @@
 import { defineStore } from 'pinia'
 import EcgTestApi from '../utils/ecg-test-api'
+import { removeFromArray } from '../utils/helper'
 
 type TestListState = {
   tests: EcgTests
   totalPages: number
   page: number
-  duration?: EcgTest.Duration
-  region?: EcgTest.Region
+  duration: EcgTest.Duration[]
+  region: EcgTest.Region[]
   testGroup?: TestGroupId
-  condition?: EcgTest.ConditionType
-  query?: EcgTest.TestId
+  condition: EcgTest.ConditionType[]
+  query: EcgTest.TestId
   loading: boolean
 }
 
@@ -21,6 +22,11 @@ const useTestsStore = defineStore('ecgTests', {
       tests: [],
       page: 1,
       totalPages: 1,
+      duration: [],
+      region: [],
+      testGroup: undefined,
+      condition: [],
+      query: '',
       loading: false
     } as TestListState
   },
@@ -32,11 +38,11 @@ const useTestsStore = defineStore('ecgTests', {
       this.loading = true
       const params: Req.EcgTestQuery = {
         page: this.page,
-        duration: this.duration,
-        region: this.region,
+        duration: this.duration.length > 0 ? this.duration : undefined,
+        region: this.region.length > 0 ? this.region : undefined,
         test_group: this.testGroup,
-        condition: this.condition,
-        query: this.query
+        condition: this.condition.length > 0 ? this.condition : undefined,
+        query: this.query.length > 0 ? this.query : undefined
       }
       const res = await api.getEcgTests(params)
       if (res === undefined) return
@@ -47,6 +53,43 @@ const useTestsStore = defineStore('ecgTests', {
         // TODO: testGroup: ???
       } = res)
       this.loading = false
+    },
+
+    resetFilters() {
+      this.duration = []
+      this.region = []
+      this.testGroup = undefined
+      this.condition = []
+    },
+
+    resetAllParams() {
+      this.page = 1
+      this.resetFilters()
+      this.query = ''
+    },
+
+    toggleDuration(dur: EcgTest.Duration) {
+      if (this.duration.includes(dur)) {
+        removeFromArray(this.duration, dur)
+      } else {
+        this.duration.push(dur)
+      }
+    },
+
+    toggleRegion(reg: EcgTest.Region) {
+      if (this.region.includes(reg)) {
+        removeFromArray(this.region, reg)
+      } else {
+        this.region.push(reg)
+      }
+    },
+
+    toggleCondition(cond: EcgTest.ConditionType) {
+      if (this.condition.includes(cond)) {
+        removeFromArray(this.condition, cond)
+      } else {
+        this.condition.push(cond)
+      }
     }
   }
 })

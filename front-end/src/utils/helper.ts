@@ -35,7 +35,7 @@ export function paramToString(param: string | string[]): string {
  */
 export function range(start = 0, end: number): Array<number> {
   const size = end - start
-  return [...Array(size).keys()].map(i => i + start)
+  return [...Array(size).keys()].map((i) => i + start)
 }
 
 /**
@@ -58,4 +58,19 @@ export function getRandomInt(min: number, max: number): number {
 export function getRandomItem<T>(arr: Array<T>): T {
   const randIdx = Math.floor(Math.random() * arr.length)
   return arr[randIdx]
+}
+
+/**
+ * Returns new array after removing given item
+ * @param arr Array of string or number
+ * @param item Item to remove
+ */
+export function removeFromArray<T extends string | number>(
+  arr: Array<T>,
+  item: T
+) {
+  const idx = arr.indexOf(item)
+  if (idx > -1) {
+    arr.splice(idx, 1)
+  }
 }

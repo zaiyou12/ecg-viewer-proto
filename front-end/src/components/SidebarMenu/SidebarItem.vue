@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-
+import useTestsStore from '../../stores/test-list'
 
 const props = defineProps<{
   label: string
@@ -18,9 +18,14 @@ const props = defineProps<{
 }>()
 
 const router = useRouter()
+const store = useTestsStore()
 
-function routeTo() {
+async function routeTo() {
   router.push({ name: props.router })
+  if (props.label === 'Tests') {
+    store.resetAllParams()
+    await store.fetchEcgTests()
+  }
 }
 </script>
 
@@ -28,7 +33,7 @@ function routeTo() {
 @layer components {
   .sidebar-item {
     @apply h-10 cursor-pointer py-2 my-2
-      hover:bg-blue-600 rounded-lg
+      hover:bg-blue-600 rounded-lg;
   }
 }
 </style>

@@ -11,16 +11,12 @@
 import { onMounted } from 'vue';
 import SidebarMenu from '@/components/SidebarMenu/index.vue'
 import useDataLakeStore from '../stores/data-lake'
-import useTestsStore from '../stores/test-list'
-
 
 const lakeStore = useDataLakeStore()
-const testStore = useTestsStore()
 
 onMounted(() => {
-  // testStore.fetchEcgTests()
-  // lakeStore.fetchGroupList('t')
-  // lakeStore.fetchGroupList('s')
-  // lakeStore.fetchGroupList('p')
+  lakeStore.fetchGroupList('t')
+  lakeStore.fetchGroupList('s')
+  lakeStore.fetchGroupList('p')
 })
 </script>

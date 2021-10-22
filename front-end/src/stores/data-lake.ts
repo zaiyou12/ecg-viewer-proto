@@ -4,6 +4,9 @@ import GroupApi from '../utils/group-api'
 const api = new GroupApi()
 
 type DataLakeState = {
+  durations: EcgTest.Duration[]
+  regions: EcgTest.Region[]
+  conditions: EcgTest.ConditionType[]
   preprocessGroups: PreprocessGroups
   testGroups: TestGroups
   sampleGroups: SampleGroups
@@ -22,6 +25,9 @@ type DataLakeState = {
 const useDataLakeStore = defineStore('dataLake', {
   state: () => {
     return {
+      durations: [24, 48, 72],
+      regions: ['KR', 'AU', 'UK', 'SG'],
+      conditions: ['normal', 'abnormal', 'unknown'],
       preprocessGroups: {},
       testGroups: {},
       sampleGroups: {},
