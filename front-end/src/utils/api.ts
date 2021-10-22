@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import qs from 'qs'
+import { camelizeProps } from '../utils/helper'
 
 const cancelSource = axios.CancelToken.source()
 
@@ -33,7 +34,7 @@ const responseInterceptor = api.interceptors.response.use(
   (response: AxiosResponse) => {
     console.log(`The server responded normally with`)
     console.log(response)
-    return Promise.resolve(response.data)
+    return Promise.resolve(camelizeProps(response.data))
   },
   (error: any) => {
     console.log('Request did not return status 200...')

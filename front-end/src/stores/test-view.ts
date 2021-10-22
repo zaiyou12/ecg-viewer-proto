@@ -1,49 +1,121 @@
 import { defineStore } from 'pinia'
+import TestViewApi from '../utils/test-view-api'
 
+const api = new TestViewApi()
+
+type EcgTestDetails = {
+  hr: number
+  startTime: string
+  actualDuration: string
+}
 
 type TestViewState = {
-  selectedTest: undefined | EcgTest.Meta
-  start: number
-  pid: undefined | PreprocessGroupId
+  selectedTest?: EcgTest.Meta
+  details?: EcgTestDetails
+  testGroup?: TestGroups
+  totalPage: number
+  page: number
+  stripUrl?: string[]
+  sampleGroup?: SampleGroups
+  pid?: PreprocessGroupId
+  loading: boolean
 }
 
 const useTestViewStore = defineStore('testView', {
   state: () => {
     return {
       selectedTest: undefined,
-      start: 0,
-      pid: undefined
+      details: undefined,
+      testGroup: undefined,
+      totalPage: 1,
+      page: 1,
+      stripUrl: undefined,
+      sampleGroup: undefined,
+      pid: undefined,
+      loading: false
     } as TestViewState
   },
   actions: {
-    addToTestGroup(gid: TestGroupId): void {
-      this.selectedTest!.tGroup.push(gid)
+    resetState(): void {
+      this.selectedTest = undefined
+      this.details = undefined
+      this.testGroup = undefined
+      this.totalPage = 1
+      this.page = 1
+      this.stripUrl = undefined
+      this.sampleGroup = undefined
+      this.pid = undefined
+      this.loading = false
     },
 
-    delFromTestGroup(gid: TestGroupId): void {
-      const index = this.selectedTest!.tGroup.indexOf(gid)
-      this.selectedTest!.tGroup.splice(index, 1)
+    async viewNewTest(region: EcgTest.Region, testId: EcgTest.TestId) {
+      this.resetState()
+      this.loading = true
+      const res = await api.fetchTestView(region, testId)
+      if (res === undefined) {
+        this.loading = false
+        return
+      }
+      ;({
+        selectedTest: this.selectedTest,
+        details: this.details,
+        testGroup: this.testGroup,
+        totalPage: this.totalPage
+      } = res)
+      await this.getStrips()
+      this.loading = false
     },
 
-    addSampleTo(gid: SampleGroupId, strip: EcgStrip): void {
-      // this.selectedTest!.sGroup[gid] = strip
+    async addToTestGroup(id: TestGroupId, displayName: string) {
+      const res = await api.postTestGroupToggle(
+        this.selectedTest!.region,
+        this.selectedTest!.testId,
+        id,
+        true
+      )
+      // TODO: Think more about this later
+      // If res is true, then it means it was successfully registered to server
+      if (res) this.testGroup![id] = { id, displayName }
     },
 
-    delSampleFrom(gid: SampleGroupId, strip: EcgStrip): void {
-      // const index = this.selectedTest!.sGroup[gid].indexOf(gid)
-      // this.selectedTest!.sGroup.splice(index, 1)
+    async delFromTestGroup(id: TestGroupId) {
+      const res = await api.postTestGroupToggle(
+        this.selectedTest!.region,
+        this.selectedTest!.testId,
+        id,
+        false
+      )
+      // TODO: Think more about this later
+      // If res is true, then it means it was successfully registered to server
+      if (res) delete this.testGroup![id]
     },
 
-    // TODO: Need to connect to back later
-    getPrevStrips(): void {
-      const window = 60 * 6
-      if (this.start >= window) this.start -= window
+    async getStrips() {
+      this.loading = true
+      const res = await api.fetchStrips(
+        this.selectedTest!.region,
+        this.selectedTest!.testId,
+        this.page,
+        this.pid
+      )
+      if (res === undefined) {
+        this.loading = false
+        return
+      }
+      ;({ stripUrl: this.stripUrl, sampleGroup: this.sampleGroup } = res)
+      this.loading = false
     },
 
-    // TODO: If promise from back resolves, then increment and display
-    getNextStrip(): void {
-      const window = 60 * 6
-      this.start += window
+    async getPrevStrips() {
+      if (this.page <= 1) return
+      this.page--
+      await this.getStrips()
+    },
+
+    async getNextStrip() {
+      if (this.page >= this.totalPage) return
+      this.page++
+      await this.getStrips()
     }
   }
 })

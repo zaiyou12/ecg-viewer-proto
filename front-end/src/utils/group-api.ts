@@ -1,4 +1,5 @@
 import api from './api'
+import { deserializeToGroups } from './deserializer'
 
 export default class GroupApi {
   private baseRoute = import.meta.env.VITE_GROUP_API_ROUTE as string
@@ -15,29 +16,12 @@ export default class GroupApi {
         params: { type }
       })) as Resp.GroupListResp
       const obj = {
-        numGroups: res.total_num,
-        groups: this.deserializeAllGroup(res.group_list)
+        numGroups: res.totalNum,
+        groups: deserializeToGroups(res.groupList)
       }
       return obj
     } catch {
       return undefined
     }
-  }
-
-  private deserializeGroup(group: Resp.GroupList): TestGroup {
-    return {
-      id: group.id,
-      displayName: group.group_name
-    }
-  }
-
-  private deserializeAllGroup(groups: Resp.GroupList[]) {
-    const gi: { [id: number]: TestGroup | SampleGroup | PreprocessGroup } = {}
-    groups.forEach((g) => {
-      const d = this.deserializeGroup(g)
-      gi[d.id] = d
-    })
-    return gi
-    // return groups.map((g) => this.deserializeGroup(g))
   }
 }

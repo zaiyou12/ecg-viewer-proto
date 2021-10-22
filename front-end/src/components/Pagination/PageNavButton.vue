@@ -53,6 +53,6 @@ const store = useTestsStore()
 
 async function pageClick() {
   store.page = props.page
-  await store.fetchEcgTests()
+  await store.getTestList()
 }
 </script>

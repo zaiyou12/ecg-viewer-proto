@@ -1,7 +1,7 @@
 declare namespace Resp {
   interface EcgTest {
     region: EcgTest.Region
-    test_id: EcgTest.TestId
+    testId: EcgTest.TestId
     duration: EcgTest.Duration
     condition: EcgTest.ConditionType
   }
@@ -9,19 +9,38 @@ declare namespace Resp {
   interface EcgTestResp {
     tests: EcgTest[]
     page: number
-    total_page: number
-    test_group?: string
+    totalPage: number
+    testGroup?: string
   }
 
-  interface GroupList {
+  interface Group {
     id: number
-    group_name: string
+    groupName: string
   }
 
   interface GroupListResp {
     status: number
-    total_num: number
-    group_list: GroupList[]
+    totalNum: number
+    groupList: Group[]
     type: 't' | 's' | 'p'
+  }
+
+  interface TestViewResp {
+    details: {
+      hr: number
+      startTime: string
+      actualDuration: string
+    }
+    testGroup: Group[]
+    region: EcgTest.Region
+    testId: EcgTest.TestId
+    duration: EcgTest.Duration
+    condition: EcgTest.ConditionType
+    totalPage: number
+  }
+
+  interface StripsResp {
+    imagePath: string[]
+    sampleGroup: Group[]
   }
 }

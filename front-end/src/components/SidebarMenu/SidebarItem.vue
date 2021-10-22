@@ -24,7 +24,7 @@ async function routeTo() {
   router.push({ name: props.router })
   if (props.label === 'Tests') {
     store.resetAllParams()
-    await store.fetchEcgTests()
+    await store.getTestList()
   }
 }
 </script>

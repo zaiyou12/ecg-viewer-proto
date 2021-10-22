@@ -1,4 +1,5 @@
 <template>
+  <Spinner :loading="store.loading" />
   <div class="view-min-width overflow-auto overscroll-none h-full">
     <template v-if="store.selectedTest == undefined">
       <p>Invalid test view request</p>

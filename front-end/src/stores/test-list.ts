@@ -4,7 +4,7 @@ import { removeFromArray } from '../utils/helper'
 
 type TestListState = {
   tests: EcgTests
-  totalPages: number
+  totalPage: number
   page: number
   duration: EcgTest.Duration[]
   region: EcgTest.Region[]
@@ -21,7 +21,7 @@ const useTestsStore = defineStore('ecgTests', {
     return {
       tests: [],
       page: 1,
-      totalPages: 1,
+      totalPage: 1,
       duration: [],
       region: [],
       testGroup: undefined,
@@ -34,7 +34,7 @@ const useTestsStore = defineStore('ecgTests', {
     /**
      * Fetches the list of tests for specified page and filters
      */
-    async fetchEcgTests(): Promise<void> {
+    async getTestList(): Promise<void> {
       this.loading = true
       const params: Req.EcgTestQuery = {
         page: this.page,
@@ -44,12 +44,12 @@ const useTestsStore = defineStore('ecgTests', {
         condition: this.condition.length > 0 ? this.condition : undefined,
         query: this.query.length > 0 ? this.query : undefined
       }
-      const res = await api.getEcgTests(params)
+      const res = await api.fetchTestList(params)
       if (res === undefined) return
       ;({
         tests: this.tests,
         page: this.page,
-        totalPages: this.totalPages
+        totalPage: this.totalPage
         // TODO: testGroup: ???
       } = res)
       this.loading = false

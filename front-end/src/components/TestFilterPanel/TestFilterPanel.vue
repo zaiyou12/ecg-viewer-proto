@@ -46,7 +46,7 @@ const lakeStore = useDataLakeStore()
 
 async function confirm() {
   listStore.page = 1
-  await listStore.fetchEcgTests()
+  await listStore.getTestList()
   emits('update:showPanel', false)
 }
 </script>

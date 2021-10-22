@@ -74,3 +74,20 @@ export function removeFromArray<T extends string | number>(
     arr.splice(idx, 1)
   }
 }
+
+function camelCase(s: string) {
+  return s.replace(/_(.)/g, (_, c) => c.toUpperCase())
+}
+
+export function camelizeProps(obj: any): any {
+  return Object.fromEntries(
+    Object.entries(obj).map(([k, v]) => [
+      camelCase(k),
+      Array.isArray(v)
+        ? v.map(camelizeProps)
+        : typeof v == 'object'
+        ? camelizeProps(v)
+        : v
+    ])
+  )
+}

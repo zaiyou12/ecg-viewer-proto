@@ -26,7 +26,7 @@
     />
     <PageNaveButton
       type="ffwRight"
-      :page="store.totalPages"
+      :page="store.totalPage"
       :disabled="currentStartPage === lastStartPage"
     />
   </div>
@@ -58,19 +58,19 @@ function calcStartPage(page: number): number {
 const currentStartPage = computed(() => calcStartPage(store.page))
 const currentDisplayPages = computed(() => {
   let endPage = currentStartPage.value + props.maxPageDisplay - 1
-  return range(currentStartPage.value, Math.min(store.totalPages, endPage) + 1)
+  return range(currentStartPage.value, Math.min(store.totalPage, endPage) + 1)
 })
-const lastStartPage = computed(() => calcStartPage(store.totalPages))
+const lastStartPage = computed(() => calcStartPage(store.totalPage))
 
 function goDownPage(n: number): number {
   return currentStartPage.value <= n ? 1 : currentStartPage.value - n
 }
 
 function goUpPage(n: number): number {
-  if (currentStartPage.value + n <= store.totalPages) {
+  if (currentStartPage.value + n <= store.totalPage) {
     return currentStartPage.value + n
   } else {
-    return store.totalPages
+    return store.totalPage
   }
 }
 
@@ -81,6 +81,6 @@ function isCurrentPage(page: number): boolean {
 async function pageClick(page: number) {
   if (isCurrentPage(page)) return
   store.page = page
-  await store.fetchEcgTests()
+  await store.getTestList()
 }
 </script>

@@ -23,7 +23,7 @@ const query = toRef(store, 'query')
 async function pressedEnter() {
   store.page = 1
   store.query = query.value
-  await store.fetchEcgTests()
+  await store.getTestList()
 }
 
 function clearSearchBar() {

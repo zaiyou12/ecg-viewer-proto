@@ -39,10 +39,9 @@ const props = defineProps<{
 const router = useRouter()
 const store = useTestViewStore()
 
-function viewTest(idx: number | string): void {
-  store.selectedTest = props.ecgTest
-  store.start = 0
+async function viewTest(idx: number | string) {
   router.push({ name: 'testView', params: { testSeq: idx } })
+  await store.viewNewTest(props.ecgTest.region, props.ecgTest.testId)
 }
 
 function isNotEmpty(arr: any[]): boolean {
