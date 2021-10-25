@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 
 from config import config
 
@@ -17,7 +18,11 @@ def create_app(config_name:str) -> Flask:
 
     db_init(app.config['DATABASE_URI'])
 
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+    CORS(app)
+
+    from .ecgtest import ecgtest as ecgtest_blueprint
+    from .group import group as group_blueprint
+    app.register_blueprint(ecgtest_blueprint)
+    app.register_blueprint(group_blueprint)
 
     return app
