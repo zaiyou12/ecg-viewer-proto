@@ -1,6 +1,8 @@
 <template>
   <div class="test-detail-header-container">
-    <div>
+    <div
+      class="h-full flex items-center justify-between mx-5 border-b-2 border-gray-100"
+    >
       <div class="w-1/2 flex items-center cursor-default justify-between">
         <p
           class="ml-5 mr-5 font-bold text-2xl text-left"
@@ -41,11 +43,6 @@ const store = useTestViewStore()
     @apply fixed left-0 top-0 right-52 h-16
       transform translate-x-52
       bg-white;
-  }
-
-  .test-detail-header-container div::nth-child(1) {
-    @apply h-full flex items-center justify-between
-    mx-5 border-b-2 border-gray-100;
   }
 }
 </style>

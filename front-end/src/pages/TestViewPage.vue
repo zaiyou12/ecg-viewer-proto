@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import TestDetailHeader from '@/components/TestView/TestDetailHeader.vue'
 import TestDetails from '@/components/TestView/TestDetails.vue'
-import useTestViewStore from '../stores/test-view';
+import useTestViewStore from '../stores/test-view'
 
 const store = useTestViewStore()
 </script>

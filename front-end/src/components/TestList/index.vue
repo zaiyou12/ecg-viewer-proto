@@ -21,5 +21,5 @@ import useTestsStore from '../../stores/test-list'
 
 const store = useTestsStore()
 
-const listHeaders = ['Test Seq', 'Duration', 'Region', 'Group', 'Status']
+const listHeaders = ['Test ID', 'Duration', 'Region', 'Group', 'Status']
 </script>
