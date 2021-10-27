@@ -9,11 +9,15 @@ Flask, Python 마이크로 프레임워크에서 가장 유명한 프레임워�
 python 3.10 and pipenv requires.
 
 ```bash
-# Install libraies
-pipenv install
+touch .env
 
-# Run on shell
-flask shell
+python3 -m venv venv
+
+source venv/bin/acrivate
+
+pip3 install -r requirements.txt
+
+flask run
 ```
 
 ```python
