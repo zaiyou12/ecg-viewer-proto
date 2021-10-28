@@ -6,11 +6,11 @@
           v-for="(g, idx) in lakeStore.sampleGroups"
           :key="idx"
           class="flex items-center h-8 cursor-pointer hover:bg-blue-50"
-          @mouseup="sampleSelected(g.id)"
+          @mouseup="sampleSelected(g)"
         >
           <div
             class="w-4 h-4 flex-none mx-2 border-2 rounded-lg border-gray-400"
-            :class="{ 'bg-gray-500': viewStore.pid === g.id }"
+            :class="{ 'bg-gray-500': belongsInGroup(g.id) }"
             :key="idx"
           ></div>
           <div
@@ -34,8 +34,15 @@ const props = defineProps<{
 const lakeStore = useDataLakeStore()
 const viewStore = useTestViewStore()
 
-function sampleSelected(pid: SampleGroupId): void {
-  if (viewStore.pid === pid) viewStore.pid = undefined
-  else viewStore.pid = pid
+function belongsInGroup(gid: number): boolean {
+  return gid in viewStore.sampleGroup!
+}
+
+async function sampleSelected(g: SampleGroup) {
+  if (belongsInGroup(g.id)) {
+    await viewStore.addToSampleGroup(g.id, g.displayName)
+  } else {
+    await viewStore.delFromSampleGroup(g.id)
+  }
 }
 </script>

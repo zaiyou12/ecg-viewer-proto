@@ -1,7 +1,11 @@
+// TODO: Fix after api is modified
 export function deserializeGroup(group: Resp.Group) {
   return {
     id: group.id,
-    displayName: group.groupName
+    displayName: group.groupName,
+    description: undefined,
+    numEcgTests: undefined,
+    preprocessId: undefined
   }
 }
 

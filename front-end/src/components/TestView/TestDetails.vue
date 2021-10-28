@@ -9,7 +9,7 @@
         class="text-sm mr-10"
       >Actual Duration: {{ store.details!.actualDuration }}</div>
       <!-- TODO: Add file path -->
-      <!-- <div class="text-sm">File Path: {{ store.selectedTest!.path }}</div> -->
+      <div class="text-sm">File Path: {{ "N/A" }}</div>
     </div>
     <StripsPanel />
     <div class="flex items-center justify-center h-16">

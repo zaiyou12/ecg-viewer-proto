@@ -9,7 +9,8 @@
         >Test {{ store.selectedTest!.testId }}</p>
         <div class="flex flex-wrap text-sm">
           <p class="w-1/2 text-left">
-            <b>HR</b> 100
+            <b>HR</b>
+            {{ store.details!.hr }}
           </p>
           <p class="w-1/2 text-left">
             <b>DUR</b>

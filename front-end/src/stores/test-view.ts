@@ -67,6 +67,7 @@ const useTestViewStore = defineStore('testView', {
     },
 
     async addToTestGroup(id: TestGroupId, displayName: string) {
+      this.loading = true
       const res = await api.postTestGroupToggle(
         this.selectedTest!.region,
         this.selectedTest!.testId,
@@ -76,9 +77,11 @@ const useTestViewStore = defineStore('testView', {
       // TODO: Think more about this later
       // If res is true, then it means it was successfully registered to server
       if (res) this.testGroup![id] = { id, displayName }
+      this.loading = false
     },
 
     async delFromTestGroup(id: TestGroupId) {
+      this.loading = true
       const res = await api.postTestGroupToggle(
         this.selectedTest!.region,
         this.selectedTest!.testId,
@@ -88,6 +91,7 @@ const useTestViewStore = defineStore('testView', {
       // TODO: Think more about this later
       // If res is true, then it means it was successfully registered to server
       if (res) delete this.testGroup![id]
+      this.loading = false
     },
 
     async getStrips() {
@@ -108,14 +112,48 @@ const useTestViewStore = defineStore('testView', {
 
     async getPrevStrips() {
       if (this.page <= 1) return
+      this.loading = true
       this.page--
       await this.getStrips()
+      this.loading = false
     },
 
     async getNextStrip() {
       if (this.page >= this.totalPage) return
+      this.loading = true
       this.page++
       await this.getStrips()
+      this.loading = false
+    },
+
+    async addToSampleGroup(id: SampleGroupId, displayName: string) {
+      this.loading = true
+      const res = await api.postSampleGroupToggle(
+        this.selectedTest!.region,
+        this.selectedTest!.testId,
+        this.page,
+        id,
+        true
+      )
+      // TODO: Think more about this later
+      // If res is true, then it means it was successfully registered to server
+      if (res) this.sampleGroup![id] = { id, displayName }
+      this.loading = false
+    },
+
+    async delFromSampleGroup(id: SampleGroupId) {
+      this.loading = true
+      const res = await api.postSampleGroupToggle(
+        this.selectedTest!.region,
+        this.selectedTest!.testId,
+        this.page,
+        id,
+        false
+      )
+      // TODO: Think more about this later
+      // If res is true, then it means it was successfully registered to server
+      if (res) delete this.testGroup![id]
+      this.loading = false
     }
   }
 })

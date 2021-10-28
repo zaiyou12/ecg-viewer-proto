@@ -2,7 +2,7 @@
   <div class="w-full">
     <GroupButton :type="type" v-model:showDrop="showDrop" />
     <PreprocessDropdown v-if="type === 'Preprocess'" :showDrop="showDrop" />
-    <TestGroupDropdown v-if="type === 'Test'" :showDrop="showDrop" />
+    <TestGroupDropdown v-else-if="type === 'Test'" :showDrop="showDrop" />
     <SampleGroupDropdown v-else :showDrop="showDrop" />
   </div>
 </template>

@@ -1,5 +1,6 @@
 import api from './api'
 import { deserializeTest, deserializeToGroups } from './deserializer'
+import { hasTypedProperty } from '../utils/helper'
 
 export default class TestViewApi {
   private baseRoute = import.meta.env.VITE_TEST_VIEW_API_ROUTE as string
@@ -36,8 +37,10 @@ export default class TestViewApi {
     const route = `${this.baseRoute}/${region}/${testId}`
     try {
       const body = { id, status }
-      await api.post(route, body)
-      return true
+      const res = await api.post(route, body)
+      if (hasTypedProperty(res, 'message') && res.message === 'Changed')
+        return true
+      else return false
     } catch {
       return false
     }
@@ -76,6 +79,7 @@ export default class TestViewApi {
         sample_group_id: id,
         status
       }
+      // TODO: Fix after modifying sample group post api response
       await api.post(route, body)
       return true
     } catch {

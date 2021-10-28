@@ -1,9 +1,7 @@
 <template>
-  <tr class="cursor-pointer">
-    <template v-for="(prop, idx) in group" :key="idx">
-      <td v-if="prop !== 'ecgTests'">
-        {{ prop }}
-      </td>
+  <tr class="cursor-pointer hover:bg-blue-50">
+    <template v-for="(value, prop, idx) in group" :key="idx">
+      <td v-if="prop !== 'testIds'">{{ value === undefined ? '—' : value }}</td>
     </template>
   </tr>
 </template>
@@ -12,4 +10,6 @@
 const props = defineProps<{
   group: TestGroup
 }>()
+
+console.log()
 </script>

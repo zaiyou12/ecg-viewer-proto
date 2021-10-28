@@ -9,7 +9,7 @@
     </thead>
     <tbody>
       <template v-for="(test, idx) in store.tests" :key="idx">
-        <TestListItem :ecgTest="test" class="border-b h-10" />
+        <TestListItem :ecgTest="test" class="border-b h-11" />
       </template>
     </tbody>
   </table>

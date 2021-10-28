@@ -80,6 +80,7 @@ function camelCase(s: string) {
 }
 
 export function camelizeProps(obj: any): any {
+  if (typeof obj == 'string' || typeof obj == 'number') return obj
   return Object.fromEntries(
     Object.entries(obj).map(([k, v]) => [
       camelCase(k),
@@ -90,4 +91,11 @@ export function camelizeProps(obj: any): any {
         : v
     ])
   )
+}
+
+export function hasTypedProperty<X extends {}, Y extends PropertyKey>(
+  obj: X,
+  prop: Y
+): obj is X & Record<Y, unknown> {
+  return obj.hasOwnProperty(prop)
 }
