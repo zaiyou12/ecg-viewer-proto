@@ -1,7 +1,7 @@
-
+from typing import List
 
 ##### ----- Format을 위한
-def make_tuple_from_list(list_data):
+def make_tuple_from_list(list_data: list) -> str:
     text ="("
     idx = 0
     for data in list_data:
@@ -17,7 +17,7 @@ def make_tuple_from_list(list_data):
             idx+=1
     return text + ")"
 
-def make_tuple_from_string(text_list):
+def make_tuple_from_string(text_list: List[str]) -> str:
     idx = 0
     qu = "(SELECT * FROM ecgtest WHERE "
     for text in text_list:
@@ -31,7 +31,7 @@ def make_tuple_from_string(text_list):
     
 
 ##### ----- ECG Test List 반환
-def q_get_ecgtests(durations, regions, conditions, test_groups, others):
+def q_get_ecgtests(durations: List[str], regions: List[str], conditions: List[str], test_groups: List[str], others: List[str]) -> str:
     base_table = None
     if others:
         text_list = others.replace(",","").split(" ")
@@ -62,7 +62,7 @@ def q_get_ecgtests(durations, regions, conditions, test_groups, others):
 
 
 ##### ----- 개별 ECG Test의 정보
-def q_get_ecgtest_info(region, test_id):
+def q_get_ecgtest_info(region: str, test_id: str) -> str:
     query = f"SELECT region, test_id, duration, condition, edf_path, details_path \
 FROM ecgtest \
 WHERE region='{region}' AND test_id='{test_id}'"
@@ -71,7 +71,7 @@ WHERE region='{region}' AND test_id='{test_id}'"
 
 
 ##### ----- 개별 ECG Test가 속해져 있는 TestGroup ID 가져오기
-def q_get_ecgtest_testgroup(region, test_id):
+def q_get_ecgtest_testgroup(region: str, test_id: str) -> str:
     query = f"SELECT id, group_name FROM testgroup WHERE id IN (\
 SELECT testgroup_id FROM testlink WHERE ecgtest_id IN (\
 SELECT id FROM ecgtest WHERE region='{region}' AND test_id='{test_id}'))"
@@ -80,14 +80,14 @@ SELECT id FROM ecgtest WHERE region='{region}' AND test_id='{test_id}'))"
 
 
 ##### ----- Preprocess file path 가져오기
-def q_get_preprocess_path(pid):
+def q_get_preprocess_path(pid: int) -> str:
     query = f"SELECT id, group_name, group_status, path FROM preprocessgroup WHERE id={pid}"
     return query
 
 
 
 ##### ----- 개별 ECG Test&Page가 속해져 있는 SampleGroup ID 가져오기
-def q_get_ecgtest_samplegroup(region, test_id, page):
+def q_get_ecgtest_samplegroup(region: str, test_id: str, page: int) -> str:
     query = f"SELECT id, group_name FROM samplegroup WHERE id IN (\
 SELECT samplegroup_id FROM samplelink WHERE page={page} AND ecgtest_id IN(\
 SELECT id FROM ecgtest WHERE region='{region}' AND test_id='{test_id}'))"
