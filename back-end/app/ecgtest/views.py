@@ -1,12 +1,11 @@
-from flask import jsonify, send_file, request, url_for
+from flask import jsonify, request, url_for
 import math
 
-from . import ecgtest
 from app import db
-
-from .utils import get_details, ploting_from_signal, get_ecg_data, make_test_list_for_ecgtest, signal_plot_to_png, make_group_list_for_ecgtest
+from . import ecgtest
 from . import query
-from preprocess.pre_class import process_module
+from .utils import get_details, get_ecg_data, signal_plot_to_png
+from ...preprocess.pre_class import process_module
 
 
 #########################################################################################################
@@ -34,7 +33,7 @@ def get_ecgtests():
     ecgtest_list = [dict(row) for row in cur.fetchall()]
     cur.close()
     db.commit()
-    
+
     # Page Cal
     total_data_num = len(ecgtest_list)
     per_page = 15
@@ -81,7 +80,7 @@ def get_ecgtest_info(region, test_id):
 
     # Get Details
     hr, start_time, actual_duration = get_details(ecg_test['details_path'])
-    
+
     # Get Signal
     signal = get_ecg_data(ecg_test['edf_path'])
     len_per_page = 256 * 60 * 6   # hz x 1min x 6images   # Float

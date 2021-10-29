@@ -6,7 +6,7 @@ Flask, Python 마이크로 프레임워크에서 가장 유명한 프레임워�
 
 ## Install
 
-python 3.10 and pipenv requires.
+python 3.6 requires.
 
 ```bash
 touch .env

@@ -10,16 +10,16 @@ class Config:
         pass
 
 class DevConfig(Config):
-    DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
+    DATABASE_URL = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite://' + os.path.join(basedir, 'sqlite.db')
 
 class TestConfig(Config):
     TESTING = True
-    DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
+    DATABASE_URL = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite://' + os.path.join(basedir, 'sqlite.db')
 
 class ProdConfig(Config):
-    DATABASE_URI = os.environ.get('DATABASE_URL')
+    DATABASE_URL = os.environ.get('DATABASE_URL')
 
 config = {
     'development': DevConfig,

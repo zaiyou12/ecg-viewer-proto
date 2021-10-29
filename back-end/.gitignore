@@ -4,5 +4,6 @@ build/
 venv/
 
 .env
+.prod.env
 
 *.db
