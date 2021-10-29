@@ -19,6 +19,10 @@ def create_app(config_name:str) -> Flask:
 
     CORS(app)
 
+    @app.route('/')
+    def hello_world():
+        return "<p>Hello, World!</p>"
+
     # from .ecgtest import ecgtest as ecgtest_blueprint
     from .group import group as group_blueprint
     # app.register_blueprint(ecgtest_blueprint)
