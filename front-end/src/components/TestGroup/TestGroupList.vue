@@ -1,12 +1,13 @@
 <template>
-  <div class="mx-5">
-    <table class="table-auto w-full">
+  <div class="px-10">
+    <table class="table-group-list">
       <thead class="cursor-default">
         <th
-          v-for="(prop, idx) in testGroupProps"
+          v-for="(col, idx) in testGroupHeader"
           :key="idx"
-          class="border h-7 px-3"
-        >{{ prop }}</th>
+          class="border-b-2 h-7 px-3 py-1"
+          :class="col.class"
+        >{{ col.label }}</th>
       </thead>
       <tbody>
         <TestGroupListItem
@@ -27,5 +28,29 @@ import TestGroupListItem from './TestGroupListItem.vue';
 
 const store = useDataLakeStore()
 
-const testGroupProps = ["ID", "Display Name", "Description", "Number of Tests", "Preprocess ID"]
+const testGroupHeader = [
+  { label: 'ID', class: 'id' },
+  { label: 'Display Name', class: 'display-name' },
+  { label: 'Description', class: 'description' },
+  { label: '# Tests', class: 'num-tests' },
+  { label: 'PID', class: 'pid' },
+]
 </script>
+
+<style>
+@layer components {
+  .table-group-list {
+    @apply table-auto w-1/2;
+  }
+  .table-group-list th.id,
+  th.pid {
+    width: 5%;
+  }
+  .table-group-list th.display-name {
+    width: 25%;
+  }
+  .table-group-list th.num-tests {
+    width: 15%;
+  }
+}
+</style>

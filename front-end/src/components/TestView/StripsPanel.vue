@@ -27,7 +27,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import Strip from '@/components/Strip60s.vue'
 import useTestViewStore from '../../stores/test-view'
 
 
@@ -35,12 +34,10 @@ const store = useTestViewStore()
 const split = computed(() => {
   return store.pid !== undefined
 })
-// const numStrips = 6
 
 function getStripUrl(idx = 0): string {
   const strips = store.stripUrl!
   const baseUrl = import.meta.env.VITE_API_BASE_URL
-  console.log(baseUrl + strips[idx])
   return baseUrl + strips[idx]
 }
 </script>

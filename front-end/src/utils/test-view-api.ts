@@ -36,11 +36,17 @@ export default class TestViewApi {
   ): Promise<boolean> {
     const route = `${this.baseRoute}/${region}/${testId}`
     try {
-      const body = { id, status }
+      const body = { testGroupId: id, status }
       const res = await api.post(route, body)
-      if (hasTypedProperty(res, 'message') && res.message === 'Changed')
-        return true
-      else return false
+      if (hasTypedProperty(res, 'message')) {
+        if (
+          (status && res.message === 'Added') ||
+          (!status && res.message === 'Deleted')
+        ) {
+          return true
+        }
+      }
+      return false
     } catch {
       return false
     }
@@ -75,13 +81,19 @@ export default class TestViewApi {
     const route = `${this.baseRoute}/${region}/${testId}/${page}`
     try {
       const body = {
-        page,
         sample_group_id: id,
         status
       }
-      // TODO: Fix after modifying sample group post api response
-      await api.post(route, body)
-      return true
+      const res = await api.post(route, body)
+      if (hasTypedProperty(res, 'message')) {
+        if (
+          (status && res.message === 'Added') ||
+          (!status && res.message === 'Deleted')
+        ) {
+          return true
+        }
+      }
+      return false
     } catch {
       return false
     }

@@ -40,9 +40,9 @@ function belongsInGroup(gid: number): boolean {
 
 async function sampleSelected(g: SampleGroup) {
   if (belongsInGroup(g.id)) {
-    await viewStore.addToSampleGroup(g.id, g.displayName)
-  } else {
     await viewStore.delFromSampleGroup(g.id)
+  } else {
+    await viewStore.addToSampleGroup(g.id, g.displayName)
   }
 }
 </script>

@@ -1,29 +1,23 @@
 <template>
-  <div
-    class="flex h-16 items-center border-b-2 mx-5 border-gray-100 cursor-default"
-  >
+  <PageHeader>
     <div class="text-2xl font-bold pl-5">Test Groups</div>
     <div class="text-sm ml-5">Add or remove test groups</div>
-  </div>
-  <div class="px-10 my-5 cursor-default">
-    <div class="flex items-center">
-      <div class="text-left font-bold">List of Test Groups</div>
-      <div>
-        <button class="mx-5 group-modify-btn">
-          <SvgIcon class="h-5 w-5" name="PlusSm" />
-        </button>
-        <button class="group-modify-btn">
-          <SvgIcon class="h-5 w-5" name="MinusSm" />
-        </button>
-      </div>
+    <div>
+      <button class="mx-5 group-modify-btn">
+        <SvgIcon class="h-5 w-5" name="PlusSm" />
+      </button>
+      <button class="group-modify-btn">
+        <SvgIcon class="h-5 w-5" name="MinusSm" />
+      </button>
     </div>
-  </div>
-  <TestGroupList class="mb-5" />
+  </PageHeader>
+  <TestGroupList class="mb-5 pt-16" />
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import TestGroupList from '@/components/TestGroup/TestGroupList.vue'
+import PageHeader from '@/components/PageHeader.vue'
 import useDataLakeStore from '../stores/data-lake'
 
 const store = useDataLakeStore()

@@ -39,9 +39,9 @@ function belongsInGroup(gid: number): boolean {
 
 async function groupSelected(g: TestGroup): Promise<void> {
   if (belongsInGroup(g.id)) {
-    await viewStore.addToTestGroup(g.id, g.displayName)
-  } else {
     await viewStore.delFromTestGroup(g.id)
+  } else {
+    await viewStore.addToTestGroup(g.id, g.displayName)
   }
 }
 </script>
