@@ -48,3 +48,21 @@ export function deserializeTest(test: Resp.Test): EcgTest.Meta {
 export function deserializeAllTest(tests: Resp.Test[]): EcgTests {
   return tests.map((r) => deserializeTest(r))
 }
+
+export function deserializeTestInGroup(
+  type: Resp.GroupType,
+  testInGroup: Resp.TestInGroup
+): EcgTest.Meta | [EcgTest.Meta, number[]] {
+  const { pages, ...test } = testInGroup
+  if (type === 't') {
+    return deserializeTest(test)
+  }
+  return [deserializeTest(test), pages]
+}
+
+export function deserializeAllTestsInGroup(
+  type: Resp.GroupType,
+  testsInGroup: Resp.TestInGroup[]
+) {
+  return testsInGroup.map((r) => deserializeTestInGroup(type, r))
+}

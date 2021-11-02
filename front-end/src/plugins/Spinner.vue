@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<{ loading: boolean }>(), { loading: true 
 
 <style>
 .spinner {
-  z-index: 99;
+  z-index: 100;
   transform: translateX(-50%) translateY(40vh);
   @apply inline-block absolute w-16 h-16;
 }

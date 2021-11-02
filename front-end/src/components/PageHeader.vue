@@ -12,7 +12,7 @@
 <style>
 @layer components {
   .page-header-container {
-    z-index: 98;
+    z-index: 97;
     min-width: 1024px;
     @apply fixed left-0 top-0 right-52 h-16
       transform translate-x-52

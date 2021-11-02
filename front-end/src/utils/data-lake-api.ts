@@ -6,7 +6,7 @@ export default class GroupApi {
 
   constructor() {
     if (this.baseRoute == undefined) {
-      throw new Error('No base route provided for GroupApi. Check .env.')
+      throw new Error('No base route provided for DataLakeApi. Check .env.')
     }
   }
 

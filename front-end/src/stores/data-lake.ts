@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import GroupApi from '../utils/data-lake-api'
+import DataLakeApi from '../utils/data-lake-api'
 
-const api = new GroupApi()
+const api = new DataLakeApi()
 
 type DataLakeState = {
   durations: EcgTest.Duration[]

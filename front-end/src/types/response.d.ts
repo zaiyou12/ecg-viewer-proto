@@ -64,12 +64,36 @@ declare namespace Resp {
   /** */
 
   /** */
+  type GroupModifyMessage =
+    | 'Added'
+    | 'Already Added'
+    | 'Deleted'
+    | 'Already Deleted'
+
   type GroupChange = {
     id: number
     result: {
       target: number[] | [number, number][]
-      message: 'Added' | 'Already Added' | 'Deleted' | 'Already Deleted'
+      message: GroupModifyMessage
     }[]
+  }
+  /** */
+
+  /** */
+  interface TestInGroup extends Test {
+    pages: number[]
+  }
+
+  type TestsInGroup = {
+    type: GroupType
+    tests: TestInGroup[]
+  }
+  /** */
+
+  /** */
+  type GroupAddDel = {
+    message: GroupModifyMessage
+    id: number
   }
   /** */
 }
