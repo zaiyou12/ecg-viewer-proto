@@ -13,16 +13,18 @@
     </div>
     <StripsPanel />
     <div class="flex items-center justify-center h-16">
-      <TestNavButton type="left" class="mx-2" />
-      <TestNavButton type="right" class="mx-2" />
+      <StripsNavButton type="left" class="mx-2" />
+      <StripsSearchInput />
+      <StripsNavButton type="right" class="mx-2" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import TestNavButton from './TestNavButton.vue'
-import useTestViewStore from '../../stores/test-view';
 import StripsPanel from './StripsPanel.vue'
+import StripsNavButton from './StripsNavButton.vue'
+import StripsSearchInput from './StripsSearchInput.vue';
+import useTestViewStore from '../../stores/test-view';
 
 const store = useTestViewStore()
 </script>

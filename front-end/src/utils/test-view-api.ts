@@ -1,25 +1,25 @@
 import api from './api'
 import { deserializeTest, deserializeToGroups } from './deserializer'
-import { hasTypedProperty } from '../utils/helper'
 
 export default class TestViewApi {
-  private baseRoute = import.meta.env.VITE_TEST_VIEW_API_ROUTE as string
+  private ecgRoute = import.meta.env.VITE_ECG_TEST_API_ROUTE as string
+  private groupRoute = import.meta.env.VITE_GROUP_API_ROUTE as string
 
   constructor() {
-    if (this.baseRoute == undefined) {
+    if (this.ecgRoute == undefined || this.groupRoute == undefined) {
       throw new Error('No base route provided for TestViewApi. Check .env.')
     }
   }
 
-  async fetchTestView(region: EcgTest.Region, testId: EcgTest.TestId) {
-    const route = `${this.baseRoute}/${region}/${testId}`
+  async fetchTestView(id: EcgTest.Id) {
+    const route = `${this.ecgRoute}/${id}`
     try {
-      const res = (await api.get(route)) as Resp.TestViewResp
+      const res = (await api.get(route)) as Resp.TestView
       const { details, testGroup, totalPage, ...test } = res
       const obj = {
         selectedTest: deserializeTest(test),
         details,
-        testGroup: deserializeToGroups(testGroup) as TestGroups,
+        testGroup: deserializeToGroups('t', testGroup) as TestGroups,
         totalPage
       }
       return obj
@@ -28,42 +28,13 @@ export default class TestViewApi {
     }
   }
 
-  async postTestGroupToggle(
-    region: EcgTest.Region,
-    testId: EcgTest.TestId,
-    id: number,
-    status: boolean
-  ): Promise<boolean> {
-    const route = `${this.baseRoute}/${region}/${testId}`
+  async fetchStrips(id: EcgTest.Id, page: number, pid?: number) {
+    const route = `${this.ecgRoute}/${id}/${page}`
     try {
-      const body = { testGroupId: id, status }
-      const res = await api.post(route, body)
-      if (hasTypedProperty(res, 'message')) {
-        if (
-          (status && res.message === 'Added') ||
-          (!status && res.message === 'Deleted')
-        ) {
-          return true
-        }
-      }
-      return false
-    } catch {
-      return false
-    }
-  }
-
-  async fetchStrips(
-    region: EcgTest.Region,
-    testId: EcgTest.TestId,
-    page: number,
-    pid?: number
-  ) {
-    const route = `${this.baseRoute}/${region}/${testId}/${page}`
-    try {
-      const res = (await api.get(route, { params: { pid } })) as Resp.StripsResp
+      const res = (await api.get(route, { params: { pid } })) as Resp.Strips
       const obj = {
         stripUrl: res.imagePath,
-        sampleGroup: deserializeToGroups(res.sampleGroup) as SampleGroups
+        sampleGroup: deserializeToGroups('s', res.sampleGroup) as SampleGroups
       }
       return obj
     } catch {
@@ -71,27 +42,50 @@ export default class TestViewApi {
     }
   }
 
-  async postSampleGroupToggle(
-    region: EcgTest.Region,
-    testId: EcgTest.TestId,
-    page: number,
-    id: number,
-    status: boolean
-  ) {
-    const route = `${this.baseRoute}/${region}/${testId}/${page}`
+  /**
+   * @description Single toggle
+   */
+  async postTestGroupToggle(
+    dbId: EcgTest.Id,
+    gid: number,
+    toggle: boolean
+  ): Promise<boolean> {
+    const route = `${this.groupRoute}/t/change`
+    const act = toggle ? 'add' : 'del'
     try {
-      const body = {
-        sample_group_id: id,
-        status
+      const body = { works: [dbId], id: gid, act }
+      const res = (await api.post(route, body)) as Resp.GroupChange
+      if (
+        (toggle && res.result[0].message === 'Added') ||
+        (!toggle && res.result[0].message === 'Deleted')
+      ) {
+        return true
       }
-      const res = await api.post(route, body)
-      if (hasTypedProperty(res, 'message')) {
-        if (
-          (status && res.message === 'Added') ||
-          (!status && res.message === 'Deleted')
-        ) {
-          return true
-        }
+      return false
+    } catch {
+      return false
+    }
+  }
+
+  /**
+   * @description Single toggle
+   */
+  async postSampleGroupToggle(
+    dbId: EcgTest.Id,
+    page: number,
+    gid: number,
+    toggle: boolean
+  ): Promise<boolean> {
+    const route = `${this.groupRoute}/s/change`
+    const act = toggle ? 'add' : 'del'
+    try {
+      const body = { works: [[dbId, page]], id: gid, act }
+      const res = (await api.post(route, body)) as Resp.GroupChange
+      if (
+        (toggle && res.result[0].message === 'Added') ||
+        (!toggle && res.result[0].message === 'Deleted')
+      ) {
+        return true
       }
       return false
     } catch {

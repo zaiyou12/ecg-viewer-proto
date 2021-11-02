@@ -15,7 +15,7 @@
           ></div>
           <div
             class="h-full flex flex-col justify-center pr-2 hover:bg-blue-50"
-          >{{ g.displayName }}</div>
+          >{{ g.groupName }}</div>
         </li>
       </ul>
     </div>
@@ -39,10 +39,6 @@ function belongsInGroup(gid: number): boolean {
 }
 
 async function sampleSelected(g: SampleGroup) {
-  if (belongsInGroup(g.id)) {
-    await viewStore.delFromSampleGroup(g.id)
-  } else {
-    await viewStore.addToSampleGroup(g.id, g.displayName)
-  }
+  await viewStore.toggleSampleGroup(g.id, g.groupName, !belongsInGroup(g.id))
 }
 </script>

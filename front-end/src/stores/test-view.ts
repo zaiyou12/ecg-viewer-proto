@@ -17,7 +17,7 @@ type TestViewState = {
   page: number
   stripUrl?: string[]
   sampleGroup?: SampleGroups
-  pid?: PreprocessGroupId
+  pid?: number
   loading: boolean
 }
 
@@ -48,10 +48,10 @@ const useTestViewStore = defineStore('testView', {
       this.loading = false
     },
 
-    async viewNewTest(region: EcgTest.Region, testId: EcgTest.TestId) {
+    async viewNewTest(id: EcgTest.Id) {
       this.resetState()
       this.loading = true
-      const res = await api.fetchTestView(region, testId)
+      const res = await api.fetchTestView(id)
       if (res === undefined) {
         this.loading = false
         return
@@ -66,39 +66,22 @@ const useTestViewStore = defineStore('testView', {
       this.loading = false
     },
 
-    async addToTestGroup(id: TestGroupId, displayName: string) {
-      this.loading = true
-      const res = await api.postTestGroupToggle(
-        this.selectedTest!.region,
-        this.selectedTest!.testId,
-        id,
-        true
-      )
-      // TODO: Think more about this later
-      // If res is true, then it means it was successfully registered to server
-      if (res) this.testGroup![id] = { id, displayName }
-      this.loading = false
+    isValidPage(page: number) {
+      return 1 <= page && page <= this.totalPage
     },
 
-    async delFromTestGroup(id: TestGroupId) {
+    async getStrips(page?: number) {
       this.loading = true
-      const res = await api.postTestGroupToggle(
-        this.selectedTest!.region,
-        this.selectedTest!.testId,
-        id,
-        false
-      )
-      // TODO: Think more about this later
-      // If res is true, then it means it was successfully registered to server
-      if (res) delete this.testGroup![id]
-      this.loading = false
-    },
-
-    async getStrips() {
-      this.loading = true
+      if (page != undefined) {
+        if (this.isValidPage(page)) {
+          this.page = page
+        } else {
+          this.loading = false
+          return
+        }
+      }
       const res = await api.fetchStrips(
-        this.selectedTest!.region,
-        this.selectedTest!.testId,
+        this.selectedTest!.id,
         this.page,
         this.pid
       )
@@ -111,48 +94,39 @@ const useTestViewStore = defineStore('testView', {
     },
 
     async getPrevStrips() {
-      if (this.page <= 1) return
-      this.loading = true
-      this.page--
-      await this.getStrips()
-      this.loading = false
+      await this.getStrips(this.page - 1)
     },
 
     async getNextStrip() {
-      if (this.page >= this.totalPage) return
+      await this.getStrips(this.page + 1)
+    },
+
+    async toggleTestGroup(id: number, groupName: string, toggle: boolean) {
       this.loading = true
-      this.page++
-      await this.getStrips()
+      const res = await api.postTestGroupToggle(
+        this.selectedTest!.id,
+        id,
+        toggle
+      )
+      if (res) {
+        if (toggle) this.testGroup![id] = { id, groupName }
+        else delete this.testGroup![id]
+      }
       this.loading = false
     },
 
-    async addToSampleGroup(id: SampleGroupId, displayName: string) {
+    async toggleSampleGroup(id: number, groupName: string, toggle: boolean) {
       this.loading = true
       const res = await api.postSampleGroupToggle(
-        this.selectedTest!.region,
-        this.selectedTest!.testId,
+        this.selectedTest!.id,
         this.page,
         id,
-        true
+        toggle
       )
-      // TODO: Think more about this later
-      // If res is true, then it means it was successfully registered to server
-      if (res) this.sampleGroup![id] = { id, displayName }
-      this.loading = false
-    },
-
-    async delFromSampleGroup(id: SampleGroupId) {
-      this.loading = true
-      const res = await api.postSampleGroupToggle(
-        this.selectedTest!.region,
-        this.selectedTest!.testId,
-        this.page,
-        id,
-        false
-      )
-      // TODO: Think more about this later
-      // If res is true, then it means it was successfully registered to server
-      if (res) delete this.testGroup![id]
+      if (res) {
+        if (toggle) this.testGroup![id] = { id, groupName }
+        else delete this.testGroup![id]
+      }
       this.loading = false
     }
   }

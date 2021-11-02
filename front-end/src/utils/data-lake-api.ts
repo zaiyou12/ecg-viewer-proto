@@ -10,14 +10,13 @@ export default class GroupApi {
     }
   }
 
-  async getGroupList(type: 't' | 's' | 'p') {
+  async getGroupList(type: Resp.GroupType) {
     try {
-      const res = (await api.get(this.baseRoute, {
-        params: { type }
-      })) as Resp.GroupListResp
+      const route = `${this.baseRoute}/${type}/list`
+      const res = (await api.get(route)) as Resp.GroupList
       const obj = {
         numGroups: res.totalNum,
-        groups: deserializeToGroups(res.groupList)
+        groups: deserializeToGroups(res.type, res.groupList)
       }
       return obj
     } catch {

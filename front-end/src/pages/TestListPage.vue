@@ -22,7 +22,6 @@ import useTestsStore from '../stores/test-list'
 import { TogglePanelKey, DisablePanelKey } from '../symbols/symbols'
 
 const store = useTestsStore()
-// const maxTestsPerPage = 15
 const maxPageDisplay = 10
 
 const showPanel = ref(false)

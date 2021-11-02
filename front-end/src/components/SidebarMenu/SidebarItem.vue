@@ -10,6 +10,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import useTestsStore from '../../stores/test-list'
+import useDataLakeStore from '../../stores/data-lake'
 
 const props = defineProps<{
   label: string
@@ -18,13 +19,16 @@ const props = defineProps<{
 }>()
 
 const router = useRouter()
-const store = useTestsStore()
+const testStore = useTestsStore()
+const lakeStore = useDataLakeStore()
 
 async function routeTo() {
   router.push({ name: props.router })
-  if (props.label === 'Tests') {
-    store.resetAllParams()
-    await store.getTestList()
+  if (props.router === 'tests') {
+    testStore.resetAllParams()
+    await testStore.getTestList()
+  } else if (props.router === 'testGroup') {
+    lakeStore.fetchGroupList('t')
   }
 }
 </script>

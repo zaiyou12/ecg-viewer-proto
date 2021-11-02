@@ -15,7 +15,7 @@
           ></div>
           <div
             class="h-full flex flex-col justify-center pr-2 hover:bg-blue-50"
-          >{{ g.displayName }}</div>
+          >{{ g.groupName }}</div>
         </li>
       </ul>
     </div>
@@ -38,11 +38,7 @@ function belongsInGroup(gid: number): boolean {
 }
 
 async function groupSelected(g: TestGroup): Promise<void> {
-  if (belongsInGroup(g.id)) {
-    await viewStore.delFromTestGroup(g.id)
-  } else {
-    await viewStore.addToTestGroup(g.id, g.displayName)
-  }
+  await viewStore.toggleTestGroup(g.id, g.groupName, !belongsInGroup(g.id))
 }
 </script>
 

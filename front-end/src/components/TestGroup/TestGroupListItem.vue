@@ -1,8 +1,10 @@
 <template>
   <tr class="cursor-pointer hover:bg-blue-50 h-10 border-b">
-    <template v-for="(value, prop, idx) in group" :key="idx">
-      <td v-if="prop !== 'testIds'">{{ value === undefined ? '—' : value }}</td>
-    </template>
+    <td>{{ group.id }}</td>
+    <td>{{ group.groupName }}</td>
+    <td>{{ group.description === undefined ? '—' : group.description }}</td>
+    <td>{{ group.numTests }}</td>
+    <td>{{ group.pid === undefined ? '—' : group.pid }}</td>
   </tr>
 </template>
 

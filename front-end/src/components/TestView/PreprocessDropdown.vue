@@ -15,7 +15,7 @@
           ></div>
           <div
             class="h-full flex flex-col justify-center pr-2 hover:bg-blue-50"
-          >{{ g.displayName }}</div>
+          >{{ g.groupName }}</div>
         </li>
       </ul>
     </div>
@@ -34,7 +34,7 @@ const props = defineProps<{
 const lakeStore = useDataLakeStore()
 const viewStore = useTestViewStore()
 
-async function preprocessSelected(pid: PreprocessGroupId) {
+async function preprocessSelected(pid: number) {
   if (viewStore.pid === pid) viewStore.pid = undefined
   else viewStore.pid = pid
   await viewStore.getStrips()

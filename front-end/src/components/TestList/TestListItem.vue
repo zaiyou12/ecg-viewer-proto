@@ -1,16 +1,7 @@
 <template>
-  <tr class="cursor-pointer hover:bg-blue-50" @click="viewTest(ecgTest.testId)">
+  <tr class="cursor-pointer hover:bg-blue-50" @click="viewTest(ecgTest.id)">
     <template v-for="(value, prop, index) in ecgTest" :key="index">
-      <td v-if="prop === 'tGroup'">
-        <div class="flex justify-center">
-          <SvgIcon
-            :name="isNotEmpty(ecgTest.tGroup) ? 'InformationCircle' : 'XCircle'"
-            class="h-5 w-5"
-            :strokeColor="isNotEmpty(ecgTest.tGroup) ? undefined : '#D3D3D3'"
-          />
-        </div>
-      </td>
-      <td v-else-if="prop === 'condition'">
+      <td v-if="prop === 'condition'">
         <div class="flex justify-center">
           <svg
             viewBox="0 0 100 100"
@@ -31,7 +22,6 @@
 import { useRouter } from 'vue-router'
 import useTestViewStore from '../../stores/test-view'
 
-
 const props = defineProps<{
   ecgTest: EcgTest.Meta
 }>()
@@ -40,12 +30,8 @@ const router = useRouter()
 const store = useTestViewStore()
 
 async function viewTest(idx: number | string) {
-  router.push({ name: 'testView', params: { testSeq: idx } })
-  await store.viewNewTest(props.ecgTest.region, props.ecgTest.testId)
-}
-
-function isNotEmpty(arr: any[]): boolean {
-  return !!(arr.length)
+  router.push({ name: 'testView' })
+  await store.viewNewTest(props.ecgTest.id)
 }
 
 function whichColor(finalStatus: EcgTest.ConditionType): string {

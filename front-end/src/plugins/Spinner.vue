@@ -51,7 +51,7 @@ const props = withDefaults(defineProps<{ loading: boolean }>(), { loading: true 
 }
 
 .spinner-screen-overlay {
-  z-index: 98;
+  z-index: 99;
   width: calc(100vw - 13rem);
   height: 100vh;
   @apply absolute opacity-10 bg-gray-400;

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import EcgTestApi from '../utils/ecg-test-api'
+import EcgTestApi from '../utils/test-list-api'
 import { removeFromArray } from '../utils/helper'
 
 type TestListState = {
@@ -8,9 +8,9 @@ type TestListState = {
   page: number
   duration: EcgTest.Duration[]
   region: EcgTest.Region[]
-  testGroup?: TestGroupId
+  testGroup?: number // Test Group ID
   condition: EcgTest.ConditionType[]
-  query: EcgTest.TestId
+  query: EcgTest.Seq
   loading: boolean
 }
 

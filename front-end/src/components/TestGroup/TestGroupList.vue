@@ -30,7 +30,7 @@ const store = useDataLakeStore()
 
 const testGroupHeader = [
   { label: 'ID', class: 'id' },
-  { label: 'Display Name', class: 'display-name' },
+  { label: 'Group Name', class: 'group-name' },
   { label: 'Description', class: 'description' },
   { label: '# Tests', class: 'num-tests' },
   { label: 'PID', class: 'pid' },
@@ -46,7 +46,7 @@ const testGroupHeader = [
   th.pid {
     width: 5%;
   }
-  .table-group-list th.display-name {
+  .table-group-list th.group-name {
     width: 25%;
   }
   .table-group-list th.num-tests {

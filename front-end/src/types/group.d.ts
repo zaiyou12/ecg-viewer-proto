@@ -1,46 +1,52 @@
-declare type PreprocessGroupId = number
-declare interface PreprocessGroup {
-  id: PreprocessGroupId
-  displayName: string
+declare interface GroupBasic {
+  id: number
+  groupName: string
+}
+
+declare type GroupStatus = 'open' | 'closed'
+
+declare interface GroupDetail extends GroupBasic {
+  groupStatus?: GroupStatus
+}
+
+declare interface PreprocessGroup extends GroupBasic {
+  // TODO: Remove?
   description?: string
 }
 declare interface PreprocessGroups {
-  [id: PreprocessGroupId]: PreprocessGroup
+  [id: number]: PreprocessGroup
 }
 
-declare type TestGroupId = number
-declare interface TestGroup {
-  id: TestGroupId
-  displayName: string
+declare interface TestGroup extends GroupDetail {
+  /** Must be left as optional; will break deserializeToGroups and test-view */
+  numTests?: number
+  // TODO: Remove?
   description?: string
-  numEcgTests?: number
-  testIds?: EcgTest.TestId[]
-  preprocessId?: PreprocessGroupId
+  pid?: number
 }
 declare interface TestGroups {
-  [id: TestGroupId]: TestGroup
+  [id: number]: TestGroup
 }
 
-declare type SampleGroupId = number
-declare interface SampleGroup {
-  id: SampleGroupId
-  displayName: string
+declare interface SampleGroup extends GroupBasic {
+  /** Must be left as optional; will break deserializeToGroups and test-view */
+  numSamples?: number
+  // TODO: Remove?
   description?: string
-  numStrips?: number
-  strips?: EcgStrip[]
-  preprocessId?: PreprocessGroupId
+  pid?: number
 }
 declare interface SampleGroups {
-  [id: SampleGroupId]: SampleGroup
+  [id: number]: SampleGroup
 }
 
+// TODO: Remove or modify later
 declare type AnomalyGroupId = number
 declare interface AnomalyGroup {
   id: AnomalyGroupId
   anomalyName: string
   description: string
   numEcgTests: number
-  testIds: EcgTest.TestId[]
+  // testIds: EcgTest.TestId[]
 }
 declare interface AnomalyGroups {
   [id: AnomalyGroupId]: AnomalyGroup

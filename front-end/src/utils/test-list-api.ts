@@ -14,13 +14,13 @@ export default class EcgTestApi {
     try {
       const res = (await api.get(this.baseRoute, {
         params
-      })) as Resp.EcgTestResp
+      })) as Resp.TestList
       const { tests, page, totalPage, testGroup } = res
       const obj = {
         tests: deserializeAllTest(tests),
         page,
         totalPage: totalPage === undefined || totalPage < 1 ? 1 : totalPage
-        // TODO: testGroup
+        // TODO: testGroup ??
       }
       return obj
     } catch {

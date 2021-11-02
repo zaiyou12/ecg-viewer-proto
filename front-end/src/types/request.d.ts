@@ -3,8 +3,8 @@ declare namespace Req {
     page?: number
     duration?: EcgTest.Duration | EcgTest.Duration[]
     region?: EcgTest.Region | EcgTest.Region[]
-    test_group?: TestGroupId | TestGroupId[]
+    test_group?: number | number[] // Test Group ID
     condition?: EcgTest.ConditionType | EcgTest.ConditionType[]
-    query?: EcgTest.TestId
+    query?: EcgTest.Seq
   }
 }

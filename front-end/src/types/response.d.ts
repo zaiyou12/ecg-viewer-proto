@@ -1,46 +1,75 @@
 declare namespace Resp {
-  interface EcgTest {
+  /** */
+  interface Test {
+    id: EcgTest.Id
     region: EcgTest.Region
-    testId: EcgTest.TestId
+    seq: EcgTest.Seq
     duration: EcgTest.Duration
     condition: EcgTest.ConditionType
   }
 
-  interface EcgTestResp {
-    tests: EcgTest[]
+  interface TestList {
+    tests: Test[]
     page: number
     totalPage: number
+    // TODO: Remove?
     testGroup?: string
   }
+  /** */
 
-  interface Group {
+  /** */
+  type GroupBasic = {
     id: number
     groupName: string
   }
 
-  interface GroupListResp {
-    status: number
-    totalNum: number
-    groupList: Group[]
-    type: 't' | 's' | 'p'
-  }
-
-  interface TestViewResp {
+  interface TestView {
     details: {
       hr: number
       startTime: string
       actualDuration: string
     }
-    testGroup: Group[]
+    testGroup: GroupBasic[]
+    id: EcgTest.Id
     region: EcgTest.Region
-    testId: EcgTest.TestId
+    seq: EcgTest.Seq
     duration: EcgTest.Duration
     condition: EcgTest.ConditionType
     totalPage: number
   }
+  /** */
 
-  interface StripsResp {
-    imagePath: string[]
-    sampleGroup: Group[]
+  /** */
+  type GroupType = 't' | 's' | 'p'
+
+  type GroupDetail = {
+    id: number
+    groupName: string
+    numTests: number
+    groupStatus: GroupStatus
   }
+
+  interface GroupList {
+    totalNum: number
+    type: GroupType
+    groupList: GroupDetail[]
+  }
+  /** */
+
+  /** */
+  interface Strips {
+    imagePath: string[]
+    sampleGroup: GroupBasic[]
+  }
+  /** */
+
+  /** */
+  type GroupChange = {
+    id: number
+    result: {
+      target: number[] | [number, number][]
+      message: 'Added' | 'Already Added' | 'Deleted' | 'Already Deleted'
+    }[]
+  }
+  /** */
 }
