@@ -29,6 +29,8 @@ async function routeTo() {
     await testStore.getTestList()
   } else if (props.router === 'testGroup') {
     lakeStore.fetchGroupList('t')
+  } else if (props.router === 'sampleGroup') {
+    lakeStore.fetchGroupList('s')
   }
 }
 </script>

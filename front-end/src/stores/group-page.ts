@@ -7,6 +7,7 @@ const api = new GroupApi()
 type GroupPageState = {
   type?: Resp.GroupType
   selectedGroupId?: number
+  selectedGroupName?: string
   tests?: EcgTests
   samples?: [EcgTest.Meta, number[]][]
   loading: boolean
@@ -17,6 +18,7 @@ const useGroupPageStore = defineStore('groupPage', {
     return {
       type: undefined,
       selectedGroupId: undefined,
+      selectedGroupName: undefined,
       tests: [],
       samples: [],
       loading: false
@@ -26,6 +28,7 @@ const useGroupPageStore = defineStore('groupPage', {
     resetGroupPage() {
       this.type = undefined
       this.selectedGroupId = undefined
+      this.selectedGroupName = undefined
       this.tests = []
       this.samples = []
       this.loading = false
@@ -35,12 +38,15 @@ const useGroupPageStore = defineStore('groupPage', {
       this.loading = true
       const res = await api.getTestsInGroup(this.type!, gid)
       if (res === undefined) return
+      const lakeStore = useDataLakeStore()
+      this.selectedGroupId = gid
       if (this.type! === 't') {
         this.tests = res as EcgTests
+        this.selectedGroupName = lakeStore.testGroups[gid].groupName
       } else {
         this.samples = res as [EcgTest.Meta, number[]][]
+        this.selectedGroupName = lakeStore.sampleGroups[gid].groupName
       }
-      this.selectedGroupId = gid
       this.loading = false
     },
 

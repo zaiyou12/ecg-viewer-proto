@@ -17,15 +17,27 @@
   <div class="h-16 w-full"></div>
   <div class="group-list-viewer">
     <GroupList class="w-1/2 pr-5" />
-    <GroupTestList v-if="store.selectedGroupId" class="w-1/2" />
+    <div v-if="store.selectedGroupId" class="w-1/2 flex flex-col">
+      <div class="text-left text-sm flex mb-2">
+        <p class="mr-5">Group ID #{{ store.selectedGroupId }}</p>
+        <p>{{ store.selectedGroupName }}</p>
+      </div>
+      <div class="h-16 border mb-2 flex items-center">
+        <label>Test</label>
+        <input type="text" class="border h-8" />
+        <button class="border">Add</button>
+        <button class="border">Delete</button>
+      </div>
+      <GroupTestList />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref, provide } from 'vue'
 import PageHeader from '@/components/PageHeader.vue'
-import GroupAdder from '@/components/TestGroup/GroupAdder.vue'
-import GroupRemover from '@/components/TestGroup/GroupRemover.vue'
+import GroupAdder from '@/components/Group/GroupAdder.vue'
+import GroupRemover from '@/components/Group/GroupRemover.vue'
 import GroupList from '@/components/TestGroup/GroupList.vue'
 import GroupTestList from '@/components/TestGroup/GroupTestList.vue'
 import useGroupPageStore from '../stores/group-page'

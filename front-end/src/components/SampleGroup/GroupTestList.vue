@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="border rounded-lg p-5 select-none h-full overflow-y-auto overscroll-contain"
-  >
+  <div class="border rounded-lg p-5 select-none">
     <table class="table-test-list">
       <thead class="cursor-default">
         <th
@@ -12,8 +10,8 @@
         >{{ col.label }}</th>
       </thead>
       <tbody>
-        <template v-for="(test, idx) in tests" :key="idx">
-          <TestListItem :ecgTest="test" class="border-b h-11" />
+        <template v-for="(sample, idx) in store.samples" :key="idx">
+          <TestListItem :sample="sample" />
         </template>
       </tbody>
     </table>
@@ -22,11 +20,10 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import TestListItem from '@/components/TestList/TestListItem.vue'
+import TestListItem from '@/components/SampleGroup/GroupTestListItem.vue'
 import useGroupPageStore from '../../stores/group-page'
 
 const store = useGroupPageStore()
-const tests = computed(() => store.type === 't' ? store.tests : store.samples)
 
 /**
  * Must be in order with the deserialized EcgTest.Meta object

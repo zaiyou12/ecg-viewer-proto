@@ -46,7 +46,6 @@ declare interface AnomalyGroup {
   anomalyName: string
   description: string
   numEcgTests: number
-  // testIds: EcgTest.TestId[]
 }
 declare interface AnomalyGroups {
   [id: AnomalyGroupId]: AnomalyGroup

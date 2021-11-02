@@ -48,7 +48,7 @@ const useTestViewStore = defineStore('testView', {
       this.loading = false
     },
 
-    async viewNewTest(id: EcgTest.Id) {
+    async viewNewTest(id: EcgTest.Id, page?: number) {
       this.resetState()
       this.loading = true
       const res = await api.fetchTestView(id)
@@ -62,7 +62,7 @@ const useTestViewStore = defineStore('testView', {
         testGroup: this.testGroup,
         totalPage: this.totalPage
       } = res)
-      await this.getStrips()
+      await this.getStrips(page)
       this.loading = false
     },
 
@@ -124,8 +124,8 @@ const useTestViewStore = defineStore('testView', {
         toggle
       )
       if (res) {
-        if (toggle) this.testGroup![id] = { id, groupName }
-        else delete this.testGroup![id]
+        if (toggle) this.sampleGroup![id] = { id, groupName }
+        else delete this.sampleGroup![id]
       }
       this.loading = false
     }
