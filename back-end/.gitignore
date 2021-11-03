@@ -2,6 +2,7 @@
 __pycache__/
 build/
 venv/
+app/static/ecg_png_cache/
 
 .env
 .prod.env

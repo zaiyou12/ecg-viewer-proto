@@ -10,8 +10,10 @@ class Config:
         pass
 
 class DevConfig(Config):
-    DATABASE_URL = os.environ.get('DEV_DATABASE_URL') or \
-        'sqlite://' + os.path.join(basedir, 'sqlite.db')
+    # DATABASE_URL = os.environ.get('DEV_DATABASE_URL') or \
+    #     'sqlite://' + os.path.join(basedir, 'sqlite.db')
+
+    DATABASE_URL = os.environ.get('DEV_DATABASE_URL') or os.path.join(basedir, 'sqlite.db')
 
 class TestConfig(Config):
     TESTING = True

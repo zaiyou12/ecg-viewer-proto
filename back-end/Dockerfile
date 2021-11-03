@@ -7,10 +7,12 @@ COPY requirements.txt requirements.txt
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 
-COPY app app
-COPY .prod.env .env
-COPY boot.sh config.py server.py ./
-RUN chmod +x boot.sh
+COPY . .
+# COPY app app
+# COPY .prod.env .env
+# COPY boot.sh config.py server.py ./
+# RUN chmod +x boot.sh
 
 EXPOSE 5000
-ENTRYPOINT [ "./boot.sh" ]
+CMD ["python3", "test_booting.py"]
+# ENTRYPOINT [ "./boot.sh" ]
