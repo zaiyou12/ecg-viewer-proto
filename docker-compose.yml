@@ -1,0 +1,16 @@
+version: '3'
+services:
+  vue:
+    build: ./front-end
+    ports:
+      - "8080:8080"
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - "8000:8080"
+    volumes:
+      - ./db/design:/var/www/html/designs/hydra
+    environment:
+      ADMINER_DEFAULT_SERVER: SQLite
+      ADMINER_DESIGN: hydra
