@@ -1,76 +1,143 @@
-
-
-##### ----- 개별 ECG Test의 정보
-def q_get_ecgtest_info(region: str, test_id: str) -> str:
-    query = f"SELECT id, region, test_id, duration, condition, edf_path, details_path \
-FROM ecgtest \
-WHERE region='{region}' AND test_id='{test_id}'"
-    return query
-
-
-
-##### ----- Make Link ECGTest-TestGroup
-def q_make_link_ecgtest_testgroup(ecgtest_id: int, testgroup_id: int) -> str:
-    query = f"INSERT INTO testlink (ecgtest_id, testgroup_id) VALUES ({ecgtest_id}, {testgroup_id})"
-    return query
-
-
-
-##### ----- Delete Link ECGTest-TestGroup
-def q_delete_link_ecgtest_testgroup(ecgtest_id: int, testgroup_id: int) -> str:
-    query = f"DELETE FROM testlink WHERE ecgtest_id={ecgtest_id} AND testgroup_id={testgroup_id}"
-    return query
-
-
-
-##### ----- Get Link ECGTest-TestGroup
-def q_get_testlink(ecgtest_id: int, testgroup_id: int) -> str:
-    query = f"SELECT ecgtest_id, testgroup_id FROM testlink WHERE ecgtest_id={ecgtest_id} AND testgroup_id={testgroup_id}"
-    return query
-
-
-
-##### ----- Get Link ECGTest-SampleGroup
-def q_get_samplelink(ecgtest_id: int, page: int, samplegroup_id: int) -> str:
-    query = f"SELECT ecgtest_id, page, samplegroup_id FROM samplelink WHERE ecgtest_id={ecgtest_id} AND page={page} AND samplegroup_id={samplegroup_id}"
-    return query
-
-
-
-##### ----- Make Link ECGTest-SampleGroup
-def q_make_link_ecgtest_samplegroup(ecgtest_id: int, page: int, samplegroup_id: int) -> str:
-    query = f"INSERT INTO samplelink (ecgtest_id, samplegroup_id, page) VALUES ({ecgtest_id}, {samplegroup_id}, {page})"
-    return query
-
-
-
-##### ----- Delete Link ECGTest-SampleGroup
-def q_delete_link_ecgtest_samplegroup(ecgtest_id: int, page: int, samplegroup_id: int) -> str:
-    query = f"DELETE FROM samplelink WHERE ecgtest_id={ecgtest_id} AND samplegroup_id={samplegroup_id} AND page={page}"
-    return query
-
+from typing import Union
 
 
 ##### ----- Delete Link ECGTest-SampleGroup
 def q_get_grouplist(type_: str) -> str:
     table=None
     if type_ == "t":
-        table="testgroup"
+        query = "SELECT id, group_name, group_status FROM testgroup"
+        return query
     elif type_ == "s":
-        table="samplegroup"
-    else:
-        table="preprocessgroup"
-    
-    query = f"SELECT id, group_name FROM {table}"
-    return query
+        query = "SELECT id, group_name, group_status FROM samplegroup"
+        return query
+    elif type_ == "p":
+        query = "SELECT id, group_name FROM preprocessgroup"
+        return query
+    return -1
 
 
 ##### ----- Insert Data to Group
-def q_create_groupdata(ty: str, group_name: str, group_status: str, path: str) -> str:
-    if ty == "t":
+def q_create_groupdata(type_: str, group_name: str, group_status: str = "Open", path:str = "./") -> str:
+    if type_ == "t":
         query = f"INSERT INTO testgroup (group_name, group_status) VALUES ('{group_name}', '{group_status}')"
-    elif ty == "s":
+    elif type_ == "s":
         query = f"INSERT INTO samplegroup (group_name, group_status) VALUES ('{group_name}', '{group_status}')"
     else:
-        query = f"INSERT INTO preprocessgroup (group_name, group_status, path) VALUES ('{group_name}', '{group_status}', '{path}')"
+        query = f"INSERT INTO preprocessgroup (group_name, path) VALUES ('{group_name}', '{path}')"
     return query
+
+
+
+##### ----- Get Count from Link db
+def q_get_num_from_link(type_: str, group_id: int) -> str:
+    if type_ == "t":
+        query = f"SELECT COUNT(ecgtest_id) FROM testlink WHERE testgroup_id={group_id}"
+        return query
+    elif type_ == "s":
+        query = f"SELECT COUNT(ecgtest_id) FROM samplelink WHERE samplegroup_id={group_id}"
+        return query
+    return -1
+
+
+
+##### ----- Get ecg info from link
+def q_get_ecginfo_from_link(type_: str, group_id: int) -> str:
+    if type_ == "t":
+        query = f"SELECT id, region, seq, duration, condition FROM ecgtest WHERE id IN (\
+SELECT ecgtest_id FROM testlink WHERE testgroup_id={group_id})"
+        return query
+
+    elif type_ == "s":
+        query = f"SELECT id, region, seq, duration, condition FROM ecgtest WHERE id IN (\
+SELECT DISTINCT ecgtest_id FROM samplelink WHERE samplegroup_id={group_id})"
+        return query
+    
+    return -1
+
+
+
+##### ----- Get page info from link
+def q_get_page_info(ecgtest_id: int, group_id: int) -> str:
+    query = f"SELECT page FROM samplelink WHERE ecgtest_id={ecgtest_id} AND samplegroup_id={group_id}"
+    return query
+
+
+
+##### ----- Get group data From name
+def q_get_groupdata_from_name(type_: str, group_name: str) -> str:
+    if type_ == "t":
+        query = f"SELECT id, group_name FROM testgroup WHERE group_name='{group_name}'"
+        return query
+    if type_ == "s":
+        query = f"SELECT id, group_name FROM samplegroup WHERE group_name='{group_name}'"
+        return query
+    if type_ == "p":
+        query = f"SELECT id, group_name FROM preprocessgroup WHERE group_name='{group_name}'"
+        return query
+    return -1
+
+
+
+##### ----- Get group data From ID
+def q_get_groupdata_from_id(type_: str, id_: int) -> str:
+    if type_ == "t":
+        query = f"SELECT id, group_name FROM testgroup WHERE id={id_}"
+        return query
+    if type_ == "s":
+        query = f"SELECT id, group_name FROM samplegroup WHERE id={id_}"
+        return query
+    if type_ == "p":
+        query = f"SELECT id, group_name FROM preprocessgroup WHERE id={id_}"
+        return query
+    return -1
+
+
+
+##### ----- Delete group data
+def q_delete_groupdata(type_: str, id_: int) -> str:
+    if type_ == "t":
+        query = f"DELETE FROM testgroup WHERE id={id_}"
+        return query
+    if type_ == "s":
+        query = f"DELETE FROM samplegroup WHERE id={id_}"
+        return query
+    if type_ == "p":
+        query = f"DELETE FROM preprocessgroup WHERE id={id_}"
+        return query
+    return -1
+
+
+
+##### ----- Make Link
+def q_create_link(type_: str, group_id: int, work: Union[list, int]) -> str:
+    if type_ == "t":
+        query = f"INSERT INTO testlink (ecgtest_id, testgroup_id) VALUES ({work}, {group_id})"
+        return query
+    elif type_ == "s":
+        query = f"INSERT INTO samplelink (ecgtest_id, samplegroup_id, page) VALUES ({work[0]}, {group_id}, {work[1]})"
+        return query
+    return -1
+
+
+
+##### ----- Get Link
+def q_get_link(type_: str, group_id: int, work: Union[list, int]) -> str:
+    if type_ == "t":
+        query = f"SELECT ecgtest_id, testgroup_id FROM testlink WHERE ecgtest_id={work} AND testgroup_id={group_id}"
+        return query
+    elif type_ == "s":
+        query = f"SELECT ecgtest_id, samplegroup_id, page FROM samplelink WHERE ecgtest_id={work[0]} AND samplegroup_id={group_id} AND page={work[1]}"
+        return query
+    return -1
+
+
+
+##### ----- Delete Link
+def q_delete_link(type_: str, group_id: int, work: Union[list, int]) -> str:
+    if type_ == "t":
+        query = f"DELETE FROM testlink WHERE ecgtest_id={work} AND testgroup_id={group_id}"
+        return query
+    elif type_ == "s":
+        query = f"DELETE FROM samplelink WHERE ecgtest_id={work[0]} AND samplegroup_id={group_id} AND page={work[1]}"
+        return query
+    return -1

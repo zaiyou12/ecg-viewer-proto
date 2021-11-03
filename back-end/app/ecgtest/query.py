@@ -22,9 +22,9 @@ def make_tuple_from_string(text_list: List[str]) -> str:
     qu = "(SELECT * FROM ecgtest WHERE "
     for text in text_list:
         if idx != 0:
-            qu += f" OR test_id LIKE '%{text}%'"
+            qu += f" OR seq LIKE '%{text}%'"
         else:    
-            qu += f"test_id LIKE '%{text}%'"
+            qu += f"seq LIKE '%{text}%'"
             idx+=1
     qu += ")"
     return qu
@@ -39,7 +39,7 @@ def q_get_ecgtests(durations: List[str], regions: List[str], conditions: List[st
     else:
         base_table = "ecgtest"
 
-    query = f"SELECT region, test_id, duration, condition FROM {base_table} "
+    query = f"SELECT id, region, seq, duration, condition FROM {base_table} "
     # Apply Condition
     if len(durations+regions+conditions+test_groups) >= 1:
         query += "WHERE "
@@ -56,41 +56,39 @@ def q_get_ecgtests(durations: List[str], regions: List[str], conditions: List[st
 
         query += where_qu[4:]
 
-    query += f"ORDER BY test_id"
+    query += f"ORDER BY seq"
     return query
 
 
 
 ##### ----- 개별 ECG Test의 정보
-def q_get_ecgtest_info(region: str, test_id: str) -> str:
-    query = f"SELECT region, test_id, duration, condition, edf_path, details_path \
+def q_get_ecgtest_info(id: int) -> str:
+    query = f"SELECT id, region, seq, duration, condition, edf_path, details_path \
 FROM ecgtest \
-WHERE region='{region}' AND test_id='{test_id}'"
+WHERE id={id}"
     return query
 
 
 
 ##### ----- 개별 ECG Test가 속해져 있는 TestGroup ID 가져오기
-def q_get_ecgtest_testgroup(region: str, test_id: str) -> str:
+def q_get_ecgtest_testgroup(id: int) -> str:
     query = f"SELECT id, group_name FROM testgroup WHERE id IN (\
-SELECT testgroup_id FROM testlink WHERE ecgtest_id IN (\
-SELECT id FROM ecgtest WHERE region='{region}' AND test_id='{test_id}'))"
+SELECT testgroup_id FROM testlink WHERE ecgtest_id={id})"
     return query
 
 
 
 ##### ----- Preprocess file path 가져오기
 def q_get_preprocess_path(pid: int) -> str:
-    query = f"SELECT id, group_name, group_status, path FROM preprocessgroup WHERE id={pid}"
+    query = f"SELECT id, group_name, path FROM preprocessgroup WHERE id={pid}"
     return query
 
 
 
 ##### ----- 개별 ECG Test&Page가 속해져 있는 SampleGroup ID 가져오기
-def q_get_ecgtest_samplegroup(region: str, test_id: str, page: int) -> str:
+def q_get_ecgtest_samplegroup(id: int, page: int) -> str:
     query = f"SELECT id, group_name FROM samplegroup WHERE id IN (\
-SELECT samplegroup_id FROM samplelink WHERE page={page} AND ecgtest_id IN(\
-SELECT id FROM ecgtest WHERE region='{region}' AND test_id='{test_id}'))"
+SELECT samplegroup_id FROM samplelink WHERE page={page} AND ecgtest_id={id})"
     return query
 
 

@@ -36,7 +36,7 @@ def ploting_from_signal(signal_arr: np.ndarray, one_image_len: int) -> IO[bytes]
     return img
 
 
-def signal_plot_to_png(signal: np.ndarray, region: str, test_id: str, page: int, one_image_len: int, add_name: int="") -> str:
+def signal_plot_to_png(signal: np.ndarray, id: int, page: int, one_image_len: int, add_name: int="") -> str:
     fig = plt.figure(figsize=(15, 2*6), constrained_layout=True)
     axs = fig.subplots(6, 1)
     for idx, ax in enumerate(axs):
@@ -44,31 +44,9 @@ def signal_plot_to_png(signal: np.ndarray, region: str, test_id: str, page: int,
         ax.plot(cut_signal, 'b-', label=f'ecg_{idx}')
         ax.axes.get_xaxis().set_visible(False)
         ax.axes.get_yaxis().set_visible(False)
-    file_name = f"{region}_{test_id}_{page}{add_name}.png"
+    file_name = f"{id}_{page}{add_name}.png"
     file_path = os.path.join(current_app.root_path, 'static/ecg_png_cache', file_name)
     fig.savefig(file_path, format='png', dpi=200)
     return file_name
 
 
-# At /ecgtest, Response Form
-def make_test_list_for_ecgtest(ecg_tests: List[Dict[str,str]]) -> List[Dict[str,str]]:
-    test_dump = []
-    for test_ in ecg_tests:
-        test_dump.append({
-            "region":test_.region,
-            "test_id":test_.test_id,
-            "duration":test_.duration,
-            "condition":test_.condition,
-        })
-    return test_dump
-
-
-# At /ecgtest/region/test_id/page, Response Form
-def make_group_list_for_ecgtest(samplegroups: List[Dict[str,str]]) -> List[Dict[str,str]]:
-    dump = []
-    for sample in samplegroups:
-        dump.append({
-            "id": sample.id,
-            "name": sample.group_name,
-        })
-    return dump
