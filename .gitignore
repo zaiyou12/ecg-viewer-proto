@@ -5,3 +5,5 @@ Icon
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/extensions.json
+
+.env
