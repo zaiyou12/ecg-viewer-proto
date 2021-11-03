@@ -3,7 +3,7 @@
     <table class="table-group-list">
       <thead class="cursor-default">
         <th
-          v-for="(col, idx) in groupHeader"
+          v-for="(col, idx) in groupCols"
           :key="idx"
           class="border-b-2 h-7 px-3 py-1"
           :class="col.class"
@@ -17,21 +17,20 @@
 </template>
 
 <script setup lang="ts">
-import { toRef } from 'vue'
+import { toRef, computed } from 'vue'
 // @ts-ignore
 import useDataLakeStore from '@/stores/data-lake'
 import GroupListItem from './GroupListItem.vue';
 
+const props = defineProps<{
+  groupType: Resp.GroupType
+  groupCols: GroupCols[]
+}>()
 
 const store = useDataLakeStore()
-const groups = toRef(store, 'testGroups')
-const groupHeader = [
-  { label: 'ID', class: 'id' },
-  { label: 'Group Name', class: 'group-name' },
-  { label: 'Description', class: 'description' },
-  { label: '# Tests', class: 'num-tests' },
-  { label: 'PID', class: 'pid' },
-]
+const whichGroup = computed(() => props.groupType === 't' ? 'testGroups' : 'sampleGroups')
+const groups = toRef(store, whichGroup.value)
+
 </script>
 
 <style>
@@ -44,17 +43,17 @@ const groupHeader = [
   }
 
   .table-group-list {
-    @apply table-auto;
+    @apply table-fixed;
   }
   .table-group-list th.id,
   th.pid {
     width: 5%;
   }
-  .table-group-list th.group-name {
-    width: 25%;
+  .table-group-list th.name {
+    width: 30%;
   }
-  .table-group-list th.num-tests {
-    width: 15%;
+  .table-group-list th.num {
+    width: 20%;
   }
 }
 </style>

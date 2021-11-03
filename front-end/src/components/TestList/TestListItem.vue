@@ -3,14 +3,7 @@
     <template v-for="(value, prop, index) in ecgTest" :key="index">
       <td v-if="prop === 'condition'">
         <div class="flex justify-center">
-          <svg
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-3 w-3"
-            :fill="whichColor(ecgTest.condition.final)"
-          >
-            <circle cx="50" cy="50" r="50" />
-          </svg>
+          <StatusColor :final-condition="ecgTest.condition.final" />
         </div>
       </td>
       <td v-else>{{ value }}</td>
@@ -20,6 +13,7 @@
 
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
+import StatusColor from '@/components/StatusColor.vue'
 import useTestViewStore from '../../stores/test-view'
 
 const props = defineProps<{

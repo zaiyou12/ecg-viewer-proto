@@ -12,6 +12,6 @@ export interface VoidFunc {
   (): void
 }
 
-/* Used in test filtering */
 export const TogglePanelKey: InjectionKey<VoidFunc> = Symbol('TogglePanelKey')
+export const EnablePanelKey: InjectionKey<VoidFunc> = Symbol('EnablePanelKey')
 export const DisablePanelKey: InjectionKey<VoidFunc> = Symbol('DisablePanelKey')

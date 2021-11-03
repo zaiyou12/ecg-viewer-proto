@@ -7,16 +7,19 @@
     <td>{{ group.id }}</td>
     <td>{{ group.groupName }}</td>
     <td>{{ group.description === undefined ? '—' : group.description }}</td>
-    <td>{{ group.numSamples }}</td>
+    <td v-if="hasTypedProperty(group, 'numTests')">{{ group.numTests }}</td>
+    <td v-else-if="hasTypedProperty(group, 'numSamples')">{{ group.numSamples }}</td>
+    <td v-else></td>
     <td>{{ group.pid === undefined ? '—' : group.pid }}</td>
   </tr>
 </template>
 
 <script setup lang="ts">
-import useGroupPageStore from '../../stores/group-page';
+import useGroupPageStore from '../../stores/group-page'
+import { hasTypedProperty } from '../../utils/helper'
 
 const props = defineProps<{
-  group: SampleGroup
+  group: TestGroup | SampleGroup
 }>()
 
 const store = useGroupPageStore()
