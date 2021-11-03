@@ -21,11 +21,11 @@ def create_app(config_name:str) -> Flask:
 
     @app.route('/')
     def hello_world():
-        return "<p>Hello, World!</p>"
+        return "<p>Hello, Cold Brew!</p>"
 
-    # from .ecgtest import ecgtest as ecgtest_blueprint
+    from .ecgtest import ecgtest as ecgtest_blueprint
     from .group import group as group_blueprint
-    # app.register_blueprint(ecgtest_blueprint)
+    app.register_blueprint(ecgtest_blueprint)
     app.register_blueprint(group_blueprint)
 
     return app
