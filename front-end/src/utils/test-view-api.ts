@@ -1,5 +1,6 @@
 import api from './api'
 import { deserializeTest, deserializeToGroups } from './deserializer'
+import { resultTransacted } from './group-api-helper'
 
 export default class TestViewApi {
   private ecgRoute = import.meta.env.VITE_ECG_TEST_API_ROUTE as string
@@ -42,52 +43,21 @@ export default class TestViewApi {
     }
   }
 
-  /**
-   * @description Single toggle
-   */
-  async postTestGroupToggle(
-    dbId: EcgTest.Id,
+  async postSingleGroupToggle(
+    type: Resp.GroupType,
     gid: number,
-    toggle: boolean
+    toggle: boolean,
+    dbId: EcgTest.Id,
+    page?: number
   ): Promise<boolean> {
-    const route = `${this.groupRoute}/t/change`
+    const route = `${this.groupRoute}/${type}/change`
     const act = toggle ? 'add' : 'del'
     try {
-      const body = { works: [dbId], id: gid, act }
+      const works: EcgTest.Id[] | [EcgTest.Id, number][] =
+        type === 't' ? [dbId] : [[dbId, page!]]
+      const body = { works, id: gid, act }
       const res = (await api.post(route, body)) as Resp.GroupChange
-      if (
-        (toggle && res.result[0].message === 'Added') ||
-        (!toggle && res.result[0].message === 'Deleted')
-      ) {
-        return true
-      }
-      return false
-    } catch {
-      return false
-    }
-  }
-
-  /**
-   * @description Single toggle
-   */
-  async postSampleGroupToggle(
-    dbId: EcgTest.Id,
-    page: number,
-    gid: number,
-    toggle: boolean
-  ): Promise<boolean> {
-    const route = `${this.groupRoute}/s/change`
-    const act = toggle ? 'add' : 'del'
-    try {
-      const body = { works: [[dbId, page]], id: gid, act }
-      const res = (await api.post(route, body)) as Resp.GroupChange
-      if (
-        (toggle && res.result[0].message === 'Added') ||
-        (!toggle && res.result[0].message === 'Deleted')
-      ) {
-        return true
-      }
-      return false
+      return resultTransacted(res.result[0], type, toggle, works![0])
     } catch {
       return false
     }

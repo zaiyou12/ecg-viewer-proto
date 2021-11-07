@@ -38,7 +38,7 @@ function belongsInGroup(gid: number): boolean {
 }
 
 async function groupSelected(g: TestGroup): Promise<void> {
-  await viewStore.toggleTestGroup(g.id, g.groupName, !belongsInGroup(g.id))
+  await viewStore.toggleSingleGroup('t', g.id, g.groupName, !belongsInGroup(g.id))
 }
 </script>
 

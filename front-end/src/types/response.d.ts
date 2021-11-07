@@ -70,12 +70,14 @@ declare namespace Resp {
     | 'Deleted'
     | 'Already Deleted'
 
+  type GroupChangeResult = {
+    target: number | [number, number]
+    message: GroupModifyMessage
+  }
+
   type GroupChange = {
     id: number
-    result: {
-      target: number[] | [number, number][]
-      message: GroupModifyMessage
-    }[]
+    result: GroupChangeResult[]
   }
   /** */
 

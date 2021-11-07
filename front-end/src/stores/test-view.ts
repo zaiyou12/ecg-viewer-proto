@@ -101,31 +101,24 @@ const useTestViewStore = defineStore('testView', {
       await this.getStrips(this.page + 1)
     },
 
-    async toggleTestGroup(id: number, groupName: string, toggle: boolean) {
+    async toggleSingleGroup(
+      type: Resp.GroupType,
+      id: number,
+      groupName: string,
+      toggle: boolean
+    ) {
       this.loading = true
-      const res = await api.postTestGroupToggle(
-        this.selectedTest!.id,
+      const res = await api.postSingleGroupToggle(
+        type,
         id,
-        toggle
+        toggle,
+        this.selectedTest!.id,
+        type === 't' ? undefined : this.page
       )
       if (res) {
-        if (toggle) this.testGroup![id] = { id, groupName }
-        else delete this.testGroup![id]
-      }
-      this.loading = false
-    },
-
-    async toggleSampleGroup(id: number, groupName: string, toggle: boolean) {
-      this.loading = true
-      const res = await api.postSampleGroupToggle(
-        this.selectedTest!.id,
-        this.page,
-        id,
-        toggle
-      )
-      if (res) {
-        if (toggle) this.sampleGroup![id] = { id, groupName }
-        else delete this.sampleGroup![id]
+        const group = type === 't' ? this.testGroup! : this.sampleGroup!
+        if (toggle) group[id] = { id, groupName }
+        else delete group[id]
       }
       this.loading = false
     }

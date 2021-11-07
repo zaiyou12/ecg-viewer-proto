@@ -38,6 +38,28 @@ const useGroupPageStore = defineStore('groupPage', {
       loading: false
     } as GroupPageState
   },
+  getters: {
+    checkedDbIds(): EcgTest.Id[] {
+      if (this.type !== 't') return []
+      let dbIds = []
+      for (const id in this.checkedTestIds as TestChecked) {
+        if (this.checkedTestIds[id]) dbIds.push(parseInt(id))
+      }
+      return dbIds
+    },
+
+    checkedSamples(): [EcgTest.Id, number][] {
+      if (this.type !== 's') return []
+      let samples: [number, number][] = []
+      for (const id in this.checkedTestIds as SampleChecked) {
+        const checkedPages = this.checkedTestIds[id] as PageChecked
+        for (const page in checkedPages) {
+          if (checkedPages[page]) samples.push([parseInt(id), parseInt(page)])
+        }
+      }
+      return samples
+    }
+  },
   actions: {
     resetGroupPage() {
       this.type = undefined
@@ -103,6 +125,23 @@ const useGroupPageStore = defineStore('groupPage', {
         const lakeStore = useDataLakeStore()
         await lakeStore.fetchGroupList(this.type!)
       }
+      this.loading = false
+    },
+
+    async toggleGroupChange() {
+      this.loading = true
+      const dbIds = this.type === 't' ? this.checkedDbIds : undefined
+      const samples = this.type === 's' ? this.checkedSamples : undefined
+      const res = await api.postMultiGroupChange(
+        this.type!,
+        this.selectedGroupId!,
+        false,
+        dbIds,
+        samples
+      )
+      const lakeStore = useDataLakeStore()
+      await lakeStore.fetchGroupList(this.type!)
+      await this.fetchTestList(this.selectedGroupId!)
       this.loading = false
     }
   }

@@ -1,29 +1,37 @@
 <template>
   <Modal :showModal="show">
-    <div class="flex">
-      <p>Group Name</p>
-      <input type="text" class="border" v-model="newGroupName" />
+    <div class="group-adder-remover-modal">
+      <div class="flex items-center">
+        <p>Group Name</p>
+        <input type="text" v-model="newGroupName" />
+      </div>
+      <div class="flex items-center mt-5">
+        <p>Group Status</p>
+        <div class="mr-8">
+          <input
+            type="radio"
+            id="group-open"
+            value="open"
+            v-model="newGroupStatus"
+            checked
+          />
+          <label for="group-open">Open</label>
+        </div>
+        <div>
+          <input
+            type="radio"
+            id="group-closed"
+            value="closed"
+            v-model="newGroupStatus"
+          />
+          <label for="group-closed">Closed</label>
+        </div>
+      </div>
+      <div class="mt-5 flex justify-center">
+        <button @mouseup="addGroup">Confirm</button>
+        <button @mouseup="disablePanel">Cancel</button>
+      </div>
     </div>
-    <div class="flex items-center">
-      <p>Group Status</p>
-      <input
-        type="radio"
-        id="group-open"
-        value="open"
-        v-model="newGroupStatus"
-        checked
-      />
-      <label for="group-open">Open</label>
-      <input
-        type="radio"
-        id="group-closed"
-        value="closed"
-        v-model="newGroupStatus"
-      />
-      <label for="group-closed">Closed</label>
-    </div>
-    <button class="border" @mouseup="addGroup">Confirm</button>
-    <button class="border" @mouseup="disablePanel">Cancel</button>
   </Modal>
 </template>
 
@@ -47,3 +55,25 @@ async function addGroup() {
   disablePanel!()
 }
 </script>
+
+<style>
+@layer components {
+  .group-adder-remover-modal {
+    @apply flex flex-col justify-center items-center h-full;
+  }
+  .group-adder-remover-modal p {
+    @apply font-bold mr-2;
+  }
+  .group-adder-remover-modal input[type="text"] {
+    @apply border px-2 py-1 outline-none;
+  }
+  .group-adder-remover-modal input[type="radio"] {
+    @apply mr-2;
+  }
+  .group-adder-remover-modal button {
+    @apply w-20 h-8 px-2 mx-2 rounded-lg
+    text-white font-bold
+    bg-blue-400 hover:bg-blue-300;
+  }
+}
+</style>

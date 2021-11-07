@@ -1,11 +1,15 @@
 <template>
   <Modal :showModal="show">
-    <div class="flex">
-      <p>Group ID</p>
-      <input type="text" class="border" v-model="removeGroupId" />
+    <div class="group-adder-remover-modal">
+      <div class="flex items-center">
+        <p>Group ID</p>
+        <input type="text" class="border" v-model="removeGroupId" />
+      </div>
+      <div class="mt-5">
+        <button class="border" @mouseup="addGroup">Confirm</button>
+        <button class="border" @mouseup="disablePanel">Cancel</button>
+      </div>
     </div>
-    <button class="border" @mouseup="addGroup">Confirm</button>
-    <button class="border" @mouseup="disablePanel">Cancel</button>
   </Modal>
 </template>
 

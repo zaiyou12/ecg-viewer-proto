@@ -90,7 +90,7 @@ const listHeaders = [
 <style>
 @layer components {
   .group-test-list-container {
-    @apply border rounded-lg p-5 select-none h-full
+    @apply border rounded-lg p-5 h-full
     overflow-y-auto overscroll-contain;
   }
 

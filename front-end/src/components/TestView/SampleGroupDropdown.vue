@@ -39,6 +39,6 @@ function belongsInGroup(gid: number): boolean {
 }
 
 async function sampleSelected(g: SampleGroup) {
-  await viewStore.toggleSampleGroup(g.id, g.groupName, !belongsInGroup(g.id))
+  await viewStore.toggleSingleGroup('s', g.id, g.groupName, !belongsInGroup(g.id))
 }
 </script>
