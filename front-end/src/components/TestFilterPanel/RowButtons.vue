@@ -43,7 +43,6 @@ function isSelected(x: number | string) {
       return store.region.includes(x as EcgTest.Region)
     case 'condition':
       return store.condition.includes(x as EcgTest.ConditionType)
-      break
   }
 }
 

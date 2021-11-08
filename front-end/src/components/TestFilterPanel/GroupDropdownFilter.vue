@@ -7,7 +7,7 @@
         v-for="(opt, idx) in options"
         :key="idx"
         :value="opt.id"
-      >{{ opt.displayName }}</option>
+      >{{ opt.groupName }}</option>
     </select>
   </div>
 </template>
