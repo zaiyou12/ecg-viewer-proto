@@ -1,6 +1,6 @@
 <template>
   <tr class="group-test-list-item" v-bind="$attrs">
-    <td>
+    <td class="checkbox">
       <input
         type="checkbox"
         class="group-test-selector-checkbox"
@@ -12,11 +12,15 @@
       <td
         v-if="prop === 'condition'"
         @click="showPages = !showPages"
-        class="prop"
+        :class="testCols[idx].class"
       >
-        <StatusColor :final-condition="ecgTest.condition.final" />
+        <div>
+          <StatusColor :final-condition="ecgTest.condition.final" />
+        </div>
       </td>
-      <td v-else @click="showPages = !showPages" class="prop">{{ value }}</td>
+      <td v-else @click="showPages = !showPages" :class="testCols[idx].class">
+        <div>{{ value }}</div>
+      </td>
     </template>
   </tr>
   <template v-if="showPages">
@@ -51,6 +55,7 @@ import useGroupPageStore from '../../../stores/group-page'
 
 const props = defineProps<{
   test: [ecgTest: EcgTest.Meta, pages: number[]]
+  testCols: TestCol[]
 }>()
 
 type PageChecked = {

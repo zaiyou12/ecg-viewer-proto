@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import qs from 'qs'
-import { camelizeProps } from '../utils/helper'
+import { camelizeKeys, decamelizeKeys } from 'humps'
 
 const cancelSource = axios.CancelToken.source()
 
@@ -17,9 +17,10 @@ const api: AxiosInstance = axios.create(apiConfig)
 
 const requestInterceptor = api.interceptors.request.use(
   (config: AxiosRequestConfig) => {
-    // TODO: Add things that need to be done before request
-    // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    console.log(`Sending request of`)
+    console.log(
+      `Sending request of ${config.method!.toUpperCase()}${config.url}`
+    )
+    config.data = decamelizeKeys(config.data)
     console.log(config)
     return config
   },
@@ -32,9 +33,13 @@ const requestInterceptor = api.interceptors.request.use(
 
 const responseInterceptor = api.interceptors.response.use(
   (response: AxiosResponse) => {
-    console.log(`The server responded normally with`)
+    console.log(
+      `The server responded normally with \
+${response.config.method!.toUpperCase()} \
+${response.config.url}`
+    )
     console.log(response)
-    return Promise.resolve(camelizeProps(response.data))
+    return Promise.resolve(camelizeKeys(response.data))
   },
   (error: any) => {
     console.log('Request did not return status 200...')

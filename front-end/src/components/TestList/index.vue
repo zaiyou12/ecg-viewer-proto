@@ -5,12 +5,16 @@
         v-for="(col, idx) in listHeaders"
         :key="idx"
         class="border-b h-12"
-        :class="col.id"
+        :class="col.class"
       >{{ col.label }}</th>
     </thead>
     <tbody>
       <template v-for="(test, idx) in store.tests" :key="idx">
-        <TestListItem :ecgTest="test" class="border-b h-11" />
+        <TestListItem
+          :ecgTest="test"
+          :testCols="listHeaders"
+          class="border-b h-11"
+        />
       </template>
     </tbody>
   </table>
@@ -26,12 +30,12 @@ const store = useTestsStore()
  * Must be in order with the deserialized EcgTest.Meta object
  * @see deserializer.deserializeTest
  */
-const listHeaders = [
-  { label: 'DB ID', id: 'db-id' },
-  { label: 'Test Seq', id: 'test-seq' },
-  { label: 'Region', id: 'reg' },
-  { label: 'Duration', id: 'dur' },
-  { label: 'Status', id: 'stat' },
+const listHeaders: TestCol[] = [
+  { label: 'DB ID', class: 'db-id' },
+  { label: 'Test Seq', class: 'test-seq' },
+  { label: 'Region', class: 'reg' },
+  { label: 'Duration', class: 'dur' },
+  { label: 'Status', class: 'stat' },
 ]
 </script>
 
@@ -40,12 +44,16 @@ const listHeaders = [
   .table-test-list {
     @apply table-fixed w-full;
   }
-  .table-test-list th.db-id {
+  .table-test-list th.db-id,
+  td.db-id {
     width: 15%;
   }
   .table-test-list th.reg,
   th.dur,
-  th.stat {
+  th.stat,
+  td.reg,
+  td.dur,
+  td.stat {
     width: 15%;
   }
 }

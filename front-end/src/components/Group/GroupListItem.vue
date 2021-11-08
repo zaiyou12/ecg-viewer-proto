@@ -1,16 +1,12 @@
 <template>
   <tr
-    class="cursor-pointer hover:bg-blue-50 h-10 border-b"
+    class="group-list-item"
     :class="{ 'bg-blue-100': store.selectedGroupId === group.id }"
     @mouseup="showTestInGroup(group.id)"
   >
-    <td>{{ group.id }}</td>
-    <td>{{ group.groupName }}</td>
-    <td>{{ group.description === undefined ? '—' : group.description }}</td>
-    <td v-if="hasTypedProperty(group, 'numTests')">{{ group.numTests }}</td>
-    <td v-else-if="hasTypedProperty(group, 'numSamples')">{{ group.numSamples }}</td>
-    <td v-else></td>
-    <td>{{ group.pid === undefined ? '—' : group.pid }}</td>
+    <td v-for="(col, idx) in groupCols" :key="idx" :class="col.class">
+      <div>{{ renderValue(col.prop!) }}</div>
+    </td>
   </tr>
 </template>
 
@@ -20,6 +16,7 @@ import { hasTypedProperty } from '../../utils/helper'
 
 const props = defineProps<{
   group: TestGroup | SampleGroup
+  groupCols: GroupCol[]
 }>()
 
 const store = useGroupPageStore()
@@ -27,4 +24,28 @@ const store = useGroupPageStore()
 async function showTestInGroup(gid: number) {
   await store.fetchTestList(gid)
 }
+
+function renderValue(k: keyof TestGroup | keyof SampleGroup) {
+  const fallback = (v?: any) => v === undefined ? '—' : v
+  if (k === 'id') return props.group.id
+  else if (k === 'groupName') return props.group.groupName
+  else if (k === 'description') return fallback(props.group.description)
+  else if (k === 'pid') return fallback(props.group.pid)
+  else {
+    if (hasTypedProperty(props.group, 'numTests')) return props.group.numTests
+    else if (hasTypedProperty(props.group, 'numSamples')) return props.group.numSamples
+    else return '—'
+  }
+}
 </script>
+
+<style>
+@layer components {
+  .group-list-item {
+    @apply cursor-pointer hover:bg-blue-50 h-10 border-b;
+  }
+  .group-list-item td div {
+    @apply overflow-hidden overflow-ellipsis whitespace-nowrap;
+  }
+}
+</style>
