@@ -4,14 +4,11 @@ import LoginPage from '@/pages/LoginPage.vue'
 import MainPage from '@/pages/MainPage.vue'
 import DashboardPage from '@/pages/DashboardPage.vue'
 import TestListPage from '@/pages/TestListPage.vue'
-import TestList from '@/components/TestList/index.vue'
-import Pagination from '@/components/Pagination/index.vue'
 import TestViewPage from '@/pages/TestViewPage.vue'
 import PreprocessPage from '@/pages/PreprocessPage.vue'
 import TestGroupPage from '@/pages/TestGroupPage.vue'
 import SampleGroupPage from '@/pages/SampleGroupPage.vue'
 import EmptyPage from '@/pages/EmptyPage.vue'
-import SandboxPage from '@/pages/SandboxPage.vue'
 
 export type AppRouteNames = 'index' | 'login' | 'main'
 
@@ -63,12 +60,6 @@ export const router = createRouter({
           name: 'sampleGroup',
           path: 'sample-group',
           component: SampleGroupPage
-        },
-        {
-          // TODO: Remove later
-          name: 'sandbox',
-          path: 'sandbox',
-          component: SandboxPage
         }
       ]
     },

@@ -1,13 +1,13 @@
 <template>
   <div class="sidebar-menu">
-    <MainLink class="transform mb-10"/>
-    <GoBack class="mb-5"/>
+    <MainLink class="transform mb-10" />
+    <GoBack class="mb-5" />
     <ul class="px-5">
       <SidebarItem
         v-for="(opt, index) in sidebarOptions"
         :key="index"
         :label="opt.label"
-        :router="opt.router"
+        :routerName="opt.router"
         :icon="opt.icon"
       />
     </ul>
@@ -44,12 +44,7 @@ const sidebarOptions = [
     label: 'Sample Group',
     router: 'sampleGroup',
     icon: 'ChevronRight'
-  },
-  {
-    label: 'Sandbox',
-    router: 'sandbox',
-    icon: 'ChevronRight'
-  },
+  }
 ]
 </script>
 
@@ -58,7 +53,7 @@ const sidebarOptions = [
   .sidebar-menu {
     @apply w-52 h-full overflow-x-hidden overflow-y-auto overscroll-none py-5
       bg-gradient-to-br from-blue-500 to-blue-300
-      rounded-tr-3xl
+      rounded-tr-3xl;
   }
 }
 </style>

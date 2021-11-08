@@ -103,6 +103,13 @@ const useGroupPageStore = defineStore('groupPage', {
       this.loading = false
     },
 
+    async updateGroupInfo(type?: Resp.GroupType) {
+      this.loading = true
+      const lakeStore = useDataLakeStore()
+      lakeStore.fetchGroupList(type === undefined ? this.type! : type)
+      this.loading = false
+    },
+
     async addGroup(groupName: string, groupStatus?: GroupStatus, path = './') {
       this.loading = true
       const res = await api.postAddGroup(
