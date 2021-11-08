@@ -1,20 +1,37 @@
 <template>
-<transition name="fade" appear>
-  <div v-if="showPanel" class="panel-overlay">
-    <div class="w-full h-full px-5 pt-2 pb-3 flex flex-col justify-evenly">
-      <ButtonFilter heading="Duration" :options="durations" />
-      <ButtonFilter heading="Region" :options="regions" />
-      <DropdownFilter heading="Test Group" :options="sampleGroups" />
-      <ButtonFilter heading="Final Status" :options="normals" />
+  <transition name="fade" appear>
+    <div v-if="showPanel" class="panel-overlay">
+      <div class="w-full h-5/6 px-5 pt-2 pb-3 flex flex-col justify-evenly">
+        <ButtonFilter
+          heading="Duration"
+          :options="lakeStore.durations"
+          type="duration"
+        />
+        <ButtonFilter
+          heading="Region"
+          :options="lakeStore.regions"
+          type="region"
+        />
+        <DropdownFilter heading="Test Group" :options="lakeStore.testGroups" />
+        <ButtonFilter
+          heading="Condition"
+          :options="lakeStore.conditions"
+          type="condition"
+        />
+      </div>
+      <div class="flex justify-around reset-confirm-btn">
+        <button @click="listStore.resetFilters()">Reset</button>
+        <button @click="confirm">Confirm</button>
+      </div>
     </div>
-  </div>
-</transition>
+  </transition>
 </template>
 
 <script setup lang="ts">
+import useTestsStore from '../../stores/test-list'
+import useDataLakeStore from '../../stores/data-lake'
 import ButtonFilter from './ButtonFilter.vue'
-import DropdownFilter from './DropdownFilter.vue'
-
+import DropdownFilter from './GroupDropdownFilter.vue'
 
 const props = defineProps<{
   showPanel: boolean
@@ -24,33 +41,45 @@ const emits = defineEmits<{
   (e: 'update:showPanel', value: boolean): void
 }>()
 
-const durations = [24, 48, 72]
-const regions = ['KR', 'AU', 'UK', 'N/A']
-const sampleGroups = ['Group 1', 'Group 2', 'Group 3']
-const normals = ['Normal', 'Abnormal', 'Unknown']
+const listStore = useTestsStore()
+const lakeStore = useDataLakeStore()
+
+async function confirm() {
+  listStore.page = 1
+  await listStore.getTestList()
+  emits('update:showPanel', false)
+}
 </script>
 
 <style>
 @layer components {
   .panel-overlay {
     z-index: 98;
-    @apply absolute w-80 h-72 rounded-3xl
+    height: 21rem;
+    @apply absolute w-80 rounded-3xl
     transform translate-x-10 translate-y-20
     bg-white shadow-2xl
     border-2 border-blue-50
-    overflow-x-hidden overflow-y-auto overscroll-none
+    overflow-x-hidden overflow-y-auto overscroll-none;
   }
 
   .fade-enter-active {
-    @apply transition-opacity duration-300 ease-out
+    @apply transition-opacity duration-300 ease-out;
   }
 
   .fade-leave-active {
-    @apply transition-opacity duration-300
+    @apply transition-opacity duration-300;
   }
 
-  .fade-enter-from, .fade-leave-to {
-    @apply opacity-0
+  .fade-enter-from,
+  .fade-leave-to {
+    @apply opacity-0;
+  }
+
+  .reset-confirm-btn button {
+    @apply bg-blue-400 rounded-lg py-1 w-20
+    font-bold text-white
+    hover:bg-blue-300;
   }
 }
 </style>

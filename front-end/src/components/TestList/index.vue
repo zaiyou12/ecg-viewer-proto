@@ -1,56 +1,52 @@
 <template>
-  <table class="table-fixed w-full">
+  <table class="table-test-list">
     <thead class="cursor-default">
       <th
-        v-for="(label, index) in listHeaders"
-        :key="index"
+        v-for="(col, idx) in listHeaders"
+        :key="idx"
         class="border-b h-12"
-      >
-        {{ label }}
-      </th>
+        :class="col.id"
+      >{{ col.label }}</th>
     </thead>
     <tbody>
-      <template
-        v-for="index in totalDisplayRows"
-        :key="index"
-      >
-        <TestListItem
-          v-if="index-1 >= startIndex && index-1 < endIndex"
-          :ecgTest="currentTests[index-1]" class="border-b h-10"
-        />
+      <template v-for="(test, idx) in store.tests" :key="idx">
+        <TestListItem :ecgTest="test" class="border-b h-11" />
       </template>
     </tbody>
   </table>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, computed } from 'vue'
-import { useRoute } from 'vue-router'
 import TestListItem from './TestListItem.vue'
-import { paramToInt } from '../../utils/helper'
+import useTestsStore from '../../stores/test-list'
 
+const store = useTestsStore()
 
-const props = defineProps<{
-  currentTests: EcgTest.Meta[]
-  maxTestsPerPage: number
-}>()
-
-const route = useRoute()
-
-const listHeaders = ['Test Seq', 'Duration', 'Region', 'Group', 'Status']
-
-const startIndex = ref(0)
-const endIndex = computed(() => startIndex.value + props.maxTestsPerPage)
-const totalDisplayRows = computed(() => {
-  const neededPages = Math.ceil(props.currentTests.length / props.maxTestsPerPage)
-  return neededPages * props.maxTestsPerPage
-})
-
-watch(() => route.params.page, () => {
-  if (route.name === 'testPagination') {
-    const idx = paramToInt(route.params.page)
-    const perPage = props.maxTestsPerPage
-    startIndex.value = (idx-1) * perPage
-  }
-})
+/**
+ * Must be in order with the deserialized EcgTest.Meta object
+ * @see deserializer.deserializeTest
+ */
+const listHeaders = [
+  { label: 'DB ID', id: 'db-id' },
+  { label: 'Test Seq', id: 'test-seq' },
+  { label: 'Region', id: 'reg' },
+  { label: 'Duration', id: 'dur' },
+  { label: 'Status', id: 'stat' },
+]
 </script>
+
+<style>
+@layer components {
+  .table-test-list {
+    @apply table-fixed w-full;
+  }
+  .table-test-list th.db-id {
+    width: 15%;
+  }
+  .table-test-list th.reg,
+  th.dur,
+  th.stat {
+    width: 15%;
+  }
+}
+</style>

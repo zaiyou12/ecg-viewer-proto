@@ -1,18 +1,28 @@
 <template>
   <div v-if="disabled" :class="`p-1 rounded-lg bg-gray-50 ${margin}`">
-    <SvgIcon :name="buttonTypeMap[type]"
-      :stroke="disabledColor" :strokeWidth="strokeWidth" :class="size"
+    <SvgIcon
+      :name="buttonTypeMap[type]"
+      :stroke="disabledColor"
+      :strokeWidth="strokeWidth"
+      :class="size"
     />
   </div>
-  <AppLink v-else
-    :name="routeName" :params="{ page: page }"
+  <button
+    v-else
     :class="`p-1 rounded-lg bg-blue-100 hover:bg-blue-50 ${margin}`"
+    @mouseup="pageClick()"
   >
-    <SvgIcon :name="buttonTypeMap[type]" :strokeWidth="strokeWidth" :class="size"/>
-  </AppLink>
+    <SvgIcon
+      :name="buttonTypeMap[type]"
+      :strokeWidth="strokeWidth"
+      :class="size"
+    />
+  </button>
 </template>
 
 <script setup lang="ts">
+import useTestsStore from '../../stores/test-list'
+
 interface PageNavButtonProps {
   type: 'ffwLeft' | 'left' | 'right' | 'ffwRight'
   page: number
@@ -37,5 +47,12 @@ const buttonTypeMap = {
   'left': 'ChevronLeft',
   'right': 'ChevronRight',
   'ffwRight': 'ChevronDoubleRight'
+}
+
+const store = useTestsStore()
+
+async function pageClick() {
+  store.page = props.page
+  await store.getTestList()
 }
 </script>

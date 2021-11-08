@@ -9,7 +9,8 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-
+import useTestsStore from '../../stores/test-list'
+import useDataLakeStore from '../../stores/data-lake'
 
 const props = defineProps<{
   label: string
@@ -18,9 +19,19 @@ const props = defineProps<{
 }>()
 
 const router = useRouter()
+const testStore = useTestsStore()
+const lakeStore = useDataLakeStore()
 
-function routeTo() {
+async function routeTo() {
   router.push({ name: props.router })
+  if (props.router === 'tests') {
+    testStore.resetAllParams()
+    await testStore.getTestList()
+  } else if (props.router === 'testGroup') {
+    lakeStore.fetchGroupList('t')
+  } else if (props.router === 'sampleGroup') {
+    lakeStore.fetchGroupList('s')
+  }
 }
 </script>
 
@@ -28,7 +39,7 @@ function routeTo() {
 @layer components {
   .sidebar-item {
     @apply h-10 cursor-pointer py-2 my-2
-      hover:bg-blue-600 rounded-lg
+      hover:bg-blue-600 rounded-lg;
   }
 }
 </style>
