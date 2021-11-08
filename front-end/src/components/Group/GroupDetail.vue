@@ -8,7 +8,7 @@
       <div>
         <label class="mr-2 font-bold">Test Seq:</label>
         <input type="text" placeholder="ex) 0001" />
-        <button>Add</button>
+        <button class="cursor-not-allowed">Add</button>
       </div>
       <button @mouseup="deleteCheckedFromGroup">Delete</button>
     </div>
