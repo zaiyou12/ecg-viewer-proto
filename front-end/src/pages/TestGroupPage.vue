@@ -1,49 +1,15 @@
 <template>
-  <p>This is a test group page.</p>
-  <ul>
-    <li v-for="(g, idx) in store.testGroups" :key="idx">
-      {{ g }}
-    </li>
-  </ul>
-
-  <div>
-    <p>
-      New Test Group Name:
-    </p>
-    <input type="text" class="border-2" v-model="newGroupName">
-  </div>
-
-  <div>
-    <p>
-      New Test Group Description:
-    </p>
-    <input type="text" class="border-2" v-model="newGroupDesc">
-  </div>
-  <button class="border-2 hover:bg-blue-50"
-    @click="store.addTestGroup(newGroupName, newGroupDesc)"
-  >
-    Add Test Group
-  </button>
-
-  <div>
-    <p>
-      Delete Test Group ID:
-    </p>
-    <input type="text" class="border-2" v-model="delTestGroupId">
-  </div>
-  <button class="border-2 hover:bg-blue-50"
-    @click="store.delTestGroup(delTestGroupId)"
-  >
-    Delete Test Group
-  </button>
+  <GroupPageBp title="Test Groups" groupType="t" :groupCols="groupCols" />
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import useDataLakeStore from '../stores/data-lake'
+import GroupPageBp from '@/components/Group/GroupPageBp.vue'
 
-const store = useDataLakeStore()
-const newGroupName = ref('')
-const newGroupDesc = ref('')
-const delTestGroupId = ref(0)
+const groupCols = [
+  { label: 'ID', class: 'id' },
+  { label: 'Group Name', class: 'name' },
+  { label: 'Description', class: 'desc' },
+  { label: '# Tests', class: 'num' },
+  { label: 'PID', class: 'pid' },
+]
 </script>

@@ -7,3 +7,4 @@ Icon
 !.vscode/extensions.json
 
 .env
+.prettierrc

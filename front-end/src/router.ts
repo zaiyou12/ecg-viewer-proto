@@ -13,7 +13,7 @@ import SampleGroupPage from '@/pages/SampleGroupPage.vue'
 import EmptyPage from '@/pages/EmptyPage.vue'
 import SandboxPage from '@/pages/SandboxPage.vue'
 
-export type AppRouteNames = 'index' |'login' | 'main'
+export type AppRouteNames = 'index' | 'login' | 'main'
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -21,7 +21,7 @@ export const router = createRouter({
     {
       name: 'index',
       path: '/',
-      redirect: { name: 'login' }  // TODO: Remove later
+      redirect: { name: 'login' } // TODO: Remove later
     },
     {
       name: 'login',
@@ -42,43 +42,33 @@ export const router = createRouter({
         {
           name: 'tests',
           path: 'tests',
-          redirect: '/main/tests/1',
-          component: TestListPage,
-          children: [
-            {
-              name: 'testPagination',
-              path: ':page',
-              components: {
-                testList: TestList,
-                pagination: Pagination
-              }
-            }
-          ]
+          component: TestListPage
         },
         {
           name: 'testView',
           path: 'view',
-          component: TestViewPage,
+          component: TestViewPage
         },
         {
           name: 'preprocess',
           path: 'preprocess',
-          component: PreprocessPage,
+          component: PreprocessPage
         },
         {
           name: 'testGroup',
           path: 'test-group',
-          component: TestGroupPage,
+          component: TestGroupPage
         },
         {
           name: 'sampleGroup',
           path: 'sample-group',
-          component: SampleGroupPage,
+          component: SampleGroupPage
         },
-        {  // TODO: Remove later
+        {
+          // TODO: Remove later
           name: 'sandbox',
           path: 'sandbox',
-          component: SandboxPage,
+          component: SandboxPage
         }
       ]
     },

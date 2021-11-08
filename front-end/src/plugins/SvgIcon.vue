@@ -9,6 +9,7 @@
     v-html="SvgIcon[name]"
   ></svg>
 </template>
+
 <script setup lang="ts">
 interface SvgIconProp {
   name: SvgIconIndex
@@ -33,7 +34,9 @@ export type SvgIconIndex = 'ChartPie' |
   'ChevronRight' |
   'InformationCircle' |
   'XCircle' |
-  'ChevronDown'
+  'ChevronDown' |
+  'PlusSm' |
+  'MinusSm'
 
 type SvgIconType = {
   [k in SvgIconIndex]: string
@@ -49,12 +52,13 @@ const SvgIcon: SvgIconType = {
   Filter: '<path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />',
   Adjustments: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />',
   ChevronDoubleLeft: '<path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />',
-  ChevronDoubleRight: '<path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />' ,
+  ChevronDoubleRight: '<path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />',
   ChevronLeft: '<path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />',
   ChevronRight: '<path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />',
   InformationCircle: '<path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />',
   XCircle: '<path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />',
-  ChevronDown: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />'
+  ChevronDown: '<path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />',
+  PlusSm: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />',
+  MinusSm: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" />'
 } as const
-
 </script>

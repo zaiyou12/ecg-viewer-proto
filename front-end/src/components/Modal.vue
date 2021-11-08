@@ -1,14 +1,15 @@
 <template>
-<transition name="fade" appear>
-  <div v-if="showModal" class="modal-overlay" @click="disableModal">
-    <!-- <div class="modal"></div> -->
-    <!-- <SvgIconButton -->
-  </div>
-</transition>
+  <transition name="fade" appear>
+    <div v-if="showModal">
+      <div class="modal">
+        <slot></slot>
+      </div>
+      <div class="modal-overlay" @click="disableModal"></div>
+    </div>
+  </transition>
 </template>
 
 <script setup lang="ts">
-import SvgIconButton from '@/components/SvgIconButton.vue'
 
 interface ModalProps {
   showModal?: boolean
@@ -31,27 +32,30 @@ function disableModal() {
 @layer components {
   .modal {
     z-index: 99;
-    @apply fixed top-1/2 left-1/2
-      transform -translate-y-1/2 -translate-x-1/2
-      w-full bg-white
+    @apply absolute top-1/2 left-1/2
+    transform -translate-y-1/2 -translate-x-1/4
+    w-1/4 h-52 bg-white opacity-100
+    rounded-2xl border shadow;
   }
 
   .modal-overlay {
     z-index: 98;
-    @apply absolute w-full h-full
-    bg-black bg-opacity-30
+    width: calc(100vw - 13rem);
+    height: 100vh;
+    @apply absolute opacity-10 bg-gray-400;
   }
 
   .fade-enter-active {
-    @apply transition-opacity duration-300 ease-out
+    @apply transition-opacity duration-300 ease-out;
   }
 
   .fade-leave-active {
-    @apply transition-opacity duration-300
+    @apply transition-opacity duration-300;
   }
 
-  .fade-enter-from, .fade-leave-to {
-    @apply opacity-0
+  .fade-enter-from,
+  .fade-leave-to {
+    @apply opacity-0;
   }
 }
 </style>
