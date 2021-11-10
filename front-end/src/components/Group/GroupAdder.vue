@@ -6,7 +6,7 @@
         <input
           type="text"
           v-model="newGroupName"
-          pattern="^[a-zA-Z_\-0-9]+$"
+          pattern="^[a-zA-Z_\-0-9]{1,70}$"
           title="Allowed: underscore, hyphen, alphabet, numbers."
         />
       </div>
@@ -38,7 +38,7 @@
       <div class="mt-5 flex justify-center">
         <button
           @mouseup="addGroup"
-          :class="{ 'cursor-not-allowed': !isNameValid }"
+          :class="{ 'disabled': !isNameValid }"
         >Confirm</button>
         <button @mouseup="disablePanel">Cancel</button>
       </div>
@@ -60,14 +60,19 @@ const disablePanel = inject(DisablePanelKey)
 const newGroupName = ref('')
 const newGroupStatus = ref('open')
 const isNameValid = computed(() => {
-  const re = new RegExp('^[a-zA-Z_\\-0-9]+$')
+  const re = new RegExp('^[a-zA-Z_\\-0-9]{1,70}$')
   return re.test(newGroupName.value)
 })
 
 async function addGroup() {
-  if (!isNameValid.value) return
-  if (newGroupName.value.length === 0) return
+  /**
+   * The following commented functionality relies on disable CSS
+   * If CSS is modified, the following must be turned back on
+   */
+  // if (!isNameValid.value) return
+  // if (newGroupName.value.length === 0) return
   await store.addGroup(newGroupName.value, newGroupStatus.value as GroupStatus)
+  newGroupName.value = ''
   disablePanel!()
 }
 </script>
@@ -93,6 +98,10 @@ async function addGroup() {
     @apply w-20 h-8 px-2 mx-2 rounded-lg
     text-white font-bold
     bg-blue-400 hover:bg-blue-300;
+  }
+  .group-adder-remover-modal button.disabled {
+    pointer-events: none;
+    @apply bg-gray-400;
   }
 }
 </style>
