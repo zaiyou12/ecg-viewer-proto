@@ -29,7 +29,7 @@ function renderValue(k: keyof TestGroup | keyof SampleGroup) {
   const fallback = (v?: any) => v === undefined ? '—' : v
   if (k === 'id') return props.group.id
   else if (k === 'groupName') return props.group.groupName
-  else if (k === 'description') return fallback(props.group.description)
+  else if (k === 'groupStatus') return props.group.groupStatus.toUpperCase()
   else if (k === 'pid') return fallback(props.group.pid)
   else {
     if (hasTypedProperty(props.group, 'numTests')) return props.group.numTests

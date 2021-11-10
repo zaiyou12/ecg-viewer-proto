@@ -3,7 +3,7 @@ export function deserializeGroup(
   group: Resp.GroupBasic | Resp.GroupDetail
 ): TestGroup | SampleGroup | PreprocessGroup {
   if ('numTests' in group) {
-    const { id, groupName, numTests, groupStatus } = group
+    const { id, groupName, numTests } = group
     switch (type) {
       case 't':
         return { ...group }

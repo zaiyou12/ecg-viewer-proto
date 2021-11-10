@@ -50,19 +50,25 @@ const item = computed(() => {
 })
 
 const allChecked = computed(() => {
+  /**
+   * countTests is to disable checked behavior when no test exists in group
+   */
+  let countTests = 0
   if (isTestGroup.value) {
     for (const id in (store.checkedTestIds as TestChecked)) {
       if (!store.checkedTestIds[id]) return false
+      countTests++
     }
   } else {
     for (const id in (store.checkedTestIds as SampleChecked)) {
       const checkedPages = store.checkedTestIds[id] as PageChecked
+      countTests++
       for (const page in checkedPages) {
         if (!checkedPages[page]) return false
       }
     }
   }
-  return true
+  return countTests > 0
 })
 
 function toggleAll(val: boolean) {

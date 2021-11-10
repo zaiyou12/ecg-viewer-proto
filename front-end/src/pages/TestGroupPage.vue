@@ -8,7 +8,7 @@ import GroupPageBp from '@/components/Group/GroupPageBp.vue'
 const groupCols = [
   { label: 'ID', class: 'id', prop: 'id' },
   { label: 'Group Name', class: 'name', prop: 'groupName' },
-  { label: 'Description', class: 'desc', prop: 'description' },
+  { label: 'Status', class: 'stat', prop: 'groupStatus' },
   { label: '# Tests', class: 'num', prop: 'numTests' },
   { label: 'PID', class: 'pid', prop: 'pid' },
 ]

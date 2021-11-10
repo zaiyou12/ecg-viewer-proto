@@ -12,10 +12,7 @@
       </div>
       <label class="text-sm text-gray-500 mt-2">Allowed: number</label>
       <div class="mt-5">
-        <button
-          @mouseup="addGroup"
-          :class="{ 'cursor-not-allowed': !isIdValid }"
-        >Confirm</button>
+        <button @mouseup="addGroup" :class="{ 'disabled': !isIdValid }">Confirm</button>
         <button @mouseup="disablePanel">Cancel</button>
       </div>
     </div>
@@ -40,9 +37,14 @@ const isIdValid = computed(() => {
 })
 
 async function addGroup() {
-  if (!isIdValid.value) return
-  if (removeGroupId.value < 1) return
+  /**
+   * The following commented functionality relies on disable CSS
+   * If CSS is modified, the following must be turned back on
+   */
+  // if (!isIdValid.value) return
+  // if (removeGroupId.value < 1) return
   await store.delGroup(removeGroupId.value)
+  removeGroupId.value = undefined
   disablePanel!()
 }
 </script>

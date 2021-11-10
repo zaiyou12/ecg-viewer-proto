@@ -25,7 +25,7 @@
   </tr>
   <template v-if="showPages">
     <tr
-      class="cursor-pointer hover:bg-blue-50"
+      class="cursor-pointer bg-gray-100 hover:bg-blue-50"
       v-for="(p, idx) in pages"
       :key="idx"
     >

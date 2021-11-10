@@ -58,6 +58,11 @@ const useGroupPageStore = defineStore('groupPage', {
         }
       }
       return samples
+    },
+
+    isSomethingChecked(): boolean {
+      if (this.type === 't') return this.checkedDbIds.length > 0
+      else return this.checkedSamples.length > 0
     }
   },
   actions: {
@@ -137,8 +142,8 @@ const useGroupPageStore = defineStore('groupPage', {
 
     async toggleGroupChange() {
       this.loading = true
-      const dbIds = this.type === 't' ? this.checkedDbIds : undefined
-      const samples = this.type === 's' ? this.checkedSamples : undefined
+      const dbIds = this.checkedDbIds
+      const samples = this.checkedSamples
       const res = await api.postMultiGroupChange(
         this.type!,
         this.selectedGroupId!,

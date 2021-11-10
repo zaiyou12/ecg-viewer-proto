@@ -45,7 +45,6 @@ async function viewTest() {
   router.push({ name: 'testView' })
   await viewStore.viewNewTest(props.test.id)
 }
-console.log(props.testCols)
 </script>
 
 <style>

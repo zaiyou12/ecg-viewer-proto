@@ -3,19 +3,17 @@
     <div v-if="showDrop" class="drop-overlay">
       <ul class="select-none">
         <li
-          v-for="(g, idx) in lakeStore.testGroups"
+          v-for="(g, idx) in groupList"
           :key="idx"
-          class="flex items-center h-8 cursor-pointer hover:bg-blue-50"
+          :class="(g as TestGroup | SampleGroup).groupStatus"
           @mouseup="groupSelected(g)"
         >
           <div
-            class="w-4 h-4 flex-none mx-2 border-2 rounded-lg border-gray-400"
+            class="drop-item-circle"
             :class="{ 'bg-gray-500': belongsInGroup(g.id) }"
             :key="idx"
           ></div>
-          <div
-            class="h-full flex flex-col justify-center pr-2 hover:bg-blue-50"
-          >{{ g.groupName }}</div>
+          <div class="drop-item-label">{{ g.groupName }}</div>
         </li>
       </ul>
     </div>
@@ -28,17 +26,26 @@ import useTestViewStore from '../../stores/test-view'
 
 const props = defineProps<{
   showDrop: boolean
+  type: 't' | 's'
 }>()
 
 const lakeStore = useDataLakeStore()
 const viewStore = useTestViewStore()
 
+const groupList = lakeStore.getGroup(props.type)
+const memberGroups = viewStore.getGroup(props.type)
+
 function belongsInGroup(gid: number): boolean {
-  return gid in viewStore.testGroup!
+  return gid in memberGroups!
 }
 
 async function groupSelected(g: TestGroup): Promise<void> {
-  await viewStore.toggleSingleGroup('t', g.id, g.groupName, !belongsInGroup(g.id))
+  await viewStore.toggleSingleGroup(
+    props.type,
+    g.id,
+    g.groupName,
+    !belongsInGroup(g.id)
+  )
 }
 </script>
 
@@ -50,6 +57,22 @@ async function groupSelected(g: TestGroup): Promise<void> {
     @apply absolute h-40 ml-2
       overflow-auto overscroll-none
     bg-gray-50 rounded-xl;
+  }
+  .drop-overlay li {
+    @apply flex items-center h-8 cursor-pointer
+    hover:bg-blue-50;
+  }
+  .drop-overlay li.closed {
+    pointer-events: none;
+    @apply bg-gray-100 text-gray-500;
+  }
+  .drop-overlay li div.drop-item-circle {
+    @apply w-4 h-4 flex-none mx-2 border-2 rounded-lg
+    border-gray-400;
+  }
+  .drop-overlay li div.drop-item-label {
+    @apply h-full flex flex-col justify-center pr-2
+    hover:bg-blue-50;
   }
 
   .drop-enter-active {
