@@ -16,7 +16,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./back-end/sqlite.db:/www/sqlite.db
+      - ${SQLITE_ABS_DIR}:/www/sqlite.db
       - ./back-end/app/static/ecg_png_cache:/www/app/static/ecg_png_cache
       - ${ECG_AU_DIR}:${ECG_AU_DIR}
 

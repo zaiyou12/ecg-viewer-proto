@@ -2,6 +2,7 @@
   "recommendations": [
       "editorconfig.editorconfig",
       "johnsoncodehk.volar",
-      "dbaeumer.vscode-eslint"
+      "dbaeumer.vscode-eslint",
+      "qwtel.sqlite-viewer"
   ]
 }

@@ -1,4 +1,4 @@
-name: Build Dev
+name: Build Test
 
 on:
   push:
@@ -15,6 +15,7 @@ jobs:
     runs-on: [self-hosted, macOS, X64]
     env:
       ECG_AU_DIR: ${{ secrets.EcgAuDir }}
+      SQLITE_ABS_DIR: ${{ secrets.SqliteAbsDir }}
 
     steps:
     - uses: actions/checkout@v2
