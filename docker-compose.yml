@@ -1,16 +1,32 @@
-version: '3'
+version: '3.9'
 services:
-  vue:
-    build: ./front-end
+  frontend:
+    container_name: data-lake-front
+    build:
+      context: ./front-end
+      dockerfile: front.Dockerfile
     ports:
       - "8080:8080"
-  adminer:
-    image: adminer:latest
-    restart: always
+
+  backend:
+    container_name: data-lake-back
+    build:
+      context: ./back-end
+      dockerfile: back.Dockerfile
     ports:
-      - "8000:8080"
+      - "5000:5000"
     volumes:
-      - ./db/design:/var/www/html/designs/hydra
-    environment:
-      ADMINER_DEFAULT_SERVER: SQLite
-      ADMINER_DESIGN: hydra
+      - ./back-end/sqlite.db:/www/sqlite.db
+      - ./back-end/app/static/ecg_png_cache:/www/app/static/ecg_png_cache
+      - ${ECG_AU_DIR}:${ECG_AU_DIR}
+
+  # adminer:
+  #   image: adminer:latest
+  #   restart: always
+  #   ports:
+  #     - "8000:8080"
+  #   volumes:
+  #     - ./db/design:/var/www/html/designs/hydra
+  #   environment:
+  #     ADMINER_DEFAULT_SERVER: SQLite
+  #     ADMINER_DESIGN: hydra

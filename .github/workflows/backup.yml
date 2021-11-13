@@ -1,0 +1,23 @@
+name: Build Dev
+
+on:
+  push:
+    branches:
+      - feature/cicd
+  pull_request:
+    branches:
+      - feature/cicd
+
+jobs:
+  docker:
+    name: Docker on premises
+    timeout-minutes: 10
+    runs-on: [self-hosted, macOS, X64]
+    env:
+      ECG_AU_DIR: ${{ secrets.EcgAuDir }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Docker Compose Up
+      run: docker-compose up --build -d
