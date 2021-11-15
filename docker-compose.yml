@@ -13,7 +13,6 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-        delay: 5s
         max_attempts: 3
     build:
       context: ./back-end
@@ -26,6 +25,7 @@ services:
       - ${ECG_AU_DIR}:${ECG_AU_DIR}
 
   nginx:
+    container_name: data-lake-nginx
     image: nginx:1.21
     ports:
       - 80:80
@@ -40,6 +40,7 @@ services:
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
   certbot:
+    container_name: data-lake-certbot
     image: certbot/certbot
     restart: unless-stopped
     volumes:

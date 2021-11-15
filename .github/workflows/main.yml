@@ -18,7 +18,21 @@ jobs:
       SQLITE_ABS_DIR: /home/wellysis-tft/Desktop/code/ecg-viewer-proto/back-end/sqlite.db  # ${{ secrets.SqliteAbsDir }}
 
     steps:
+    - name: Nginx Cleanup
+      continue-on-error: true
+      run: docker-compose exec nginx rm -rf *
+
+    - name: Certbot Cleanup
+      continue-on-error: true
+      run: docker-compose exec certbot rm -rf *
+
     - uses: actions/checkout@v2
 
+    - name: Docker Compose Build
+      run: docker-compose up --build -d backend frontend
+
+    - name: Obtain Initial Certificate
+      run: ./init-letsencrypt.sh
+
     - name: Docker Compose Up
-      run: docker-compose up --build -d
+      run: docker-compose up -d
