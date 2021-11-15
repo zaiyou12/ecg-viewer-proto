@@ -1,21 +1,21 @@
-name: Build Test
+name: Build Docker
 
 on:
   push:
     branches:
-      - feature/cicd
+      - main
   pull_request:
     branches:
-      - feature/cicd
+      - main
 
 jobs:
   docker:
     name: Docker on premises
     timeout-minutes: 10
-    runs-on: [self-hosted, macOS, X64]
+    runs-on: [self-hosted, linux, X64]
     env:
-      ECG_AU_DIR: ${{ secrets.EcgAuDir }}
-      SQLITE_ABS_DIR: ${{ secrets.SqliteAbsDir }}
+      ECG_AU_DIR: /home/wellysis-tft/Desktop/pipeline/au-db/AU  # ${{ secrets.EcgAuDir }}
+      SQLITE_ABS_DIR: /home/wellysis-tft/Desktop/code/ecg-viewer-proto/back-end/sqlite.db  # ${{ secrets.SqliteAbsDir }}
 
     steps:
     - uses: actions/checkout@v2
