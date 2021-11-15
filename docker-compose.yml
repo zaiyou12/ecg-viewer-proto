@@ -4,6 +4,7 @@ services:
     build:
       context: ./front-end
       dockerfile: front.Dockerfile
+      network: host
     ports:
       - "8080:8080"
 
@@ -16,6 +17,7 @@ services:
     build:
       context: ./back-end
       dockerfile: back.Dockerfile
+      network: host
     ports:
       - "5000:5000"
     volumes:
