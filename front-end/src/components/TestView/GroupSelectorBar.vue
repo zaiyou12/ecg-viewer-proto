@@ -1,9 +1,9 @@
 <template>
-<div class="flex items-center">
-  <GroupSelector type="Preprocess" class="w-1/3" />
-  <GroupSelector type="Test" class="w-1/3"/>
-  <GroupSelector type="Sample" class="w-1/3" />
-</div>
+  <div class="flex items-center">
+    <GroupSelector type="p" class="w-1/3" />
+    <GroupSelector type="t" class="w-1/3" />
+    <GroupSelector type="s" class="w-1/3" />
+  </div>
 </template>
 
 <script lang="ts" setup>

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteParams } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import LoginPage from '@/pages/LoginPage.vue'
 import MainPage from '@/pages/MainPage.vue'
@@ -11,6 +11,13 @@ import SampleGroupPage from '@/pages/SampleGroupPage.vue'
 import EmptyPage from '@/pages/EmptyPage.vue'
 
 export type AppRouteNames = 'index' | 'login' | 'main'
+
+declare module 'vue-router' {
+  interface RouteMeta {
+    isAdmin?: boolean
+    requiresAuth?: boolean
+  }
+}
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -29,6 +36,15 @@ export const router = createRouter({
       name: 'main',
       path: '/main',
       component: MainPage,
+      meta: { requiresAuth: true },
+      beforeEnter: (to, from) => {
+        // TODO: Fix later
+        if (from.name !== 'login') return true
+        if (to.meta.requiresAuth) {
+          return true
+        }
+        return true
+      },
       redirect: '/main/dashboard',
       children: [
         {

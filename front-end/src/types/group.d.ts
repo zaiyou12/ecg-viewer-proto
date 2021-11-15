@@ -9,10 +9,7 @@ declare interface GroupDetail extends GroupBasic {
   groupStatus?: GroupStatus
 }
 
-declare interface PreprocessGroup extends GroupBasic {
-  // TODO: Remove?
-  description?: string
-}
+declare interface PreprocessGroup extends GroupBasic {}
 declare interface PreprocessGroups {
   [id: number]: PreprocessGroup
 }
@@ -20,19 +17,15 @@ declare interface PreprocessGroups {
 declare interface TestGroup extends GroupDetail {
   /** Must be left as optional; will break deserializeToGroups and test-view */
   numTests?: number
-  // TODO: Remove?
-  description?: string
   pid?: number
 }
 declare interface TestGroups {
   [id: number]: TestGroup
 }
 
-declare interface SampleGroup extends GroupBasic {
+declare interface SampleGroup extends GroupDetail {
   /** Must be left as optional; will break deserializeToGroups and test-view */
   numSamples?: number
-  // TODO: Remove?
-  description?: string
   pid?: number
 }
 declare interface SampleGroups {

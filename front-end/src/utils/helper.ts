@@ -75,24 +75,6 @@ export function removeFromArray<T extends string | number>(
   }
 }
 
-function camelCase(s: string) {
-  return s.replace(/_(.)/g, (_, c) => c.toUpperCase())
-}
-
-export function camelizeProps(obj: any): any {
-  if (typeof obj == 'string' || typeof obj == 'number') return obj
-  return Object.fromEntries(
-    Object.entries(obj).map(([k, v]) => [
-      camelCase(k),
-      Array.isArray(v)
-        ? v.map(camelizeProps)
-        : typeof v == 'object'
-        ? camelizeProps(v)
-        : v
-    ])
-  )
-}
-
 export function hasTypedProperty<X extends {}, Y extends PropertyKey>(
   obj: X,
   prop: Y
