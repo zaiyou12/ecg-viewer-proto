@@ -35,14 +35,6 @@ const useTestViewStore = defineStore('testView', {
       loading: false
     } as TestViewState
   },
-  getters: {
-    getGroup: (state) => {
-      return (type: Resp.GroupType) => {
-        if (type === 't') return state.testGroups
-        else return state.sampleGroups
-      }
-    }
-  },
   actions: {
     resetState(): void {
       this.selectedTest = undefined

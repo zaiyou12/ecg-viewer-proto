@@ -32,7 +32,9 @@ const groupStore = useGroupPageStore()
 const lakeStore = useDataLakeStore()
 
 const isGroupOpen = computed(() => {
-  const group = lakeStore.getGroup(groupStore.type!) as TestGroups | SampleGroups
+  let group = undefined
+  if (groupStore.type === 't') group = lakeStore.testGroups
+  else group = lakeStore.sampleGroups
   return group[groupStore.selectedGroupId!].groupStatus === 'open'
 })
 

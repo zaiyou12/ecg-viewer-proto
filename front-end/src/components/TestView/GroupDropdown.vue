@@ -21,6 +21,7 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, toRef } from 'vue'
 import useDataLakeStore from '../../stores/data-lake'
 import useTestViewStore from '../../stores/test-view'
 
@@ -32,11 +33,14 @@ const props = defineProps<{
 const lakeStore = useDataLakeStore()
 const viewStore = useTestViewStore()
 
-const groupList = lakeStore.getGroup(props.type)
-const memberGroups = viewStore.getGroup(props.type)
+const groupVarName = computed(() => {
+  return props.type === 't' ? 'testGroups' : 'sampleGroups'
+})
+const groupList = toRef(lakeStore, groupVarName.value)
+const memberGroups = toRef(viewStore, groupVarName.value)
 
 function belongsInGroup(gid: number): boolean {
-  return gid in memberGroups!
+  return gid in memberGroups.value!
 }
 
 async function groupSelected(g: TestGroup): Promise<void> {
