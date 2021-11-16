@@ -33,7 +33,10 @@ const props = defineProps<{
 }>()
 
 const store = useDataLakeStore()
-const groups = store.getGroup(props.groupType)
+const groupVarName = computed(() => {
+  return props.groupType === 't' ? 'testGroups' : 'sampleGroups'
+})
+const groups = toRef(store, groupVarName.value)
 
 </script>
 

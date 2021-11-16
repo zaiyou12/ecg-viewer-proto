@@ -35,15 +35,6 @@ const useDataLakeStore = defineStore('dataLake', {
       loading: false
     } as DataLakeState
   },
-  getters: {
-    getGroup: (state) => {
-      return (type: Resp.GroupType) => {
-        if (type === 't') return state.testGroups
-        if (type === 's') return state.sampleGroups
-        else return state.preprocessGroups
-      }
-    }
-  },
   actions: {
     async fetchGroupList(type: Resp.GroupType): Promise<void> {
       this.loading = true
