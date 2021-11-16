@@ -1,6 +1,6 @@
 <template>
   <div class="group-test-list-container">
-    <table class="table-test-list">
+    <table class="group-test-list">
       <thead class="cursor-default border-b-2">
         <th class="checkbox">
           <input
@@ -14,12 +14,17 @@
           v-for="(col, idx) in listHeaders"
           :key="idx"
           class="h-7 px-3 pb-2"
-          :class="col.id"
+          :class="col.class"
         >{{ col.label }}</th>
       </thead>
       <tbody>
         <template v-for="(test, idx) in tests" :key="idx">
-          <component :is="item" :test="test" class="h-11" />
+          <component
+            :is="item"
+            :test="test"
+            :testCols="listHeaders"
+            class="h-11"
+          />
         </template>
       </tbody>
     </table>
@@ -45,19 +50,25 @@ const item = computed(() => {
 })
 
 const allChecked = computed(() => {
+  /**
+   * countTests is to disable checked behavior when no test exists in group
+   */
+  let countTests = 0
   if (isTestGroup.value) {
     for (const id in (store.checkedTestIds as TestChecked)) {
       if (!store.checkedTestIds[id]) return false
+      countTests++
     }
   } else {
     for (const id in (store.checkedTestIds as SampleChecked)) {
       const checkedPages = store.checkedTestIds[id] as PageChecked
+      countTests++
       for (const page in checkedPages) {
         if (!checkedPages[page]) return false
       }
     }
   }
-  return true
+  return countTests > 0
 })
 
 function toggleAll(val: boolean) {
@@ -78,12 +89,12 @@ function toggleAll(val: boolean) {
  * Must be in order with the deserialized EcgTest.Meta object
  * @see deserializer.deserializeTest
  */
-const listHeaders = [
-  { label: 'DB ID', id: 'db-id' },
-  { label: 'Test Seq', id: 'test-seq' },
-  { label: 'Region', id: 'reg' },
-  { label: 'Duration', id: 'dur' },
-  { label: 'Status', id: 'stat' },
+const listHeaders: TestCol[] = [
+  { label: 'DB ID', class: 'db-id' },
+  { label: 'Test Seq', class: 'test-seq' },
+  { label: 'Region', class: 'reg' },
+  { label: 'Duration', class: 'dur' },
+  { label: 'Status', class: 'stat' },
 ]
 </script>
 
@@ -94,16 +105,17 @@ const listHeaders = [
     overflow-y-auto overscroll-contain;
   }
 
-  .table-test-list {
-    @apply table-fixed;
+  .group-test-list {
+    @apply table-fixed w-full;
   }
-  .table-test-list th.checkbox {
+  .group-test-list th.checkbox,
+  td.checkbox {
     width: 5%;
   }
-  .table-test-list th.db-id {
+  .group-test-list th.db-id {
     width: 15%;
   }
-  .table-test-list th.reg,
+  .group-test-list th.reg,
   th.dur,
   th.stat {
     width: 15%;

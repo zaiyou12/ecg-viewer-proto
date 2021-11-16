@@ -36,7 +36,7 @@ const useDataLakeStore = defineStore('dataLake', {
     } as DataLakeState
   },
   actions: {
-    async fetchGroupList(type: 't' | 's' | 'p'): Promise<void> {
+    async fetchGroupList(type: Resp.GroupType): Promise<void> {
       this.loading = true
       const res = await api.getGroupList(type)
       if (res === undefined) return
@@ -55,6 +55,12 @@ const useDataLakeStore = defineStore('dataLake', {
           break
       }
       this.loading = false
+    },
+
+    getGroup(type: Resp.GroupType) {
+      if (type === 't') return this.testGroups
+      if (type === 's') return this.sampleGroups
+      if (type === 'p') return this.preprocessGroups
     }
   }
 })

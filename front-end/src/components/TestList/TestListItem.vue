@@ -1,12 +1,14 @@
 <template>
-  <tr class="cursor-pointer hover:bg-blue-50" @click="viewTest(ecgTest.id)">
-    <template v-for="(value, prop, index) in ecgTest" :key="index">
-      <td v-if="prop === 'condition'">
+  <tr class="test-list-item" @click="viewTest()">
+    <template v-for="(value, prop, idx) in ecgTest" :key="idx">
+      <td v-if="prop === 'condition'" :class="testCols[idx].class">
         <div class="flex justify-center">
           <StatusColor :final-condition="ecgTest.condition.final" />
         </div>
       </td>
-      <td v-else>{{ value }}</td>
+      <td v-else :class="testCols[idx].class">
+        <div>{{ value }}</div>
+      </td>
     </template>
   </tr>
 </template>
@@ -18,19 +20,25 @@ import useTestViewStore from '../../stores/test-view'
 
 const props = defineProps<{
   ecgTest: EcgTest.Meta
+  testCols: TestCol[]
 }>()
 
 const router = useRouter()
 const store = useTestViewStore()
 
-async function viewTest(idx: number | string) {
+async function viewTest() {
   router.push({ name: 'testView' })
   await store.viewNewTest(props.ecgTest.id)
 }
-
-function whichColor(finalStatus: EcgTest.ConditionType): string {
-  if (finalStatus === 'normal') return '#3CB371'
-  if (finalStatus === 'abnormal') return '#FF6347'
-  else return '#808080'
-}
 </script>
+
+<style>
+@layer components {
+  .test-list-item {
+    @apply cursor-pointer hover:bg-blue-50;
+  }
+  .test-list-item td div {
+    @apply overflow-hidden overflow-ellipsis whitespace-nowrap;
+  }
+}
+</style>

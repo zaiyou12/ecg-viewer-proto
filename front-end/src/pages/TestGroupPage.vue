@@ -6,10 +6,10 @@
 import GroupPageBp from '@/components/Group/GroupPageBp.vue'
 
 const groupCols = [
-  { label: 'ID', class: 'id' },
-  { label: 'Group Name', class: 'name' },
-  { label: 'Description', class: 'desc' },
-  { label: '# Tests', class: 'num' },
-  { label: 'PID', class: 'pid' },
+  { label: 'ID', class: 'id', prop: 'id' },
+  { label: 'Group Name', class: 'name', prop: 'groupName' },
+  { label: 'Status', class: 'stat', prop: 'groupStatus' },
+  { label: '# Tests', class: 'num', prop: 'numTests' },
+  { label: 'PID', class: 'pid', prop: 'pid' },
 ]
 </script>

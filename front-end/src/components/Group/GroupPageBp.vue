@@ -35,7 +35,7 @@ import { DisablePanelKey } from '../../symbols/symbols'
 const props = defineProps<{
   title: string
   groupType: Resp.GroupType
-  groupCols: GroupCols[]
+  groupCols: GroupCol[]
 }>()
 
 const store = useGroupPageStore()

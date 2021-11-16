@@ -1,19 +1,21 @@
 <template>
   <div class="test-group-btn" @click="$emit('update:showDrop', !showDrop)">
-    <div>
-      {{ type }}
-    </div>
+    <div>{{ label[type] }}</div>
     <SvgIcon name="ChevronDown" class="w-5 h-5 ml-2" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import TestGroupDropdown from './TestGroupDropdown.vue'
-
 const props = defineProps<{
-  type: 'Preprocess' | 'Test' | 'Sample'
+  type: Resp.GroupType
   showDrop: boolean
 }>()
+
+const label = {
+  'p': 'Preprocess',
+  't': 'Test',
+  's': 'Sample'
+}
 
 // const emits = defineEmits<{
 //   (e: 'update:showDrop', val: boolean): void
@@ -26,7 +28,7 @@ const props = defineProps<{
     @apply flex items-center
     mx-2 p-2 justify-between cursor-pointer
     bg-gray-50 rounded-lg
-    select-none
+    select-none;
   }
 }
 </style>

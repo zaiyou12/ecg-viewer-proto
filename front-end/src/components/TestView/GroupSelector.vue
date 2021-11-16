@@ -1,9 +1,9 @@
 <template>
   <div class="w-full">
     <GroupButton :type="type" v-model:showDrop="showDrop" />
-    <PreprocessDropdown v-if="type === 'Preprocess'" :showDrop="showDrop" />
-    <TestGroupDropdown v-else-if="type === 'Test'" :showDrop="showDrop" />
-    <SampleGroupDropdown v-else :showDrop="showDrop" />
+    <PreprocessDropdown v-if="type === 'p'" :showDrop="showDrop" />
+    <GroupDropdown v-else-if="type === 't'" :showDrop="showDrop" type="t" />
+    <GroupDropdown v-else :showDrop="showDrop" type="s" />
   </div>
 </template>
 
@@ -11,11 +11,10 @@
 import { ref } from 'vue'
 import GroupButton from './GroupButton.vue'
 import PreprocessDropdown from './PreprocessDropdown.vue'
-import TestGroupDropdown from './TestGroupDropdown.vue'
-import SampleGroupDropdown from './SampleGroupDropdown.vue'
+import GroupDropdown from './GroupDropdown.vue'
 
 const props = defineProps<{
-  type: 'Preprocess' | 'Test' | 'Sample'
+  type: Resp.GroupType
 }>()
 
 const showDrop = ref(false)

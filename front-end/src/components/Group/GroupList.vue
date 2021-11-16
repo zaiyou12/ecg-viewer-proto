@@ -10,7 +10,12 @@
         >{{ col.label }}</th>
       </thead>
       <tbody>
-        <GroupListItem v-for="(g, idx) in groups" :key="idx" :group="g" />
+        <GroupListItem
+          v-for="(g, idx) in groups"
+          :key="idx"
+          :group="g"
+          :groupCols="groupCols"
+        />
       </tbody>
     </table>
   </div>
@@ -24,12 +29,14 @@ import GroupListItem from './GroupListItem.vue';
 
 const props = defineProps<{
   groupType: Resp.GroupType
-  groupCols: GroupCols[]
+  groupCols: GroupCol[]
 }>()
 
 const store = useDataLakeStore()
-const whichGroup = computed(() => props.groupType === 't' ? 'testGroups' : 'sampleGroups')
-const groups = toRef(store, whichGroup.value)
+const groupVarName = computed(() => {
+  return props.groupType === 't' ? 'testGroups' : 'sampleGroups'
+})
+const groups = toRef(store, groupVarName.value)
 
 </script>
 
@@ -43,16 +50,24 @@ const groups = toRef(store, whichGroup.value)
   }
 
   .table-group-list {
-    @apply table-fixed;
+    @apply table-fixed w-full;
   }
   .table-group-list th.id,
-  th.pid {
-    width: 5%;
+  th.pid,
+  td.id,
+  td.pid {
+    width: 10%;
   }
-  .table-group-list th.name {
-    width: 30%;
+  .table-group-list th.stat,
+  td.stat {
+    width: 10%;
   }
-  .table-group-list th.num {
+  .table-group-list th.name,
+  td.name {
+    width: 60%;
+  }
+  .table-group-list th.num,
+  td.num {
     width: 20%;
   }
 }

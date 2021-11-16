@@ -12,11 +12,11 @@ type EcgTestDetails = {
 type TestViewState = {
   selectedTest?: EcgTest.Meta
   details?: EcgTestDetails
-  testGroup?: TestGroups
+  testGroups?: TestGroups
   totalPage: number
   page: number
   stripUrl?: string[]
-  sampleGroup?: SampleGroups
+  sampleGroups?: SampleGroups
   pid?: number
   loading: boolean
 }
@@ -26,11 +26,11 @@ const useTestViewStore = defineStore('testView', {
     return {
       selectedTest: undefined,
       details: undefined,
-      testGroup: undefined,
+      testGroups: undefined,
       totalPage: 1,
       page: 1,
       stripUrl: undefined,
-      sampleGroup: undefined,
+      sampleGroups: undefined,
       pid: undefined,
       loading: false
     } as TestViewState
@@ -39,11 +39,11 @@ const useTestViewStore = defineStore('testView', {
     resetState(): void {
       this.selectedTest = undefined
       this.details = undefined
-      this.testGroup = undefined
+      this.testGroups = undefined
       this.totalPage = 1
       this.page = 1
       this.stripUrl = undefined
-      this.sampleGroup = undefined
+      this.sampleGroups = undefined
       this.pid = undefined
       this.loading = false
     },
@@ -59,7 +59,7 @@ const useTestViewStore = defineStore('testView', {
       ;({
         selectedTest: this.selectedTest,
         details: this.details,
-        testGroup: this.testGroup,
+        testGroup: this.testGroups,
         totalPage: this.totalPage
       } = res)
       await this.getStrips(page)
@@ -89,7 +89,7 @@ const useTestViewStore = defineStore('testView', {
         this.loading = false
         return
       }
-      ;({ stripUrl: this.stripUrl, sampleGroup: this.sampleGroup } = res)
+      ;({ stripUrl: this.stripUrl, sampleGroup: this.sampleGroups } = res)
       this.loading = false
     },
 
@@ -116,7 +116,7 @@ const useTestViewStore = defineStore('testView', {
         type === 't' ? undefined : this.page
       )
       if (res) {
-        const group = type === 't' ? this.testGroup! : this.sampleGroup!
+        const group = type === 't' ? this.testGroups! : this.sampleGroups!
         if (toggle) group[id] = { id, groupName }
         else delete group[id]
       }

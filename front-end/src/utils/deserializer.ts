@@ -3,15 +3,10 @@ export function deserializeGroup(
   group: Resp.GroupBasic | Resp.GroupDetail
 ): TestGroup | SampleGroup | PreprocessGroup {
   if ('numTests' in group) {
-    const { id, groupName, numTests, groupStatus } = group
-    switch (type) {
-      case 't':
-        return { ...group }
-      case 's':
-        return { numSamples: numTests, ...group }
-      case 'p':
-        return { id, groupName }
-    }
+    const { id, groupName, numTests } = group
+    if (type === 't') return { ...group }
+    else if (type === 's') return { numSamples: numTests, ...group }
+    else return { id, groupName }
   } else {
     return group
   }
