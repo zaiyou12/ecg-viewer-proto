@@ -1,13 +1,11 @@
 <template>
-  <tr class="test-list-item" @click="viewTest()">
-    <template v-for="(value, prop, idx) in ecgTest" :key="idx">
-      <td v-if="prop === 'condition'" :class="testCols[idx].class">
-        <div class="flex justify-center">
+  <tr class="test-list-item" @mouseup="viewTest()">
+    <template v-for="(col, idx) in testCols" :key="idx">
+      <td :class="col.class">
+        <div v-if="col.prop === 'condition'" class="flex justify-center">
           <StatusColor :final-condition="ecgTest.condition.final" />
         </div>
-      </td>
-      <td v-else :class="testCols[idx].class">
-        <div>{{ value }}</div>
+        <div v-else>{{ ecgTest[col.prop!] }}</div>
       </td>
     </template>
   </tr>

@@ -3,6 +3,8 @@ declare namespace Resp {
   interface Test {
     id: EcgTest.Id
     region: EcgTest.Region
+    orgCode: EcgTest.OrgCode
+    siteName: EcgTest.SiteName
     seq: EcgTest.Seq
     duration: EcgTest.Duration
     condition: EcgTest.ConditionType

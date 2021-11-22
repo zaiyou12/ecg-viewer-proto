@@ -11,7 +11,7 @@
           />
         </th>
         <th
-          v-for="(col, idx) in listHeaders"
+          v-for="(col, idx) in testCols"
           :key="idx"
           class="h-7 px-3 pb-2"
           :class="col.class"
@@ -19,12 +19,7 @@
       </thead>
       <tbody>
         <template v-for="(test, idx) in tests" :key="idx">
-          <component
-            :is="item"
-            :test="test"
-            :testCols="listHeaders"
-            class="h-11"
-          />
+          <component :is="item" :test="test" :testCols="testCols" class="h-11" />
         </template>
       </tbody>
     </table>
@@ -85,16 +80,15 @@ function toggleAll(val: boolean) {
     }
   }
 }
-/**
- * Must be in order with the deserialized EcgTest.Meta object
- * @see deserializer.deserializeTest
- */
-const listHeaders: TestCol[] = [
-  { label: 'DB ID', class: 'db-id' },
-  { label: 'Test Seq', class: 'test-seq' },
-  { label: 'Region', class: 'reg' },
-  { label: 'Duration', class: 'dur' },
-  { label: 'Status', class: 'stat' },
+
+const testCols: TestCol[] = [
+  // { label: 'DB ID', class: 'db-id', prop: 'id'},
+  { label: 'Region', class: 'reg', prop: 'region' },
+  { label: 'Org', class: 'org-code', prop: 'orgCode' },
+  { label: 'Site', class: 'site-name', prop: 'siteName' },
+  { label: 'Test Seq', class: 'test-seq', prop: 'seq' },
+  { label: 'Duration', class: 'dur', prop: 'duration' },
+  { label: 'Status', class: 'stat', prop: 'condition' },
 ]
 </script>
 
@@ -108,16 +102,18 @@ const listHeaders: TestCol[] = [
   .group-test-list {
     @apply table-fixed w-full;
   }
-  .group-test-list th.checkbox,
-  td.checkbox {
+  .group-test-list .checkbox {
     width: 5%;
   }
-  .group-test-list th.db-id {
+  .group-test-list .org-code {
     width: 15%;
   }
-  .group-test-list th.reg,
-  th.dur,
-  th.stat {
+  .group-test-list .site-name {
+    width: 15%;
+  }
+  .group-test-list .reg,
+  .group-test-list .dur,
+  .group-test-list .stat {
     width: 15%;
   }
 
