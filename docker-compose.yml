@@ -8,19 +8,24 @@ services:
     ports:
       - "8080:8080"
 
-  # backend:
-  #   container_name: data-lake-back
-  #   build:
-  #     context: ./back-end
-  #     dockerfile: back.Dockerfile
-  #   ports:
-  #     - "5000:5000"
-  #   volumes:
-  #     - ${SQLITE_ABS_DIR}:/www/sqlite.db
-  #     - ./back-end/app/static/ecg_png_cache:/www/app/static/ecg_png_cache
-  #     - ${ECG_AU_DIR}:${ECG_AU_DIR}
+  backend:
+    container_name: data-lake-back
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    build:
+      context: ./back-end
+      dockerfile: back.Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ${SQLITE_ABS_DIR}:/www/sqlite.db
+      - ./back-end/app/static/ecg_png_cache:/www/app/static/ecg_png_cache
+      - ${ECG_AU_DIR}:${ECG_AU_DIR}
 
   nginx:
+    container_name: data-lake-nginx
     image: nginx:1.21
     ports:
       - 80:80
@@ -33,7 +38,9 @@ services:
       - ./nginx/certbot/conf:/etc/letsencrypt
       - ./nginx/certbot/www:/var/www/certbot
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
   certbot:
+    container_name: data-lake-certbot
     image: certbot/certbot
     restart: unless-stopped
     volumes:

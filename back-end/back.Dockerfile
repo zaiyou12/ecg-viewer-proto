@@ -11,5 +11,5 @@ COPY . .
 
 EXPOSE 5000
 
-ENTRYPOINT [ "flask", "run" ]
-CMD [ "--host=0.0.0.0" ]
+# ENTRYPOINT [ "flask", "run", "--host=0.0.0.0" ]
+ENTRYPOINT [ "python", "test_booting.py" ]
