@@ -21,7 +21,7 @@ type DataLakeState = {
 const useDataLakeStore = defineStore('dataLake', {
   state: () => {
     return {
-      durations: [24, 48, 72],
+      durations: [2, 24, 48, 72],
       regions: ['KR', 'AU', 'UK', 'SG'],
       conditions: ['normal', 'abnormal', 'unknown'],
       preprocessGroups: {},

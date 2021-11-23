@@ -7,18 +7,12 @@
         v-model="groupStore.checkedTestIds[test.id]"
       />
     </td>
-    <template v-for="(value, prop, idx) in test" :key="idx">
-      <td
-        v-if="prop === 'condition'"
-        @click="viewTest()"
-        :class="testCols[idx].class"
-      >
-        <div>
+    <template v-for="(col, idx) in testCols" :key="idx">
+      <td @click="viewTest()" :class="col.class">
+        <div v-if="col.prop === 'condition'">
           <StatusColor :final-condition="test.condition.final" />
         </div>
-      </td>
-      <td v-else @click="viewTest()" :class="testCols[idx].class">
-        <div>{{ value }}</div>
+        <div v-else>{{ test[col.prop!] }}</div>
       </td>
     </template>
   </tr>

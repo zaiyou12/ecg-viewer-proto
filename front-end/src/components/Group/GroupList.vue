@@ -5,7 +5,7 @@
         <th
           v-for="(col, idx) in groupCols"
           :key="idx"
-          class="border-b-2 h-7 px-3 py-1"
+          class="border-b-2 h-7 py-1"
           :class="col.class"
         >{{ col.label }}</th>
       </thead>
@@ -52,22 +52,17 @@ const groups = toRef(store, groupVarName.value)
   .table-group-list {
     @apply table-fixed w-full;
   }
-  .table-group-list th.id,
-  th.pid,
-  td.id,
-  td.pid {
+  .table-group-list .id,
+  .table-group-list .pid {
     width: 10%;
   }
-  .table-group-list th.stat,
-  td.stat {
+  .table-group-list .stat {
     width: 10%;
   }
-  .table-group-list th.name,
-  td.name {
+  .table-group-list .name {
     width: 60%;
   }
-  .table-group-list th.num,
-  td.num {
+  .table-group-list .num {
     width: 20%;
   }
 }

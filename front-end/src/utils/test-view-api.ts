@@ -18,7 +18,12 @@ export default class TestViewApi {
       const res = (await api.get(route)) as Resp.TestView
       const { details, testGroup, totalPage, ...test } = res
       const obj = {
-        selectedTest: deserializeTest(test),
+        // TODO: Maybe org code and site name should be fetched by api here too.
+        selectedTest: deserializeTest({
+          siteName: 'N/A',
+          orgCode: 'N/A',
+          ...test
+        }),
         details,
         testGroup: deserializeToGroups('t', testGroup) as TestGroups,
         totalPage

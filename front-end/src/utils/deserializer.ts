@@ -30,11 +30,13 @@ export function deserializeToGroups(
  * @see /components/TestList/index.vue
  */
 export function deserializeTest(test: Resp.Test): EcgTest.Meta {
-  const { id, seq, region, duration, condition } = test
+  const { id, region, orgCode, siteName, seq, duration, condition } = test
   return {
     id,
-    seq,
     region,
+    orgCode,
+    siteName,
+    seq,
     duration,
     condition: { final: condition }
   }
