@@ -32,7 +32,7 @@ const disablePanel = inject(DisablePanelKey)
 
 const removeGroupId = ref()
 const isIdValid = computed(() => {
-  const re = new RegExp('^[0-9]+$')
+  const re = new RegExp(/^[0-9]+$/)
   return re.test(removeGroupId.value)
 })
 
