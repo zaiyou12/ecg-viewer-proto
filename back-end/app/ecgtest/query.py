@@ -31,6 +31,36 @@ def make_tuple_from_string(text_list: List[str]) -> str:
     
 
 ##### ----- ECG Test List 반환
+# def q_get_ecgtests(durations: List[str], regions: List[str], conditions: List[str], test_groups: List[str], others: List[str]) -> str:
+#     base_table = None
+#     if others:
+#         text_list = others.replace(",","").split(" ")
+#         base_table = make_tuple_from_string(text_list=text_list)
+#     else:
+#         base_table = "ecgtest"
+
+#     query = f"SELECT id, region, seq, duration, condition FROM {base_table} "
+#     # Apply Condition
+#     if len(durations+regions+conditions+test_groups) >= 1:
+#         query += "WHERE "
+
+#         where_qu = ""
+#         if len(durations)>=1:
+#             where_qu += f"AND duration IN {make_tuple_from_list(durations)} "
+#         if len(regions)>=1:
+#             where_qu += f"AND region IN {make_tuple_from_list(regions)} "
+#         if len(conditions)>=1:
+#             where_qu += f"AND condition IN {make_tuple_from_list(conditions)} "
+#         if len(test_groups)>=1:
+#             where_qu += f"AND id IN (SELECT ecgtest_id FROM testlink WHERE testgroup_id IN {make_tuple_from_list(test_groups)}) "
+
+#         query += where_qu[4:]
+
+#     query += f"ORDER BY seq"
+#     return query
+
+
+##### ----- ECG Test List 반환  -version 2
 def q_get_ecgtests(durations: List[str], regions: List[str], conditions: List[str], test_groups: List[str], others: List[str]) -> str:
     base_table = None
     if others:
@@ -39,25 +69,29 @@ def q_get_ecgtests(durations: List[str], regions: List[str], conditions: List[st
     else:
         base_table = "ecgtest"
 
-    query = f"SELECT id, region, seq, duration, condition FROM {base_table} "
+    query = f"SELECT T.id AS id, T.region AS region, O.org_code AS org_code, S.site_name AS site_name, T.seq AS seq, T.duration AS duration, T.condition AS condition \
+FROM {base_table} AS T JOIN org AS O ON T.org_id = O.org_id JOIN site AS S ON T.site_id = S.site_id "
     # Apply Condition
     if len(durations+regions+conditions+test_groups) >= 1:
         query += "WHERE "
 
         where_qu = ""
         if len(durations)>=1:
-            where_qu += f"AND duration IN {make_tuple_from_list(durations)} "
+            where_qu += f"AND T.duration IN {make_tuple_from_list(durations)} "
         if len(regions)>=1:
-            where_qu += f"AND region IN {make_tuple_from_list(regions)} "
+            where_qu += f"AND T.region IN {make_tuple_from_list(regions)} "
         if len(conditions)>=1:
-            where_qu += f"AND condition IN {make_tuple_from_list(conditions)} "
+            where_qu += f"AND T.condition IN {make_tuple_from_list(conditions)} "
         if len(test_groups)>=1:
             where_qu += f"AND id IN (SELECT ecgtest_id FROM testlink WHERE testgroup_id IN {make_tuple_from_list(test_groups)}) "
 
         query += where_qu[4:]
 
-    query += f"ORDER BY seq"
+    query += "ORDER BY seq"
+
     return query
+
+
 
 
 

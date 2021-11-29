@@ -1,0 +1,11 @@
+/venv
+
+/test
+
+/keys
+
+/test_venv
+
+config.py
+
+__pycache__/
