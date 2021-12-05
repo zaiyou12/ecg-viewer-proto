@@ -1,7 +1,9 @@
 declare namespace EcgTest {
-  type Duration = 24 | 48 | 72
+  type Duration = 2 | 24 | 48 | 72
   type Region = 'AU' | 'UK' | 'KR' | 'SG'
   type Id = number
+  type OrgCode = string
+  type SiteName = string
   type Seq = string
   type ConditionType = 'normal' | 'abnormal' | 'unknown'
   interface Condition {
@@ -11,8 +13,10 @@ declare namespace EcgTest {
 
   interface Meta {
     id: Id
-    seq: Seq
     region: Region
+    orgCode: OrgCode
+    siteName: SiteName
+    seq: Seq
     duration: Duration
     condition: Condition
   }

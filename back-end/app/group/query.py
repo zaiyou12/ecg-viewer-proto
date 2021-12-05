@@ -42,14 +42,16 @@ def q_get_num_from_link(type_: str, group_id: int) -> str:
 
 ##### ----- Get ecg info from link
 def q_get_ecginfo_from_link(type_: str, group_id: int) -> str:
+    base_query = "SELECT T.id AS id, T.region AS region, O.org_code AS org_code, S.site_name AS site_name, T.seq AS seq, T.duration AS duration, T.condition AS condition \
+FROM ecgtest AS T JOIN org AS O ON T.org_id = O.org_id JOIN site AS S ON T.site_id = S.site_id \
+WHERE T.id IN"
+
     if type_ == "t":
-        query = f"SELECT id, region, seq, duration, condition FROM ecgtest WHERE id IN (\
-SELECT ecgtest_id FROM testlink WHERE testgroup_id={group_id})"
+        query = f"{base_query} (SELECT ecgtest_id FROM testlink WHERE testgroup_id={group_id})"
         return query
 
     elif type_ == "s":
-        query = f"SELECT id, region, seq, duration, condition FROM ecgtest WHERE id IN (\
-SELECT DISTINCT ecgtest_id FROM samplelink WHERE samplegroup_id={group_id})"
+        query = f"{base_query} (SELECT ecgtest_id FROM samplelink WHERE samplegroup_id={group_id})"
         return query
     
     return -1

@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <div class="w-1/2 mt-5 mb-1 text-left ml-14 mr-5 font-bold">60s Strips</div>
+    <div class="w-1/2 mt-5 mb-1 text-left ml-14 mr-5 font-bold">10s Strips</div>
     <div
       v-if="split"
       class="w-1/2 mt-5 mb-1 text-left ml-5 mr-14 font-bold"

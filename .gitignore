@@ -9,3 +9,7 @@ Icon
 .env
 .prettierrc
 yarn-error.log
+
+### Data 관련
+data/
+db/

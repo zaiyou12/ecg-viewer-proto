@@ -60,7 +60,7 @@ const disablePanel = inject(DisablePanelKey)
 const newGroupName = ref('')
 const newGroupStatus = ref('open')
 const isNameValid = computed(() => {
-  const re = new RegExp('^[a-zA-Z_\\-0-9]{1,70}$')
+  const re = new RegExp(/^[a-zA-Z_\-0-9]{1,70}$/)
   return re.test(newGroupName.value)
 })
 

@@ -8,18 +8,12 @@
         @click="allPagesChecked ? toggleAllPages(false) : toggleAllPages(true)"
       />
     </td>
-    <template v-for="(value, prop, idx) in ecgTest" :key="idx">
-      <td
-        v-if="prop === 'condition'"
-        @click="showPages = !showPages"
-        :class="testCols[idx].class"
-      >
-        <div>
+    <template v-for="(col, idx) in testCols" :key="idx">
+      <td @click="showPages = !showPages" :class="col.class">
+        <div v-if="col.prop === 'condition'">
           <StatusColor :final-condition="ecgTest.condition.final" />
         </div>
-      </td>
-      <td v-else @click="showPages = !showPages" :class="testCols[idx].class">
-        <div>{{ value }}</div>
+        <div v-else>{{ ecgTest[col.prop!] }}</div>
       </td>
     </template>
   </tr>
@@ -38,7 +32,7 @@
       </td>
       <td class="border-b pt-1">&#8627;</td>
       <td
-        colspan="4"
+        colspan="5"
         class="text-left border-b"
         @click="viewTest(p)"
       >Page {{ p }}</td>

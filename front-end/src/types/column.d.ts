@@ -6,5 +6,13 @@ declare type GroupCol = {
 
 declare type TestCol = {
   label: string
-  class: 'db-id' | 'test-seq' | 'reg' | 'dur' | 'stat'
+  class:
+    | 'db-id'
+    | 'reg'
+    | 'org-code'
+    | 'site-name'
+    | 'test-seq'
+    | 'dur'
+    | 'stat'
+  prop?: keyof EcgTest.Meta
 }
